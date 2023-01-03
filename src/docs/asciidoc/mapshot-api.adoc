@@ -13,19 +13,19 @@
 
 ==== request
 
-include::{snippets}/notice/page/path-parameters.adoc[]
+include::{snippets}/notice/summary/path-parameters.adoc[]
 
 ==== response
 
-include::{snippets}/notice/page/response-body.adoc[]
+include::{snippets}/notice/summary/response-body.adoc[]
 
 [[resources-notice-content]]
 === 공지사항 조회
 
 ==== request
 
-include::{snippets}/notice/content/path-parameters.adoc[]
+include::{snippets}/notice/detail/path-parameters.adoc[]
 
 ==== response
 
-include::{snippets}/notice/content/response-body.adoc[]
+include::{snippets}/notice/detail/response-body.adoc[]
