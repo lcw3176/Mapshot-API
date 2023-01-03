@@ -10,6 +10,6 @@ public enum NoticeType {
     FIX("오류수정"),
     RESERVED_CHECK("점검예정");
 
-    private String title;
-    
+    private String korean;
+
 }
