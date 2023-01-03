@@ -1,6 +1,5 @@
 package com.joebrooks.mapshotapi.notice.model;
 
-import com.joebrooks.mapshotapi.repository.notice.NoticeType;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class PostDetailResponse {
 
     private long id;
-    private NoticeType noticeType;
+    private String noticeType;
     private String title;
     private String content;
     private LocalDateTime createdDate;
