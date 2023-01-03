@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SlackClient extends MessageClient {
 
-    private final String slackUrl = System.getenv("SLACK_URL");
+//    private final String slackUrl = System.getenv("SLACK_URL");
 
     public void sendMessage(Exception e) {
         MessageResponse errorMessage = MessageResponse.builder()
@@ -21,7 +21,7 @@ public class SlackClient extends MessageClient {
 
     private void sendSlackMessage(MessageResponse exception) {
         String message = SlackMessageFormatter.makeExceptionMessage(exception);
-        post(slackUrl, message);
+//        post(slackUrl, message);
     }
 
     private String makeTransmissible(Exception e) {
