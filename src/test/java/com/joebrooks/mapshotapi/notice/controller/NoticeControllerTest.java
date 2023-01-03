@@ -1,4 +1,4 @@
-package com.joebrooks.mapshotapi.notice.api;
+package com.joebrooks.mapshotapi.notice.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -13,7 +13,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.joebrooks.mapshotapi.repository.notice.NoticeEntity;
+import com.joebrooks.mapshotapi.notice.model.PostDetailResponse;
+import com.joebrooks.mapshotapi.notice.model.PostSummaryResponse;
 import java.util.Comparator;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -42,38 +43,39 @@ class NoticeControllerTest {
 
     @Test
     void 게시글_목록_조회_테스트() throws Exception {
-        MvcResult result = mockMvc.perform(RestDocumentationRequestBuilders.get(BASE_URL + "/{contentNumber}", 100))
+        MvcResult result = mockMvc.perform(
+                        RestDocumentationRequestBuilders.get(BASE_URL + "/summary/{startPostNumber}", 11))
                 .andExpect(status().isOk())
-                .andDo(document("notice/page",
+                .andDo(document("notice/summary",
                         preprocessResponse(prettyPrint()),
                         pathParameters(
-                                parameterWithName("contentNumber")
+                                parameterWithName("startPostNumber")
                                         .description(
-                                                "게시글 번호, 요청한 번호를 기준으로 10개의 게시글 정보를 최신글부터 내림차순으로 반환함")
+                                                "게시글 번호, 요청한 번호 미만으로 10개의 게시글 정보를 최신글부터 반환함")
                         )))
                 .andReturn();
 
-        List<NoticeEntity> actual = mapper.readValue(result.getResponse().getContentAsString(),
-                new TypeReference<List<NoticeEntity>>() {
+        List<PostSummaryResponse> actual = mapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<List<PostSummaryResponse>>() {
                 });
 
         assertThat(actual)
                 .hasSize(10)
-                .isSortedAccordingTo(Comparator.comparing(NoticeEntity::getId).reversed());
+                .isSortedAccordingTo(Comparator.comparing(PostSummaryResponse::getId).reversed());
     }
 
     @Test
     void 특정_게시글_조회_테스트() throws Exception {
-        long requestId = 100;
+        long requestId = 2;
 
         MvcResult result = mockMvc.perform(
-                        RestDocumentationRequestBuilders.get(BASE_URL + "/content/{contentNumber}", requestId))
+                        RestDocumentationRequestBuilders.get(BASE_URL + "/detail/{postNumber}", requestId))
                 .andExpect(status().isOk())
-                .andDo(document("notice/content",
+                .andDo(document("notice/detail",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         pathParameters(
-                                parameterWithName("contentNumber")
+                                parameterWithName("postNumber")
                                         .description("게시글 번호")
                         ),
                         responseFields(
@@ -85,8 +87,8 @@ class NoticeControllerTest {
                         )))
                 .andReturn();
 
-        NoticeEntity actual = mapper.readValue(result.getResponse().getContentAsString(),
-                new TypeReference<NoticeEntity>() {
+        PostDetailResponse actual = mapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<PostDetailResponse>() {
                 });
 
         assertThat(actual.getId()).isEqualTo(requestId);
