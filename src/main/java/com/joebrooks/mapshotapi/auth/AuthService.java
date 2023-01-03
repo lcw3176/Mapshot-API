@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthService implements UserDetailsService {
 
-    private static final String NO_EXIST_USER = "존재하지 않는 유저: ";
+    private static final String NO_EXIST_USER = "[ERROR] 존재하지 않는 유저: ";
     private final UserRepository userRepository;
 
     @Override
