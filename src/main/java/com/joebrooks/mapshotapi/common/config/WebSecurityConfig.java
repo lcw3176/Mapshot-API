@@ -37,18 +37,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/api/**").permitAll()
                 .antMatchers("/admin/**").hasRole(Role.ADMIN.toString())
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/admin/login")
-                .loginProcessingUrl("/admin/login")
-                .defaultSuccessUrl("/")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutUrl("/admin/logout")
-                .logoutSuccessUrl("/")
-                .permitAll();
+                .anyRequest().authenticated();
+//                .and()
+//                .formLogin()
+//                .loginPage("/admin/login")
+//                .loginProcessingUrl("/admin/login")
+//                .defaultSuccessUrl("/")
+//                .permitAll()
+//                .and()
+//                .logout()
+//                .logoutUrl("/admin/logout")
+//                .logoutSuccessUrl("/")
+//                .permitAll();
     }
 
 }
