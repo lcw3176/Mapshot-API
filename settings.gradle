@@ -1,1 +1,6 @@
 rootProject.name = 'mapshot-api'
+include 'mapshot-notice'
+include 'mapshot-gateway'
+include 'mapshot-slack'
+include 'mapshot-eureka'
+

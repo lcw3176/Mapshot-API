@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: notice-service
+  datasource:
+    url: ${databaseUrl}
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: ${databaseUserName}
+    password: ${databasePassword}
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: none
+
+
+server:
+  port: 8030
+
+
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
