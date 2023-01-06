@@ -18,6 +18,8 @@ spring:
           uri: lb://NOTICE-SERVICE
           predicates:
             - Path=/api/notice/**
+          filters:
+            - NoticeCustomFilter
 
 
 #management:
