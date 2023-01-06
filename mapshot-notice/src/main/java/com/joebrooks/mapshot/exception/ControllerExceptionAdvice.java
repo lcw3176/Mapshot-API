@@ -1,4 +1,4 @@
-package com.joebrooks.mapshot.common.exception;
+package com.joebrooks.mapshot.exception;
 
 
 import com.joebrooks.mapshot.client.SlackClient;
@@ -25,14 +25,7 @@ public class ControllerExceptionAdvice {
         log.info(e.getMessage(), e);
 
     }
-
-//    @ExceptionHandler(AuthException.class)
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public void authExceptionHandler(AuthException exception) {
-//        log.error(exception.getMessage());
-//        slackClient.sendMessage(exception);
-//    }
-
+    
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

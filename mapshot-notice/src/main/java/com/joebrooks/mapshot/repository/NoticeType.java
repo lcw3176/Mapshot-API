@@ -1,4 +1,4 @@
-package com.joebrooks.mapshot.repository.notice;
+package com.joebrooks.mapshot.repository;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

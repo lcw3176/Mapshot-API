@@ -1,4 +1,4 @@
-package com.joebrooks.mapshot.repository.notice;
+package com.joebrooks.mapshot.repository;
 
 
 import java.util.List;

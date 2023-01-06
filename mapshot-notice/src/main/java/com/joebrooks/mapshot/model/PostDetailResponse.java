@@ -1,4 +1,4 @@
-package com.joebrooks.mapshot.notice.model;
+package com.joebrooks.mapshot.model;
 
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;

@@ -1,9 +1,9 @@
-package com.joebrooks.mapshot.notice.service;
+package com.joebrooks.mapshot.service;
 
-import com.joebrooks.mapshot.notice.model.PostDetailResponse;
-import com.joebrooks.mapshot.notice.model.PostSummaryResponse;
-import com.joebrooks.mapshot.repository.notice.NoticeEntity;
-import com.joebrooks.mapshot.repository.notice.NoticeRepository;
+import com.joebrooks.mapshot.model.PostDetailResponse;
+import com.joebrooks.mapshot.model.PostSummaryResponse;
+import com.joebrooks.mapshot.repository.NoticeEntity;
+import com.joebrooks.mapshot.repository.NoticeRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;

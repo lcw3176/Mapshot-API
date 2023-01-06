@@ -1,6 +1,5 @@
-package com.joebrooks.mapshot.repository.notice;
+package com.joebrooks.mapshot.repository;
 
-import com.joebrooks.mapshot.repository.BaseTimeEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;

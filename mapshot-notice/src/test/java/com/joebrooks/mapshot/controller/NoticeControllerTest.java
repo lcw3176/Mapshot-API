@@ -1,4 +1,4 @@
-package com.joebrooks.mapshot.notice.controller;
+package com.joebrooks.mapshot.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -13,8 +13,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.joebrooks.mapshot.notice.model.PostDetailResponse;
-import com.joebrooks.mapshot.notice.model.PostSummaryResponse;
+import com.joebrooks.mapshot.model.PostDetailResponse;
+import com.joebrooks.mapshot.model.PostSummaryResponse;
 import java.util.Comparator;
 import java.util.List;
 import org.junit.jupiter.api.Test;
