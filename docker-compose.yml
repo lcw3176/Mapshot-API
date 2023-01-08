@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+  mapshot-eureka:
+    container_name: mapshot-eureka
+    build:
+      context: mapshot-eureka
+      dockerfile: Dockerfile
+    #    deploy:
+    #      resources:
+    #        limits:
+    #          cpus: '0.10'
+    #          memory: 128M
+    ports:
+      - 8761:8761
+    restart: always
+
+  mapshot-notice:
+    build:
+      context: mapshot-notice
+      dockerfile: Dockerfile
+    #    deploy:
+    #      resources:
+    #        limits:
+    #          cpus: '0.10'
+    #          memory: 128M
+    ports:
+      - 8080:8080
+    environment:
+      eureka.client.serviceUrl.defaultZone: http://mapshot-eureka:8761/eureka
+    depends_on:
+      - mapshot-eureka
+    restart: always
+
+  mapshot-gateway:
+    build:
+      context: mapshot-gateway
+      dockerfile: Dockerfile
+    #    deploy:
+    #      resources:
+    #        limits:
+    #          cpus: '0.10'
+    #          memory: 128M
+    ports:
+      - 9000:9000
+    environment:
+      eureka.client.serviceUrl.defaultZone: http://mapshot-eureka:8761/eureka
+    depends_on:
+      - mapshot-eureka
+    restart: always
+
+
+
+
