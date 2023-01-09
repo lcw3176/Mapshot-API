@@ -39,10 +39,6 @@ subprojects {
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
 
-    ext {
-        set('springCloudVersion', "2021.0.0")
-    }
-
     test {
         useJUnitPlatform()
     }
@@ -57,26 +53,8 @@ project(':mapshot-slack') {
     }
 }
 
-project(':mapshot-eureka') {
-    bootJar { enabled = true }
-    jar { enabled = false }
-
-    dependencies {
-
-    }
-}
-
 
 project(':mapshot-notice') {
-    bootJar { enabled = true }
-    jar { enabled = false }
-
-    dependencies {
-        implementation project(':mapshot-slack')
-    }
-}
-
-project(':mapshot-gateway') {
     bootJar { enabled = true }
     jar { enabled = false }
 
