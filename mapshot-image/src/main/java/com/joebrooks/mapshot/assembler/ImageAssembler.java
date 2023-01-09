@@ -3,6 +3,7 @@ package com.joebrooks.mapshot.assembler;
 
 import com.joebrooks.mapshot.assembler.model.ImageRequest;
 import com.joebrooks.mapshot.assembler.model.ImageResponse;
+import com.joebrooks.mapshot.assembler.service.ImageAssemblerService;
 import com.joebrooks.mapshot.assembler.util.ImageRequestPropertyExtractor;
 import com.joebrooks.mapshot.client.SlackClient;
 import com.joebrooks.mapshot.generator.service.ImageGeneratorService;
@@ -12,7 +13,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponents;
@@ -22,12 +22,10 @@ import org.springframework.web.util.UriComponents;
 @Slf4j
 public class ImageAssembler {
 
-
-    private final ImageGeneratorService imageGeneratorService;
     private final SlackClient slackClient;
-    private final ImageAssemblerWaitQueue imageAssemblerWaitQueue;
+    private final ImageGeneratorService imageGeneratorService;
+    private final ImageAssemblerService imageAssemblerService;
     private final StorageService storageService;
-    private final ApplicationEventPublisher eventPublisher;
 
     private static final int DIVIDED_WIDTH = 1000;
 
@@ -35,8 +33,8 @@ public class ImageAssembler {
     @Scheduled(fixedDelay = 1000)
     public void execute() {
 
-        if (!imageAssemblerWaitQueue.isEmpty()) {
-            ImageRequest request = imageAssemblerWaitQueue.poll();
+        if (!imageAssemblerService.isQueueEmpty()) {
+            ImageRequest request = imageAssemblerService.pollFromQueue();
 
             try {
                 UriComponents uri = ImageRequestPropertyExtractor.getUri(request);
@@ -57,22 +55,24 @@ public class ImageAssembler {
                                 .imageByte(imageByte)
                                 .build());
 
-                        eventPublisher.publishEvent(ImageResponse.builder()
-                                .sessionId(request.getSessionId())
-                                .uuid(uuid)
-                                .error(false)
-                                .x(x)
-                                .y(y)
-                                .build());
+                        imageAssemblerService.sendImageInfoToUser(
+                                ImageResponse.builder()
+                                        .sessionId(request.getSessionId())
+                                        .uuid(uuid)
+                                        .error(false)
+                                        .x(x)
+                                        .y(y)
+                                        .build());
 
                     }
                 }
 
             } catch (Exception e) {
-                eventPublisher.publishEvent(ImageResponse.builder()
-                        .sessionId(request.getSessionId())
-                        .error(true)
-                        .build());
+                imageAssemblerService.sendImageInfoToUser(
+                        ImageResponse.builder()
+                                .sessionId(request.getSessionId())
+                                .error(true)
+                                .build());
 
                 log.error(e.getMessage(), e);
                 slackClient.sendMessage(e);
