@@ -12,6 +12,8 @@ services:
     #          memory: 128M
     ports:
       - 8080:8080
+    env_file:
+      - notice-env.env
     restart: always
 
   mapshot-image:
