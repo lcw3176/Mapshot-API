@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
@@ -17,7 +17,7 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 public class WaitListService {
 
     private final List<String> userSessionList = Collections.synchronizedList(new ArrayList<>());
-    private final ApplicationEventPublisher eventPublisher;
+    private final SimpMessagingTemplate messagingTemplate;
 
     public int getPosition(String sessionId) {
         return userSessionList.indexOf(sessionId);
@@ -36,10 +36,15 @@ public class WaitListService {
         userSessionList.remove(sha.getSessionId());
 
         for (int i = 0; i < userSessionList.size(); i++) {
-            eventPublisher.publishEvent(WaitListResponse.builder()
-                    .sessionId(userSessionList.get(i))
-                    .index(i)
-                    .build());
+            sendWaitersCountToUser(
+                    WaitListResponse.builder()
+                            .sessionId(userSessionList.get(i))
+                            .index(i)
+                            .build());
         }
+    }
+
+    private void sendWaitersCountToUser(WaitListResponse waiter) {
+        messagingTemplate.convertAndSend("/wait-list/result", waiter);
     }
 }
