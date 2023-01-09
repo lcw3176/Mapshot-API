@@ -62,3 +62,12 @@ project(':mapshot-notice') {
         implementation project(':mapshot-slack')
     }
 }
+
+project(':mapshot-image') {
+    bootJar { enabled = true }
+    jar { enabled = false }
+
+    dependencies {
+        implementation project(':mapshot-slack')
+    }
+}
