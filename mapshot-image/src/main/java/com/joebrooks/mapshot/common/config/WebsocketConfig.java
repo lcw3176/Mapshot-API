@@ -1,4 +1,4 @@
-package com.joebrooks.mapshot.websocket.config;
+package com.joebrooks.mapshot.common.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -12,7 +12,7 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/assembler");
+        config.enableSimpleBroker("/assembler", "/wait-list");
     }
 
     @Override

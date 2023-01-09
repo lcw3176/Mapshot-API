@@ -1,8 +1,8 @@
-package com.joebrooks.mapshot.websocket.controller;
+package com.joebrooks.mapshot.waitlist.controller;
 
 
-import com.joebrooks.mapshot.websocket.model.WaitListResponse;
-import com.joebrooks.mapshot.websocket.service.WaitListService;
+import com.joebrooks.mapshot.waitlist.model.WaitListResponse;
+import com.joebrooks.mapshot.waitlist.service.WaitListService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,8 @@ public class WaitListController {
     private final WaitListService waitListService;
     private final SimpMessagingTemplate messagingTemplate;
 
-    @MessageMapping("/api/image/assembler/wait-list")
-    @SendTo("/assembler/wait-list")
+    @MessageMapping("/api/image/wait-list")
+    @SendTo("/wait-list/result")
     public ResponseEntity<WaitListResponse> addWaiters(@Header("simpSessionId") String sessionId) {
         int position = waitListService.getPosition(sessionId);
 
@@ -32,7 +32,7 @@ public class WaitListController {
 
     @EventListener
     public void noticeWaitCountToUsers(WaitListResponse waiter) {
-        messagingTemplate.convertAndSend("/assembler/wait-list", waiter);
+        messagingTemplate.convertAndSend("/wait-list/result", waiter);
     }
 
 

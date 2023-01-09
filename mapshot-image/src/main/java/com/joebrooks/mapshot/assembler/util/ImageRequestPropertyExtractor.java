@@ -1,6 +1,6 @@
 package com.joebrooks.mapshot.assembler.util;
 
-import com.joebrooks.mapshot.websocket.model.ImageRequest;
+import com.joebrooks.mapshot.assembler.model.ImageRequest;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import lombok.experimental.UtilityClass;

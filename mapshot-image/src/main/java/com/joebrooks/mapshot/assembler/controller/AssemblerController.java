@@ -1,8 +1,8 @@
-package com.joebrooks.mapshot.websocket.controller;
+package com.joebrooks.mapshot.assembler.controller;
 
 import com.joebrooks.mapshot.assembler.ImageAssemblerWaitQueue;
-import com.joebrooks.mapshot.websocket.model.ImageRequest;
-import com.joebrooks.mapshot.websocket.model.ImageResponse;
+import com.joebrooks.mapshot.assembler.model.ImageRequest;
+import com.joebrooks.mapshot.assembler.model.ImageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.handler.annotation.Header;
@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class ImageController {
+public class AssemblerController {
 
     private final SimpMessagingTemplate messagingTemplate;
     private final ImageAssemblerWaitQueue imageAssemblerWaitQueue;
 
-    @MessageMapping("/api/image/assembler/register")
+    @MessageMapping("/api/image/assembler")
     public void addUserRequestToQueue(@Payload ImageRequest request, @Header("simpSessionId") String sessionId) {
         request.setSessionId(sessionId);
         imageAssemblerWaitQueue.add(request);

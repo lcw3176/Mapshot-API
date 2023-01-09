@@ -1,4 +1,4 @@
-package com.joebrooks.mapshot.websocket.model;
+package com.joebrooks.mapshot.waitlist.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

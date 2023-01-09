@@ -1,4 +1,4 @@
-package com.joebrooks.mapshot.websocket.model;
+package com.joebrooks.mapshot.assembler.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;

@@ -1,13 +1,13 @@
 package com.joebrooks.mapshot.assembler;
 
 
+import com.joebrooks.mapshot.assembler.model.ImageRequest;
+import com.joebrooks.mapshot.assembler.model.ImageResponse;
 import com.joebrooks.mapshot.assembler.util.ImageRequestPropertyExtractor;
 import com.joebrooks.mapshot.client.SlackClient;
-import com.joebrooks.mapshot.generator.service.CaptureService;
+import com.joebrooks.mapshot.generator.service.ImageGeneratorService;
 import com.joebrooks.mapshot.storage.model.Storage;
 import com.joebrooks.mapshot.storage.service.StorageService;
-import com.joebrooks.mapshot.websocket.model.ImageRequest;
-import com.joebrooks.mapshot.websocket.model.ImageResponse;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import org.springframework.web.util.UriComponents;
 public class ImageAssembler {
 
 
-    private final CaptureService captureService;
+    private final ImageGeneratorService imageGeneratorService;
     private final SlackClient slackClient;
     private final ImageAssemblerWaitQueue imageAssemblerWaitQueue;
     private final StorageService storageService;
@@ -40,14 +40,14 @@ public class ImageAssembler {
 
             try {
                 UriComponents uri = ImageRequestPropertyExtractor.getUri(request);
-                captureService.loadPage(uri);
+                imageGeneratorService.loadPage(uri);
                 int width = ImageRequestPropertyExtractor.getWidth(request);
 
                 for (int y = 0; y < width; y += DIVIDED_WIDTH) {
                     for (int x = 0; x < width; x += DIVIDED_WIDTH) {
 
-                        captureService.scrollPage(x, y);
-                        byte[] imageByte = captureService.capturePage();
+                        imageGeneratorService.scrollPage(x, y);
+                        byte[] imageByte = imageGeneratorService.capturePage();
 
                         String uuid = UUID.randomUUID().toString();
 

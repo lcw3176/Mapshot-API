@@ -8,7 +8,7 @@ import org.springframework.web.util.UriComponents;
 
 @Service
 @RequiredArgsConstructor
-public class CaptureService {
+public class ImageGeneratorService {
 
     private final Page chromiumPage;
     private final ScreenshotOptions screenshotOptions;

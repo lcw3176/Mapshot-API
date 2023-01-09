@@ -1,6 +1,6 @@
-package com.joebrooks.mapshot.websocket.service;
+package com.joebrooks.mapshot.waitlist.service;
 
-import com.joebrooks.mapshot.websocket.model.WaitListResponse;
+import com.joebrooks.mapshot.waitlist.model.WaitListResponse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

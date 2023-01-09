@@ -1,6 +1,6 @@
 package com.joebrooks.mapshot.assembler;
 
-import com.joebrooks.mapshot.websocket.model.ImageRequest;
+import com.joebrooks.mapshot.assembler.model.ImageRequest;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import lombok.RequiredArgsConstructor;

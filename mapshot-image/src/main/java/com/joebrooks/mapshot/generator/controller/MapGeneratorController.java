@@ -1,6 +1,6 @@
 package com.joebrooks.mapshot.generator.controller;
 
-import com.joebrooks.mapshot.websocket.model.ImageRequest;
+import com.joebrooks.mapshot.assembler.model.ImageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

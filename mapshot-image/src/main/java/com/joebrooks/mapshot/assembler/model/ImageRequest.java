@@ -1,4 +1,4 @@
-package com.joebrooks.mapshot.websocket.model;
+package com.joebrooks.mapshot.assembler.model;
 
 import com.joebrooks.mapshot.generator.enums.CompanyType;
 import lombok.AllArgsConstructor;
