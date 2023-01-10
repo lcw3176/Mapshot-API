@@ -3,8 +3,8 @@ version: '3'
 services:
   mapshot-notice:
     build:
-      context: mapshot-notice
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: mapshot-notice/Dockerfile
     #    deploy:
     #      resources:
     #        limits:
@@ -12,14 +12,19 @@ services:
     #          memory: 128M
     ports:
       - 8080:8080
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '10m'
+        max-file: '10'
     env_file:
       - notice-env.env
     restart: always
 
   mapshot-image:
     build:
-      context: mapshot-image
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: mapshot-image/Dockerfile
     deploy:
       resources:
         limits:
@@ -27,6 +32,11 @@ services:
     #          memory: 700M
     ports:
       - 8000:8000
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '10m'
+        max-file: '10'
     restart: always
 
 

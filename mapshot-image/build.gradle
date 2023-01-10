@@ -1,3 +1,12 @@
+plugins {
+    id 'application'
+}
+
+application {
+    mainClass.set("com.microsoft.playwright.CLI")
+}
+
+
 dependencies {
     implementation('org.springframework.boot:spring-boot-starter-web') {
         exclude module: 'spring-boot-starter-tomcat'
@@ -12,6 +21,7 @@ dependencies {
 
     implementation 'com.microsoft.playwright:playwright:1.27.0'
 }
+
 
 
 
