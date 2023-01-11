@@ -7,11 +7,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joebrooks.mapshot.waitlist.model.WaitListResponse;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.TimeoutException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
@@ -33,30 +39,100 @@ class WaitListControllerTest {
     static final String WEBSOCKET_SUBSCRIBE = "/wait-list/result";
     private final ObjectMapper mapper = new ObjectMapper();
 
-    BlockingQueue<WaitListResponse> blockingQueue;
-    WebSocketStompClient stompClient;
+
+    private WebSocketStompClient stompClient;
 
     @BeforeEach
     public void setup() {
-        blockingQueue = new LinkedBlockingDeque<>();
         stompClient = new WebSocketStompClient(new SockJsClient(
                 asList(new WebSocketTransport(new StandardWebSocketClient()))));
     }
 
     @Test
-    void 대기열_목록에_등록하고_자신의_대기순번을_받아온다() throws Exception {
-        StompSession session = stompClient
-                .connect(getWsPath(), new StompSessionHandlerAdapter() {
-                })
-                .get(1, SECONDS);
+    void 아무도_대기열에_없을_경우_0번_인덱스를_발급받는다() throws Exception {
+        SessionMaker sessionMaker = new SessionMaker();
 
-        session.subscribe(WEBSOCKET_SUBSCRIBE, new DefaultStompFrameHandler());
-        session.send(WEBSOCKET_SEND, "".getBytes());
+        assertEquals(0, sessionMaker.getHandler().getResponse().getIndex());
 
-        assertEquals(0, blockingQueue.poll(1, SECONDS).getIndex());
+        sessionMaker.getSession().disconnect();
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {2, 5, 10, 25})
+    void 다른_유저들이_대기중이면_해당되는_대기번호를_발급받는다(int myIndex) throws Exception {
+        List<StompSession> sessions = new ArrayList<>();
+
+        for (int i = 0; i < myIndex; i++) {
+            SessionMaker session = new SessionMaker();
+
+            assertEquals(i, session.getHandler().getResponse().getIndex());
+
+            sessions.add(session.getSession());
+        }
+
+        SessionMaker sessionMaker = new SessionMaker();
+
+        assertEquals(myIndex, sessionMaker.getHandler().getResponse().getIndex());
+        sessionMaker.getSession().disconnect();
+
+        for (StompSession session : sessions) {
+            session.disconnect();
+        }
+
+        Thread.sleep(1000);
+    }
+
+
+    @Test
+    void 여러_유저의_연결_및_해제_테스트() throws Exception {
+        List<StompSession> sessions = new ArrayList<>();
+
+        for (int i = 0; i < 100; i++) {
+            SessionMaker session = new SessionMaker();
+
+            assertEquals(i, session.getHandler().getResponse().getIndex());
+            sessions.add(session.getSession());
+        }
+
+        for (StompSession i : sessions) {
+            i.disconnect();
+        }
+
+        Thread.sleep(1000);
+    }
+
+
+    class SessionMaker {
+
+        private final DefaultStompFrameHandler handler;
+        private final StompSession session;
+
+        public SessionMaker() throws ExecutionException, InterruptedException, TimeoutException {
+            session = stompClient
+                    .connect(getWsPath(), new StompSessionHandlerAdapter() {
+                    })
+                    .get(1, SECONDS);
+            handler = new DefaultStompFrameHandler();
+            session.subscribe(WEBSOCKET_SUBSCRIBE, handler);
+            session.send(WEBSOCKET_SEND, "".getBytes());
+        }
+
+        public StompSession getSession() {
+            return this.session;
+        }
+
+        public DefaultStompFrameHandler getHandler() {
+            return this.handler;
+        }
     }
 
     class DefaultStompFrameHandler implements StompFrameHandler {
+        private BlockingQueue<WaitListResponse> blockingQueue;
+
+        public DefaultStompFrameHandler() {
+            blockingQueue = new LinkedBlockingDeque<>();
+        }
+
         @Override
         public Type getPayloadType(StompHeaders stompHeaders) {
 
@@ -75,6 +151,10 @@ class WaitListControllerTest {
             } catch (Exception e) {
 
             }
+        }
+
+        public WaitListResponse getResponse() throws InterruptedException {
+            return blockingQueue.poll(1, SECONDS);
         }
     }
 
