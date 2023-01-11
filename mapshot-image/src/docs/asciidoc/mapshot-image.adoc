@@ -1,0 +1,13 @@
+:snippets: ../../../build/generated-snippets/
+
+== 이미지
+
+=== 생성된 이미지 발급받기
+
+==== request
+
+include::{snippets}/image/storage/path-parameters.adoc[]
+
+==== response
+
+include::{snippets}/image/storage/http-response.adoc[]
