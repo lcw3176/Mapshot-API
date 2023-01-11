@@ -1,9 +1,14 @@
 plugins {
     id 'application'
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
 }
 
 application {
     mainClass.set("com.microsoft.playwright.CLI")
+}
+
+configurations {
+    asciidoctorExt
 }
 
 
@@ -20,7 +25,29 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
     implementation 'com.microsoft.playwright:playwright:1.27.0'
+
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 }
+
+
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+test {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    configurations 'asciidoctorExt'
+    dependsOn test
+}
+
+
+
 
 
 

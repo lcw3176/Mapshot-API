@@ -1,0 +1,20 @@
+= Mapshot-API Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 3
+
+[[resources-notice]]
+== 이미지
+
+[[resources-notce-page]]
+=== 이미지 발급받기
+
+==== request
+
+include::{snippets}/image/storage/path-parameters.adoc[]
+
+==== response
+
+include::{snippets}/image/storage/http-response.adoc[]
