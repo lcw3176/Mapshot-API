@@ -78,8 +78,6 @@ class WaitListControllerTest {
         for (StompSession session : sessions) {
             session.disconnect();
         }
-
-        Thread.sleep(1000);
     }
 
 
@@ -97,8 +95,6 @@ class WaitListControllerTest {
         for (StompSession i : sessions) {
             i.disconnect();
         }
-
-        Thread.sleep(1000);
     }
 
 
