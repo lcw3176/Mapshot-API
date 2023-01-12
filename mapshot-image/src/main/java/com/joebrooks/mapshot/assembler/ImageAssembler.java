@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponents;
@@ -25,6 +26,7 @@ public class ImageAssembler {
     private final SlackClient slackClient;
     private final ImageGeneratorService imageGeneratorService;
     private final ImageAssemblerService imageAssemblerService;
+    private final ApplicationEventPublisher applicationEventPublisher;
     private final StorageService storageService;
 
     private static final int DIVIDED_WIDTH = 1000;
@@ -55,7 +57,7 @@ public class ImageAssembler {
                                 .imageByte(imageByte)
                                 .build());
 
-                        imageAssemblerService.sendImageInfoToUser(
+                        applicationEventPublisher.publishEvent(
                                 ImageResponse.builder()
                                         .sessionId(request.getSessionId())
                                         .uuid(uuid)
@@ -68,7 +70,7 @@ public class ImageAssembler {
                 }
 
             } catch (Exception e) {
-                imageAssemblerService.sendImageInfoToUser(
+                applicationEventPublisher.publishEvent(
                         ImageResponse.builder()
                                 .sessionId(request.getSessionId())
                                 .error(true)
