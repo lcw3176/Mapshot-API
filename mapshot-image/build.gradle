@@ -1,10 +1,5 @@
 plugins {
-    id 'application'
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
-}
-
-application {
-    mainClass.set("com.microsoft.playwright.CLI")
 }
 
 configurations {
@@ -23,7 +18,7 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-undertow'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-
+    
     implementation 'com.microsoft.playwright:playwright:1.27.0'
 
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
