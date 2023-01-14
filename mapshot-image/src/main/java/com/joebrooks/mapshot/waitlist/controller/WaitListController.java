@@ -5,7 +5,6 @@ import com.joebrooks.mapshot.waitlist.model.WaitListResponse;
 import com.joebrooks.mapshot.waitlist.service.WaitListService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -24,13 +23,13 @@ public class WaitListController {
 
     @MessageMapping("/api/image/wait-list")
     @SendTo("/wait-list/result")
-    public ResponseEntity<WaitListResponse> addWaiters(@Header("simpSessionId") String sessionId) {
+    public WaitListResponse addWaiters(@Header("simpSessionId") String sessionId) {
         int position = waitListService.getPosition(sessionId);
 
-        return ResponseEntity.ok(WaitListResponse.builder()
+        return WaitListResponse.builder()
                 .index(position)
                 .sessionId(sessionId)
-                .build());
+                .build();
     }
 
     private void sendWaitersCountToUser(WaitListResponse waiter) {
