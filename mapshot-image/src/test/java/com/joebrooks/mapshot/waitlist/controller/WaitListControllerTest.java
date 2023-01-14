@@ -4,12 +4,12 @@ import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joebrooks.mapshot.waitlist.model.WaitListResponse;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -38,8 +38,6 @@ class WaitListControllerTest {
     static final String WEBSOCKET_SEND = "/api/image/wait-list";
     static final String WEBSOCKET_SUBSCRIBE = "/wait-list/result";
     private final ObjectMapper mapper = new ObjectMapper();
-
-
     private WebSocketStompClient stompClient;
 
     @BeforeEach
@@ -131,21 +129,15 @@ class WaitListControllerTest {
 
         @Override
         public Type getPayloadType(StompHeaders stompHeaders) {
-
             return byte[].class;
         }
 
         @Override
         public void handleFrame(StompHeaders stompHeaders, Object o) {
             try {
-                Map<String, Object> tempMap = mapper.readValue(((byte[]) o), Map.class);
-                WaitListResponse response =
-                        mapper.convertValue(tempMap.get("body"), WaitListResponse.class);
-
-                blockingQueue.offer(response);
-
-            } catch (Exception e) {
-
+                blockingQueue.offer(mapper.readValue(new String((byte[]) o), WaitListResponse.class));
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
             }
         }
 
