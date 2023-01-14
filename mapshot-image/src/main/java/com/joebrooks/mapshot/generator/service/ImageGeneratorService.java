@@ -1,10 +1,10 @@
 package com.joebrooks.mapshot.generator.service;
 
-import com.microsoft.playwright.Locator.WaitForOptions;
-import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Page.ScreenshotOptions;
-import com.microsoft.playwright.options.WaitForSelectorState;
+import com.joebrooks.mapshot.generator.config.ChromeDriverExtends;
 import lombok.RequiredArgsConstructor;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponents;
 
@@ -12,14 +12,12 @@ import org.springframework.web.util.UriComponents;
 @RequiredArgsConstructor
 public class ImageGeneratorService {
 
-    private final Page chromiumPage;
-    private final ScreenshotOptions screenshotOptions;
-
+    private final ChromeDriverExtends chromeDriverExtends;
+    private final WebDriverWait webDriverWait;
 
     public void loadPage(UriComponents uri) {
-        chromiumPage.navigate(uri.toString());
-        chromiumPage.locator("#checker_true")
-                .waitFor(new WaitForOptions().setState(WaitForSelectorState.ATTACHED));
+        chromeDriverExtends.get(uri.toString());
+        webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.id("checker_true")));
     }
 
     public void scrollPage(int x, int y) {
@@ -30,11 +28,11 @@ public class ImageGeneratorService {
         sb.append(y);
         sb.append(")");
 
-        chromiumPage.evaluate(sb.toString());
+        chromeDriverExtends.executeScript(sb.toString());
     }
 
     public byte[] capturePage() {
-        return chromiumPage.screenshot(screenshotOptions);
+        return chromeDriverExtends.getScreenshot();
     }
 
 }
