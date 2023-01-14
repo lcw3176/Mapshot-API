@@ -83,12 +83,12 @@
     var timerId = setInterval(function () {
 
         intervalCount++;
+        map.relayout();
 
         if (dynamicWidth < goalWidth && !finalLoading) {
             dynamicWidth += defaultWidth;
             container.style.height = dynamicWidth + "px";
             container.style.width = dynamicWidth + "px";
-            map.relayout();
             map.setCenter(new kakao.maps.LatLng(lat, lng));
         } else if (dynamicWidth >= goalWidth && !finalLoading) {
             finalLoading = true;
