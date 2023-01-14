@@ -21,23 +21,23 @@ services:
       - notice-env.env
     restart: always
 
-  mapshot-image:
-    build:
-      context: ./
-      dockerfile: mapshot-image/Dockerfile
-    deploy:
-      resources:
-        limits:
-          cpus: '0.80'
-    #          memory: 700M
-    ports:
-      - 8000:8000
-    logging:
-      driver: 'json-file'
-      options:
-        max-size: '10m'
-        max-file: '10'
-    restart: always
+#  mapshot-image:
+#    build:
+#      context: ./
+#      dockerfile: mapshot-image/Dockerfile
+#    deploy:
+#      resources:
+#        limits:
+#          cpus: '0.90'
+#    #          memory: 700M
+#    ports:
+#      - 8000:8000
+#    logging:
+#      driver: 'json-file'
+#      options:
+#        max-size: '10m'
+#        max-file: '10'
+#    restart: always
 
 
 
