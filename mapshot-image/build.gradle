@@ -1,3 +1,7 @@
+//plugins {
+//    id 'com.google.cloud.tools.jib' version '3.1.2'
+//}
+
 dependencies {
     implementation('org.springframework.boot:spring-boot-starter-web') {
         exclude module: 'spring-boot-starter-tomcat'
@@ -14,7 +18,31 @@ dependencies {
     implementation 'org.seleniumhq.selenium:selenium-remote-driver:4.7.2'
     implementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.7.2'
     implementation 'org.seleniumhq.selenium:selenium-api:4.7.2'
+
 }
+
+//jib {
+//    from {
+//        image = "eclipse-temurin:11-jre"
+//        auth {
+//            username = '' // Defined in 'gradle.properties'.
+//            password = ''
+//        }
+//    }
+//    to {
+//        image = ""
+//        tags = ["latest"]
+//
+//        auth {
+//            username = '' // Defined in 'gradle.properties'.
+//            password = ''
+//        }
+//
+//    }
+//    container {
+//        jvmFlags = ["-Xms128m", "-Xmx128m"]
+//    }
+//}
 
 
 
