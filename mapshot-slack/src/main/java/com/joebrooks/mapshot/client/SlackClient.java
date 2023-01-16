@@ -3,10 +3,8 @@ package com.joebrooks.mapshot.client;
 import com.joebrooks.mapshot.model.MessageResponse;
 import com.joebrooks.mapshot.util.SlackMessageFormatter;
 import java.util.Arrays;
-import org.springframework.stereotype.Component;
 
-@Component
-public class SlackClient extends MessageClient {
+public class SlackClient extends CommonClient {
 
 //    private final String slackUrl = System.getenv("SLACK_URL");
 
@@ -21,7 +19,7 @@ public class SlackClient extends MessageClient {
 
     private void sendSlackMessage(MessageResponse exception) {
         String message = SlackMessageFormatter.makeExceptionMessage(exception);
-//        post(slackUrl, message);
+//        post(slackUrl, message, String.class);
     }
 
     private String makeTransmissible(Exception e) {
