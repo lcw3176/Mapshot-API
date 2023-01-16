@@ -1,6 +1,5 @@
 package com.joebrooks.mapshot.client;
 
-import com.joebrooks.mapshot.model.MessageException;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
@@ -15,7 +14,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 
-public abstract class MessageClient {
+public abstract class CommonClient {
 
     private WebClient getClient(String baseUrl) {
         int timeoutMillis = 3000;
@@ -30,28 +29,45 @@ public abstract class MessageClient {
 
         return WebClient.builder()
                 .baseUrl(baseUrl)
-                .defaultHeaders(headers -> {
-                    headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-                })
+                .defaultHeaders(headers -> headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build();
     }
 
-    protected void post(String path, String json) {
+    protected <T> T post(String path, String body, Class<T> clazz) {
 
         try {
-            getClient(path).post()
+            return getClient(path).post()
                     .accept(MediaType.APPLICATION_JSON)
                     .acceptCharset(StandardCharsets.UTF_8)
-                    .bodyValue(json)
+                    .bodyValue(body)
                     .retrieve()
                     .onStatus(HttpStatus::isError, response -> response.bodyToMono(String.class)
-                            .flatMap(errorBody -> Mono.error(new MessageException(errorBody))))
-                    .bodyToMono(String.class)
+                            .flatMap(errorBody -> Mono.error(new RuntimeException(errorBody))))
+                    .bodyToMono(clazz)
                     .block();
 
         } catch (Exception e) {
-            throw new MessageException(e.getMessage(), e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+
+    protected <T> T get(String path, Class<T> clazz) {
+
+        try {
+            return getClient(path).get()
+                    .uri(path)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .acceptCharset(StandardCharsets.UTF_8)
+                    .retrieve()
+                    .onStatus(HttpStatus::isError, response -> response.bodyToMono(String.class)
+                            .flatMap(errorBody -> Mono.error(new RuntimeException(errorBody))))
+                    .bodyToMono(clazz)
+                    .block();
+
+        } catch (Exception e) {
+            throw new RuntimeException(path, e);
         }
     }
 }
