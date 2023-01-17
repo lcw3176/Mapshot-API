@@ -1,4 +1,4 @@
-package com.joebrooks.mapshot.storage.model;
+package com.joebrooks.mapshot.model;
 
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Storage {
+public class StorageInner {
 
     private String uuid;
     private byte[] imageByte;
