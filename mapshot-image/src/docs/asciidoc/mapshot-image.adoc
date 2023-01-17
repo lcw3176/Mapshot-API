@@ -1,0 +1,25 @@
+:snippets: ../../../build/generated-snippets/
+
+== 이미지
+
+=== 이미지 생성 요청하기
+
+==== request
+
+include::{snippets}/image/queue/request-parameters.adoc[]
+include::{snippets}/image/queue/http-request.adoc[]
+
+==== response
+
+include::{snippets}/image/queue/response-fields.adoc[]
+include::{snippets}/image/queue/http-response.adoc[]
+
+=== 생성된 이미지 발급받기
+
+==== request
+
+include::{snippets}/image/storage/path-parameters.adoc[]
+
+==== response
+
+include::{snippets}/image/storage/http-response.adoc[]
