@@ -3,5 +3,9 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
 
+lambda:
+  host: ${lambdaHost}
+  path: ${lambdaPath}
+
 server:
   port: 8000
