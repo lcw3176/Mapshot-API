@@ -41,3 +41,6 @@ out/
 
 # 환경변수
 *.env
+
+# 기타 등등
+./docs/mapshot-api.html
