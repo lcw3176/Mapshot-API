@@ -1,6 +1,5 @@
-package com.joebrooks.mapshot.assembler.model;
+package com.joebrooks.mapshot.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,9 +14,4 @@ public class ImageResponse {
     private int x;
     private int y;
     private String uuid;
-    private boolean error;
-
-    @JsonIgnore
-    private String sessionId;
-
 }

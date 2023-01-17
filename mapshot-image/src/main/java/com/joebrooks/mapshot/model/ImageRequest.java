@@ -1,6 +1,6 @@
-package com.joebrooks.mapshot.assembler.model;
+package com.joebrooks.mapshot.model;
 
-import com.joebrooks.mapshot.generator.enums.CompanyType;
+import com.joebrooks.mapshot.enums.CompanyType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,7 +35,5 @@ public class ImageRequest {
     // 지도 이미지를 가져올 회사 타입
     // ex) kakao -> 카카오 지도를 이용해서 이미지 생성
     private CompanyType companyType;
-
-    private String sessionId;
 
 }

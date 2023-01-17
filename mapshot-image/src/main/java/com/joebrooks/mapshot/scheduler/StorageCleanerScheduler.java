@@ -1,7 +1,7 @@
-package com.joebrooks.mapshot.storage.scheduler;
+package com.joebrooks.mapshot.scheduler;
 
-import com.joebrooks.mapshot.storage.model.Storage;
-import com.joebrooks.mapshot.storage.service.StorageService;
+import com.joebrooks.mapshot.model.StorageInner;
+import com.joebrooks.mapshot.service.StorageService;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,7 +17,7 @@ public class StorageCleanerScheduler {
     public void clean() {
         LocalDateTime nowTime = LocalDateTime.now();
 
-        for (Storage i : storageService.getAll()) {
+        for (StorageInner i : storageService.getAll()) {
             if (i.getCreatedAt().plusMinutes(30).isBefore(nowTime)) {
                 storageService.remove(i.getUuid());
             }
