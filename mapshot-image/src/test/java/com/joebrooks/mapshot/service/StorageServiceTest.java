@@ -1,9 +1,9 @@
-package com.joebrooks.mapshot.storage.service;
+package com.joebrooks.mapshot.service;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.joebrooks.mapshot.storage.model.Storage;
+import com.joebrooks.mapshot.model.StorageInner;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
@@ -15,7 +15,7 @@ class StorageServiceTest {
 
     @AfterEach
     void reset() {
-        for (Storage i : storageService.getAll()) {
+        for (StorageInner i : storageService.getAll()) {
             storageService.remove(i.getUuid());
         }
     }
@@ -25,7 +25,7 @@ class StorageServiceTest {
         int size = 100;
 
         for (int i = 0; i < size; i++) {
-            new Thread(() -> storageService.add(Storage.builder()
+            new Thread(() -> storageService.add(StorageInner.builder()
                     .createdAt(LocalDateTime.now())
                     .imageByte(new byte[0])
                     .uuid(UUID.randomUUID().toString())
@@ -35,7 +35,7 @@ class StorageServiceTest {
         while (storageService.getAll().size() < size) {
 
         }
-        
+
         assertEquals(storageService.getAll().size(), size);
     }
 
