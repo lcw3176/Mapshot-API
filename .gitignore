@@ -43,4 +43,4 @@ out/
 *.env
 
 # 기타 등등
-./docs/mapshot-api.html
+docs/mapshot-api.html
