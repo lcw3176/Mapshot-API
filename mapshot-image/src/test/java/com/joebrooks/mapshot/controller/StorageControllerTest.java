@@ -41,7 +41,7 @@ class StorageControllerTest {
     @LocalServerPort
     int port;
 
-    private static final String BASE_URL = "/api/image/storage";
+    private static final String BASE_URL = "/image/storage";
 
 
     @Test

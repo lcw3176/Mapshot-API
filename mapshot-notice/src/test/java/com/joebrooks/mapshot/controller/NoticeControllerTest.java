@@ -39,7 +39,7 @@ class NoticeControllerTest {
     MockMvc mockMvc;
 
 
-    private static final String BASE_URL = "/api/notice";
+    private static final String BASE_URL = "/notice";
 
     @Test
     void 게시글_목록_조회_테스트() throws Exception {

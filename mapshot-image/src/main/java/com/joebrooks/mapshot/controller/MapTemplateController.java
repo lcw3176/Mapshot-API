@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/api/image/template")
+@RequestMapping("/image/template")
 public class MapTemplateController {
 
     @GetMapping("/kakao")

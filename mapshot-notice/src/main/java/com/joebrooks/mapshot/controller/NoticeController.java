@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/notice")
-@CrossOrigin("*") //fixme 테스트 끝나면 삭제할 것
+@RequestMapping("/notice")
+@CrossOrigin(originPatterns = "https://*.kmapshot.com")
 public class NoticeController {
 
     private final NoticeService noticeService;

@@ -74,7 +74,7 @@ class ProxyControllerTest {
                 .type("satellite_base")
                 .build();
 
-        MvcResult result = mockMvc.perform(get("/api/image/queue")
+        MvcResult result = mockMvc.perform(get("/image/queue")
                         .queryParam("companyType", request.getCompanyType().toString())
                         .queryParam("lat", Double.toString(request.getLat()))
                         .queryParam("lng", Double.toString(request.getLng()))
