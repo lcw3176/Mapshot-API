@@ -17,6 +17,8 @@ public class LambdaClient extends CommonClient {
     private String path;
 
     public List<ImageResponse> sendRequest(ImageRequest request) {
+        int timeoutMillis = 30 * 1000;
+
         String url = UriComponentsBuilder.newInstance()
                 .scheme("https")
                 .host(host)
@@ -30,6 +32,6 @@ public class LambdaClient extends CommonClient {
                 .build()
                 .toString();
 
-        return List.of(requestImageToLambda(url, ImageResponse[].class));
+        return List.of(get(url, timeoutMillis, ImageResponse[].class));
     }
 }
