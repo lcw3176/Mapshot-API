@@ -20,7 +20,6 @@ public abstract class CommonClient {
 
         HttpClient httpClient = HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, baseTimeoutMillis)
-                .responseTimeout(Duration.ofSeconds(30))
                 .doOnConnected(conn ->
                         conn.addHandlerLast(new ReadTimeoutHandler(baseTimeoutMillis, TimeUnit.MILLISECONDS))  //sec
                                 .addHandlerLast(new WriteTimeoutHandler(baseTimeoutMillis, TimeUnit.MILLISECONDS)) //sec
