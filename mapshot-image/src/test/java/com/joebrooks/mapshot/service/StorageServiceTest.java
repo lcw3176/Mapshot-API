@@ -45,4 +45,21 @@ class StorageServiceTest {
                 .isInstanceOf(NullPointerException.class);
     }
 
+    @Test
+    void 이미지는_반환과_동시에_삭제됨() {
+        String uuid = UUID.randomUUID().toString();
+        byte[] imageByte = "I am Virtual Image".getBytes();
+
+        storageService.add(StorageInner.builder()
+                .createdAt(LocalDateTime.now())
+                .imageByte(imageByte)
+                .uuid(uuid)
+                .build());
+        byte[] image = storageService.getImage(uuid);
+
+        assertEquals(image, imageByte);
+        assertThatThrownBy(() -> storageService.getImage(uuid))
+                .isInstanceOf(NullPointerException.class);
+    }
+
 }
