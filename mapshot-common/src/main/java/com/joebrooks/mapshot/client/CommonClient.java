@@ -16,14 +16,14 @@ import reactor.netty.http.client.HttpClient;
 public abstract class CommonClient {
 
     private WebClient getClient(String baseUrl) {
-        int timeoutMillis = 30000;
+        int baseTimeoutMillis = 3000;
 
         HttpClient httpClient = HttpClient.create()
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, timeoutMillis)
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, baseTimeoutMillis)
                 .responseTimeout(Duration.ofSeconds(30))
                 .doOnConnected(conn ->
-                        conn.addHandlerLast(new ReadTimeoutHandler(timeoutMillis, TimeUnit.MILLISECONDS))  //sec
-                                .addHandlerLast(new WriteTimeoutHandler(timeoutMillis, TimeUnit.MILLISECONDS)) //sec
+                        conn.addHandlerLast(new ReadTimeoutHandler(baseTimeoutMillis, TimeUnit.MILLISECONDS))  //sec
+                                .addHandlerLast(new WriteTimeoutHandler(baseTimeoutMillis, TimeUnit.MILLISECONDS)) //sec
                 );
 
         return WebClient.builder()
@@ -32,7 +32,7 @@ public abstract class CommonClient {
                 .build();
     }
 
-    protected <T> T sendSlackMessage(String path, String body, Class<T> clazz) {
+    protected <T> T post(String path, long timeoutMillis, String body, Class<T> clazz) {
 
         try {
             return getClient(path).post()
@@ -43,7 +43,7 @@ public abstract class CommonClient {
                     .onStatus(HttpStatus::isError, response -> response.bodyToMono(String.class)
                             .flatMap(errorBody -> Mono.error(new RuntimeException(errorBody))))
                     .bodyToMono(clazz)
-                    .block();
+                    .block(Duration.ofMillis(timeoutMillis));
 
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
@@ -51,7 +51,7 @@ public abstract class CommonClient {
     }
 
 
-    protected <T> T[] requestImageToLambda(String path, Class<T[]> clazz) {
+    protected <T> T[] get(String path, long timeoutMillis, Class<T[]> clazz) {
 
         try {
             return getClient(path).get()
@@ -61,7 +61,7 @@ public abstract class CommonClient {
                     .onStatus(HttpStatus::isError, response -> response.bodyToMono(String.class)
                             .flatMap(errorBody -> Mono.error(new RuntimeException(errorBody))))
                     .bodyToMono(clazz)
-                    .block(Duration.ofSeconds(30));
+                    .block(Duration.ofMillis(timeoutMillis));
 
         } catch (Exception e) {
             throw new RuntimeException(path, e);
