@@ -3,6 +3,8 @@ package com.joebrooks.mapshot.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
@@ -66,6 +68,9 @@ class StorageControllerTest {
                 .andDo(document("image/storage",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName(JwtTokenProvider.HEADER_NAME).description("기본 인증 토큰")
+                        ),
                         pathParameters(
                                 parameterWithName("uuid")
                                         .description("발급받을 이미지의 uuid")
@@ -109,7 +114,7 @@ class StorageControllerTest {
                 .build();
 
         String bodyContent = mapper.writeValueAsString(request);
-        
+
         mockMvc.perform(post(BASE_URL).content(bodyContent))
                 .andExpect(status().is4xxClientError());
     }
