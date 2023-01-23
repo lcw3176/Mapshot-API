@@ -47,6 +47,7 @@ class NoticeControllerTest {
                         RestDocumentationRequestBuilders.get(BASE_URL + "/summary/{startPostNumber}", 11))
                 .andExpect(status().isOk())
                 .andDo(document("notice/summary",
+                        preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         pathParameters(
                                 parameterWithName("startPostNumber")
