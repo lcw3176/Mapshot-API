@@ -10,8 +10,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.util.PatternMatchUtils;
 
 public class AuthFilter implements Filter {
+
+    private static final String[] whitelist = {"/image/queue", "/image/storage/*"};
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -20,13 +23,17 @@ public class AuthFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         String token = httpRequest.getHeader(JwtTokenProvider.HEADER_NAME);
 
-        if (!JwtTokenProvider.isValid(token)) {
-
+        if (isNotWhitelistPath(httpRequest.getRequestURI()) && !JwtTokenProvider.isValid(token)) {
             httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
 
         chain.doFilter(request, response);
     }
+
+    private boolean isNotWhitelistPath(String requestURI) {
+        return !PatternMatchUtils.simpleMatch(whitelist, requestURI);
+    }
+
 
 }
