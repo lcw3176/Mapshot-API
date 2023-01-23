@@ -15,8 +15,8 @@ import reactor.netty.http.client.HttpClient;
 
 public abstract class CommonClient {
 
-    private WebClient getClient(String baseUrl) {
-        int baseTimeoutMillis = 3000;
+    private WebClient getClient(String baseUrl, long timeoutMillis) {
+        int baseTimeoutMillis = (int) timeoutMillis;
 
         HttpClient httpClient = HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, baseTimeoutMillis)
@@ -34,7 +34,7 @@ public abstract class CommonClient {
     protected <T> T post(String path, long timeoutMillis, String body, Class<T> clazz) {
 
         try {
-            return getClient(path).post()
+            return getClient(path, timeoutMillis).post()
                     .accept(MediaType.APPLICATION_JSON)
                     .acceptCharset(StandardCharsets.UTF_8)
                     .bodyValue(body)
@@ -53,7 +53,7 @@ public abstract class CommonClient {
     protected <T> T[] get(String path, long timeoutMillis, Class<T[]> clazz) {
 
         try {
-            return getClient(path).get()
+            return getClient(path, timeoutMillis).get()
                     .accept(MediaType.APPLICATION_JSON)
                     .acceptCharset(StandardCharsets.UTF_8)
                     .retrieve()
