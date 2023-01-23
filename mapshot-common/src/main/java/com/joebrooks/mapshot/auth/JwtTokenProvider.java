@@ -4,14 +4,15 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.time.Duration;
 import java.util.Date;
-import lombok.experimental.UtilityClass;
 
-@UtilityClass
 public class JwtTokenProvider {
 
-    // fixme 나중에 키 값 뺄것
-    private static final String JWT_SECRET = "iamtestkey";
-    public static final String HEADER_NAME = "AUTH-TOKEN";
+    private JwtTokenProvider() {
+
+    }
+
+    private static final String JWT_SECRET = System.getenv("JWT_SECRET");
+    public static final String HEADER_NAME = "AUTH_TOKEN";
 
     public static String generate() {
         Date now = new Date();
