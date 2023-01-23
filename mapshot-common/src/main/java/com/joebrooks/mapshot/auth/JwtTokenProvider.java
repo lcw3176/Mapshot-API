@@ -11,7 +11,7 @@ public class JwtTokenProvider {
 
     // fixme 나중에 키 값 뺄것
     private static final String JWT_SECRET = "iamtestkey";
-    public static final String HEADER_NAME = "JWT_TOKEN";
+    public static final String HEADER_NAME = "AUTH-TOKEN";
 
     public static String generate() {
         Date now = new Date();
