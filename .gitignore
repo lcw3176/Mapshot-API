@@ -44,3 +44,4 @@ out/
 
 # 기타 등등
 docs/mapshot-api.html
+docker-compose.yml
