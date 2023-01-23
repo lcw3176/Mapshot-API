@@ -2,11 +2,20 @@
 
 == 이미지
 
+=== 공통 헤더
+
+==== header
+
+include::{snippets}/image/storage/post/request-headers.adoc[]
+
 === 이미지 생성 요청하기
+
+==== parameter
+
+include::{snippets}/image/queue/request-parameters.adoc[]
 
 ==== request
 
-include::{snippets}/image/queue/request-parameters.adoc[]
 include::{snippets}/image/queue/http-request.adoc[]
 
 ==== response
@@ -14,12 +23,30 @@ include::{snippets}/image/queue/http-request.adoc[]
 include::{snippets}/image/queue/response-fields.adoc[]
 include::{snippets}/image/queue/http-response.adoc[]
 
-=== 생성된 이미지 발급받기
+=== 이미지 임시 저장 요청하기
+
+==== body
+
+include::{snippets}/image/storage/post/request-fields.adoc[]
 
 ==== request
 
-include::{snippets}/image/storage/path-parameters.adoc[]
+include::{snippets}/image/storage/post/http-request.adoc[]
 
 ==== response
 
-include::{snippets}/image/storage/http-response.adoc[]
+include::{snippets}/image/storage/post/http-response.adoc[]
+
+=== 생성된 이미지 발급받기
+
+==== parameters
+
+include::{snippets}/image/storage/get/path-parameters.adoc[]
+
+==== request
+
+include::{snippets}/image/storage/get/http-request.adoc[]
+
+==== response
+
+include::{snippets}/image/storage/get/http-response.adoc[]
