@@ -10,6 +10,8 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joebrooks.mapshot.auth.JwtTokenProvider;
 import com.joebrooks.mapshot.model.StorageRequest;
 import com.joebrooks.mapshot.service.StorageService;
+import java.util.Base64;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.MediaType;
 import org.springframework.restdocs.generate.RestDocumentationGenerator;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
@@ -56,6 +60,13 @@ class StorageControllerTest {
                 .header(JwtTokenProvider.HEADER_NAME, token);
     }
 
+    private static MockHttpServletRequestBuilder postRequest(String urlTemplate, String token, String content) {
+        return RestDocumentationRequestBuilders.post(urlTemplate)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content)
+                .header(JwtTokenProvider.HEADER_NAME, token);
+    }
+
 
     @Test
     void 이미지_발급_테스트() throws Exception {
@@ -65,7 +76,7 @@ class StorageControllerTest {
 
         mockMvc.perform(getRequest(BASE_URL + "/{uuid}", JwtTokenProvider.generate(), UUID.randomUUID().toString()))
                 .andExpect(status().isOk())
-                .andDo(document("image/storage",
+                .andDo(document("image/storage/get",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
@@ -96,18 +107,41 @@ class StorageControllerTest {
                 .thenReturn(content.getBytes());
 
         mockMvc.perform(
-                        RestDocumentationRequestBuilders.get(BASE_URL + "/{uuid}", UUID.randomUUID().toString())
-                                .header(JwtTokenProvider.HEADER_NAME, "none"))
+                        getRequest(BASE_URL + "/{uuid}", "none", UUID.randomUUID().toString()))
                 .andExpect(status().is4xxClientError());
     }
 
 
     @Test
-    void 토큰_없이_이미지_임시저장_요청_시_거절() throws Exception {
-        String content = "I am Virtual Image";
-        when(storageService.getImage(any(String.class)))
-                .thenReturn(content.getBytes());
+    void 이미지_임시저장_테스트() throws Exception {
+        String content = Base64.getEncoder().encodeToString("I am Virtual Image".getBytes());
+        StorageRequest request = StorageRequest.builder()
+                .uuid(UUID.randomUUID().toString())
+                .base64EncodedImage(content)
+                .build();
 
+        String bodyContent = mapper.writeValueAsString(request);
+
+        mockMvc.perform(postRequest(BASE_URL, JwtTokenProvider.generate(), bodyContent))
+                .andExpect(status().isOk())
+                .andDo(document("image/storage/post",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName(JwtTokenProvider.HEADER_NAME).description("기본 인증 토큰")
+                        ),
+                        requestFields(
+                                fieldWithPath("uuid")
+                                        .description("저장할 이미지의 uuid"),
+                                fieldWithPath("base64EncodedImage")
+                                        .description("인코딩된 이미지")
+                        )));
+    }
+
+
+    @Test
+    void 토큰_없이_이미지_임시저장_요청_시_거절() throws Exception {
+        String content = Base64.getEncoder().encodeToString("I am Virtual Image".getBytes());
         StorageRequest request = StorageRequest.builder()
                 .uuid(UUID.randomUUID().toString())
                 .base64EncodedImage(content)
@@ -122,10 +156,7 @@ class StorageControllerTest {
 
     @Test
     void 유효하지_않은_토큰으로_이미지_임시저장_요청_시_거절() throws Exception {
-        String content = "I am Virtual Image";
-        when(storageService.getImage(any(String.class)))
-                .thenReturn(content.getBytes());
-
+        String content = Base64.getEncoder().encodeToString("I am Virtual Image".getBytes());
         StorageRequest request = StorageRequest.builder()
                 .uuid(UUID.randomUUID().toString())
                 .base64EncodedImage(content)
