@@ -1,5 +1,6 @@
 package com.joebrooks.mapshot.client;
 
+import com.joebrooks.mapshot.auth.JwtTokenProvider;
 import com.joebrooks.mapshot.model.ImageRequest;
 import com.joebrooks.mapshot.model.ImageResponse;
 import java.util.List;
@@ -29,6 +30,7 @@ public class LambdaClient extends CommonClient {
                 .queryParam("lng", request.getLng())
                 .queryParam("level", request.getLevel())
                 .queryParam("layerMode", request.isLayerMode())
+                .queryParam(JwtTokenProvider.HEADER_NAME, JwtTokenProvider.generate())
                 .build()
                 .toString();
 
