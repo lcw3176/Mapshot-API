@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: notice-service
   datasource:
     url: ${databaseUrl}
     driver-class-name: org.mariadb.jdbc.Driver
