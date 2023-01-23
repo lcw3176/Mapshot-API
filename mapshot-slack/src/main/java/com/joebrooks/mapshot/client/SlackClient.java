@@ -6,7 +6,8 @@ import java.util.Arrays;
 
 public class SlackClient extends CommonClient {
 
-//    private final String slackUrl = System.getenv("SLACK_URL");
+    private final String slackUrl = System.getenv("SLACK_URL");
+
 
     public void sendMessage(Exception e) {
         MessageResponse errorMessage = MessageResponse.builder()
@@ -18,8 +19,10 @@ public class SlackClient extends CommonClient {
     }
 
     private void sendSlackMessage(MessageResponse exception) {
+        int timeoutMillis = 3000;
+
         String message = SlackMessageFormatter.makeExceptionMessage(exception);
-//        post(slackUrl, message, String.class);
+        post(slackUrl, timeoutMillis, message, String.class);
     }
 
     private String makeTransmissible(Exception e) {
