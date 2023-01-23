@@ -4,6 +4,8 @@ package com.joebrooks.mapshot.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
@@ -17,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.joebrooks.mapshot.auth.JwtTokenProvider;
 import com.joebrooks.mapshot.client.LambdaClient;
 import com.joebrooks.mapshot.enums.CompanyType;
 import com.joebrooks.mapshot.model.ImageRequest;
@@ -50,8 +53,8 @@ class ProxyControllerTest {
     void 이미지_제작_요청_테스트() throws Exception {
         List<ImageResponse> responses = new ArrayList<>();
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
+        for (int i = 0; i < 3000; i += 1000) {
+            for (int j = 0; j < 3000; j += 1000) {
                 ImageResponse response = ImageResponse.builder()
                         .uuid(UUID.randomUUID().toString())
                         .x(j)
@@ -80,11 +83,15 @@ class ProxyControllerTest {
                         .queryParam("lng", Double.toString(request.getLng()))
                         .queryParam("layerMode", Boolean.toString(request.isLayerMode()))
                         .queryParam("level", Integer.toString(request.getLevel()))
-                        .queryParam("type", request.getType()))
+                        .queryParam("type", request.getType())
+                        .header(JwtTokenProvider.HEADER_NAME, JwtTokenProvider.generate()))
                 .andExpect(status().isOk())
                 .andDo(document("image/queue",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName(JwtTokenProvider.HEADER_NAME).description("기본 인증 토큰")
+                        ),
                         requestParameters(
                                 parameterWithName("companyType")
                                         .description("지도를 제공하는 회사"),
