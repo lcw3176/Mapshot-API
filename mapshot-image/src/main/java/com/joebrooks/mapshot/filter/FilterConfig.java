@@ -11,11 +11,11 @@ public class FilterConfig {
 
 
     @Bean
-    public FilterRegistrationBean adminFilter() {
+    public FilterRegistrationBean<Filter> adminFilter() {
         FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setFilter(new AuthFilter());
         filterRegistrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        filterRegistrationBean.addUrlPatterns("/*");
+        filterRegistrationBean.addUrlPatterns("*");
 
         return filterRegistrationBean;
     }
