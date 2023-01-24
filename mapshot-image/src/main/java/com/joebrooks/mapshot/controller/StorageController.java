@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/image/storage")
-@CrossOrigin(originPatterns = "https://*.kmapshot.com")
+@CrossOrigin(originPatterns = {"https://*.kmapshot.com", "https://kmapshot.com"})
 public class StorageController {
 
     private final StorageService storageService;

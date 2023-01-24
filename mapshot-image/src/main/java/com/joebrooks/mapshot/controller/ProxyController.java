@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/image/queue")
-@CrossOrigin(originPatterns = "https://*.kmapshot.com")
+@CrossOrigin(originPatterns = {"https://*.kmapshot.com", "https://kmapshot.com"})
 public class ProxyController {
 
     private final LambdaClient lambdaClient;

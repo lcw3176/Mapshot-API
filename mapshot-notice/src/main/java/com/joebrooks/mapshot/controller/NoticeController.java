@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/notice")
-@CrossOrigin(originPatterns = "https://*.kmapshot.com")
+@CrossOrigin(originPatterns = {"https://*.kmapshot.com", "https://kmapshot.com"})
 public class NoticeController {
 
     private final NoticeService noticeService;
