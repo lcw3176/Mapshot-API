@@ -54,10 +54,9 @@ class StorageControllerTest {
 
     private static final String BASE_URL = "/image/storage";
 
-    private static MockHttpServletRequestBuilder getRequest(String urlTemplate, String token, Object... urlVariables) {
+    private static MockHttpServletRequestBuilder getRequest(String urlTemplate, Object... urlVariables) {
         return RestDocumentationRequestBuilders.get(urlTemplate, urlVariables)
-                .requestAttr(RestDocumentationGenerator.ATTRIBUTE_NAME_URL_TEMPLATE, urlTemplate)
-                .header(JwtTokenProvider.HEADER_NAME, token);
+                .requestAttr(RestDocumentationGenerator.ATTRIBUTE_NAME_URL_TEMPLATE, urlTemplate);
     }
 
     private static MockHttpServletRequestBuilder postRequest(String urlTemplate, String token, String content) {
@@ -74,41 +73,15 @@ class StorageControllerTest {
         when(storageService.getImage(any(String.class)))
                 .thenReturn(content.getBytes());
 
-        mockMvc.perform(getRequest(BASE_URL + "/{uuid}", JwtTokenProvider.generate(), UUID.randomUUID().toString()))
+        mockMvc.perform(getRequest(BASE_URL + "/{uuid}", UUID.randomUUID().toString()))
                 .andExpect(status().isOk())
                 .andDo(document("image/storage/get",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestHeaders(
-                                headerWithName(JwtTokenProvider.HEADER_NAME).description("기본 인증 토큰")
-                        ),
                         pathParameters(
                                 parameterWithName("uuid")
                                         .description("발급받을 이미지의 uuid")
                         )));
-    }
-
-
-    @Test
-    void 토큰_없이_이미지_발급_요청_시_거절() throws Exception {
-        String content = "I am Virtual Image";
-        when(storageService.getImage(any(String.class)))
-                .thenReturn(content.getBytes());
-
-        mockMvc.perform(RestDocumentationRequestBuilders.get(BASE_URL + "/{uuid}", UUID.randomUUID().toString()))
-                .andExpect(status().is4xxClientError());
-    }
-
-
-    @Test
-    void 유효하지_않은_토큰으로_이미지_발급_요청_시_거절() throws Exception {
-        String content = "I am Virtual Image";
-        when(storageService.getImage(any(String.class)))
-                .thenReturn(content.getBytes());
-
-        mockMvc.perform(
-                        getRequest(BASE_URL + "/{uuid}", "none", UUID.randomUUID().toString()))
-                .andExpect(status().is4xxClientError());
     }
 
 
@@ -128,7 +101,7 @@ class StorageControllerTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
-                                headerWithName(JwtTokenProvider.HEADER_NAME).description("기본 인증 토큰")
+                                headerWithName(JwtTokenProvider.HEADER_NAME).description("서버 간 인증 토큰")
                         ),
                         requestFields(
                                 fieldWithPath("uuid")
