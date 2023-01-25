@@ -2,12 +2,6 @@
 
 == 이미지
 
-=== 공통 헤더
-
-==== header
-
-include::{snippets}/image/storage/post/request-headers.adoc[]
-
 === 이미지 생성 요청하기
 
 ==== parameter
@@ -24,6 +18,10 @@ include::{snippets}/image/queue/response-fields.adoc[]
 include::{snippets}/image/queue/http-response.adoc[]
 
 === 이미지 임시 저장 요청하기
+
+==== header
+
+include::{snippets}/image/storage/post/request-headers.adoc[]
 
 ==== body
 
