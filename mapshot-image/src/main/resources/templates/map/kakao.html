@@ -77,8 +77,14 @@
         map.addOverlayMapTypeId(kakao.maps.MapTypeId.USE_DISTRICT);
     }
 
+    // 지도를 일부러 더 크게 만든 후
+    // 나중에 축소시켜서 지도 타일 로딩이 안되는 현상을
+    // 최대한 방지한다
+
+    goalWidth += defaultWidth;
     var intervalCount = 0;
     var finalLoading = false;
+    var endLoading = false;
 
     var timerId = setInterval(function () {
 
@@ -90,9 +96,17 @@
             container.style.height = dynamicWidth + "px";
             container.style.width = dynamicWidth + "px";
             map.setCenter(new kakao.maps.LatLng(lat, lng));
+
         } else if (dynamicWidth >= goalWidth && !finalLoading) {
             finalLoading = true;
-        } else if (finalLoading) {
+            dynamicWidth -= defaultWidth;
+            container.style.height = dynamicWidth + "px";
+            container.style.width = dynamicWidth + "px";
+            map.setCenter(new kakao.maps.LatLng(lat, lng));
+
+        } else if (finalLoading && !endLoading) {
+            endLoading = true;
+        } else if (endLoading) {
             document.getElementById("checker").setAttribute("id", "checker_true");
             clearInterval(timerId);
         }
