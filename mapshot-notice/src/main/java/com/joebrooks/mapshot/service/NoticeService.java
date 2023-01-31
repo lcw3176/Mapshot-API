@@ -16,12 +16,7 @@ public class NoticeService {
     private final NoticeRepository noticeRepository;
 
     private static final String BAD_REQUEST = "[ERROR] 존재하지 않는 공지사항 접근";
-
-    @Transactional
-    public void addPost(NoticeEntity noticeEntity) {
-        noticeRepository.save(noticeEntity);
-    }
-
+    
     @Transactional(readOnly = true)
     public List<PostSummaryResponse> getMultiplePostsSummary(long startId) {
 
