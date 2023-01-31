@@ -67,6 +67,7 @@
         draggable: false,
         zoomable: false,
     };
+
     container.style.height = dynamicWidth + "px";
     container.style.width = dynamicWidth + "px";
 
@@ -89,20 +90,16 @@
     var timerId = setInterval(function () {
 
         intervalCount++;
+
+        map.setCenter(new kakao.maps.LatLng(lat, lng));
         map.relayout();
 
         if (dynamicWidth < goalWidth && !finalLoading) {
             dynamicWidth += defaultWidth;
-            container.style.height = dynamicWidth + "px";
-            container.style.width = dynamicWidth + "px";
-            map.setCenter(new kakao.maps.LatLng(lat, lng));
 
         } else if (dynamicWidth >= goalWidth && !finalLoading) {
             finalLoading = true;
             dynamicWidth -= defaultWidth;
-            container.style.height = dynamicWidth + "px";
-            container.style.width = dynamicWidth + "px";
-            map.setCenter(new kakao.maps.LatLng(lat, lng));
 
         } else if (finalLoading && !endLoading) {
             endLoading = true;
@@ -110,6 +107,9 @@
             document.getElementById("checker").setAttribute("id", "checker_true");
             clearInterval(timerId);
         }
+
+        container.style.height = dynamicWidth + "px";
+        container.style.width = dynamicWidth + "px";
 
         if (intervalCount >= 40) {
             clearInterval(timerId);
