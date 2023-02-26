@@ -1,4 +1,4 @@
-package com.joebrooks.notice.controller;
+package com.joebrooks.image.controller;
 
 
 import static org.mockito.ArgumentMatchers.any;
@@ -34,6 +34,7 @@ import org.springframework.restdocs.generate.RestDocumentationGenerator;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc

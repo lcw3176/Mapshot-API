@@ -1,10 +1,9 @@
-package com.joebrooks.notice.service;
+package com.joebrooks.image.service;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.joebrooks.image.model.StorageInner;
-import com.joebrooks.image.service.StorageService;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;

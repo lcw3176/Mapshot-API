@@ -1,4 +1,4 @@
-package com.joebrooks.notice.controller;
+package com.joebrooks.image.controller;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
