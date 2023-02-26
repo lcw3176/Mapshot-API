@@ -1,6 +1,5 @@
-package com.joebrooks.image.config;
+package com.joebrooks.image.filter;
 
-import com.joebrooks.image.filter.AuthFilter;
 import javax.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

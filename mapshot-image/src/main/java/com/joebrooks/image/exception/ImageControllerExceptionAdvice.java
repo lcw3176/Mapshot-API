@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 @Slf4j
-public class ControllerExceptionAdvice {
+public class ImageControllerExceptionAdvice {
 
     private final SlackClient slackClient = new SlackClient();
 

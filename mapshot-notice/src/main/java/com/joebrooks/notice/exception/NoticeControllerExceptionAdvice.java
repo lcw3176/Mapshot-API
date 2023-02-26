@@ -12,7 +12,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 @RestControllerAdvice
 @Slf4j
-public class ControllerExceptionAdvice {
+public class NoticeControllerExceptionAdvice {
 
     private final SlackClient slackClient = new SlackClient();
 

@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.joebrooks.common.client.LambdaClient;
+import com.joebrooks.image.client.LambdaClient;
 import com.joebrooks.image.enums.CompanyType;
 import com.joebrooks.image.model.ImageRequest;
 import com.joebrooks.image.model.ImageResponse;
