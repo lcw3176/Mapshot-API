@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 
 @Configuration
-public class FilterConfig {
+public class ImageFilterConfig {
 
 
     @Bean
@@ -15,7 +15,7 @@ public class FilterConfig {
         FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setFilter(new AuthFilter());
         filterRegistrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        filterRegistrationBean.addUrlPatterns("*");
+        filterRegistrationBean.addUrlPatterns("/image/*");
 
         return filterRegistrationBean;
     }
