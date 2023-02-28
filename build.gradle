@@ -65,8 +65,8 @@ project(':mapshot-slack') {
 
 
 project(':mapshot-notice') {
-    bootJar { enabled = true }
-    jar { enabled = false }
+    bootJar { enabled = false }
+    jar { enabled = true }
 
     dependencies {
         implementation project(':mapshot-slack')
@@ -75,11 +75,22 @@ project(':mapshot-notice') {
 }
 
 project(':mapshot-image') {
-    bootJar { enabled = true }
-    jar { enabled = false }
+    bootJar { enabled = false }
+    jar { enabled = true }
 
     dependencies {
         implementation project(':mapshot-slack')
         implementation project(':mapshot-common')
+    }
+}
+
+project(':mapshot-executor') {
+    bootJar { enabled = true }
+    jar { enabled = false }
+
+    dependencies {
+        implementation project(':mapshot-image')
+        implementation project(':mapshot-notice')
+
     }
 }

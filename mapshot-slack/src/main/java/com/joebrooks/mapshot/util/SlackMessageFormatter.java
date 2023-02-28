@@ -1,6 +1,6 @@
 package com.joebrooks.mapshot.util;
 
-import com.joebrooks.mapshot.model.MessageResponse;
+import com.joebrooks.notice.model.MessageResponse;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;

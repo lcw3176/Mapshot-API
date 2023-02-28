@@ -1,6 +1,5 @@
 plugins {
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
-    id 'com.google.cloud.tools.jib' version '3.1.2'
 }
 
 configurations {
@@ -35,26 +34,3 @@ asciidoctor {
     configurations 'asciidoctorExt'
     dependsOn test
 }
-
-
-jib {
-    from {
-        image = "eclipse-temurin:11-jre"
-
-    }
-    to {
-
-    }
-    container {
-        jvmFlags = ["-Duser.timezone=Asia/Seoul"]
-    }
-}
-
-
-
-
-
-
-
-
-

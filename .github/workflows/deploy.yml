@@ -31,19 +31,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Mapshot Image Jib
+      - name: Mapshot Executor Jib
         env:
-          MAPSHOT_IMAGE_DOCKERHUB_REPO_PATH: ${{ secrets.MAPSHOT_DOCKERHUB_REPO_PATH }}
-        run: ./gradlew mapshot-image:jib -x test
-          -Djib.to.image=$MAPSHOT_IMAGE_DOCKERHUB_REPO_PATH
-          -Djib.to.tags=mapshot-image
-
-      - name: Mapshot Notice Jib
-        env:
-          MAPSHOT_NOTICE_DOCKERHUB_REPO_PATH: ${{ secrets.MAPSHOT_DOCKERHUB_REPO_PATH }}
-        run: ./gradlew mapshot-notice:jib -x test
-          -Djib.to.image=$MAPSHOT_NOTICE_DOCKERHUB_REPO_PATH
-          -Djib.to.tags=mapshot-notice
+          MAPSHOT_EXECUTOR_DOCKERHUB_REPO_PATH: ${{ secrets.MAPSHOT_DOCKERHUB_REPO_PATH }}
+        run: ./gradlew mapshot-executor:jib -x test
+          -Djib.to.image=$MAPSHOT_EXECUTOR_DOCKERHUB_REPO_PATH
+          -Djib.to.tags=mapshot-executor
 
       - name: Get Github action IP
         id: ip
