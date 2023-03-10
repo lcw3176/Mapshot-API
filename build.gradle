@@ -3,6 +3,7 @@ plugins {
     id 'org.springframework.boot' version '2.6.5'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    id 'com.google.cloud.tools.jib' version '3.1.2'
 }
 
 group = 'com.joebrooks'
@@ -82,6 +83,22 @@ tasks.named('test') {
 //build {
 //    dependsOn copyDocument
 //}
+
+jib {
+    from {
+        image = "eclipse-temurin:11-jre"
+    }
+
+    to {
+
+    }
+
+    container {
+        jvmFlags = ["-Duser.timezone=Asia/Seoul"]
+    }
+}
+
+
 
 
 
