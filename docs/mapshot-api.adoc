@@ -1,9 +1,0 @@
-= Mapshot-API Docs
-:doctype: book
-:icons: font
-:source-highlighter: highlightjs
-:toc: left
-:toclevels: 3
-
-include::../mapshot-image/src/docs/asciidoc/mapshot-image.adoc[]
-include::../mapshot-notice/src/docs/asciidoc/mapshot-notice.adoc[]

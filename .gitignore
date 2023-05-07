@@ -43,5 +43,7 @@ out/
 *.env
 
 # 기타 등등
-docs/mapshot-api.html
+src/main/resources/static/docs/mapshot-docs.html
 docker-compose.yml
+/logs
+/was-logs

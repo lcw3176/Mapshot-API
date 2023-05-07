@@ -1,96 +1,105 @@
-buildscript {
-    ext {
-        springBootVersion = '2.6.5'
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.6.5'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    id 'com.google.cloud.tools.jib' version '3.1.2'
+}
+
+group = 'com.joebrooks'
+version = ''
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
     }
-    repositories {
-        mavenCentral()
+
+    asciidoctorExt
+}
+
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+test {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    configurations 'asciidoctorExt'
+    dependsOn test
+}
+
+//task copyDocument(type: Copy) {
+//    dependsOn asciidoctor
+//    from file("build/docs/asciidoc")
+//    into file("src/main/resources/static/docs")
+//}
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // spring
+    implementation('org.springframework.boot:spring-boot-starter-web') {
+        exclude module: 'spring-boot-starter-tomcat'
     }
-    dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
-        classpath "io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE"
+
+    implementation 'org.springframework.boot:spring-boot-starter-undertow'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    // util
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+
+    // db
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+    // jwt
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'javax.xml.bind:jaxb-api:2.1'
+
+    // rest doc
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
+    // test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+//build {
+//    dependsOn copyDocument
+//}
+
+jib {
+    from {
+        image = "eclipse-temurin:11-jre"
+    }
+
+    to {
+
+    }
+
+    container {
+        jvmFlags = ["-Duser.timezone=Asia/Seoul"]
     }
 }
 
 
-subprojects {
-    apply plugin: 'java'
-    apply plugin: 'idea'
-    apply plugin: 'org.springframework.boot'
-    apply plugin: 'io.spring.dependency-management'
-
-    group 'org.joebrooks'
-    version ''
-
-    sourceCompatibility = '11'
-    targetCompatibility = '11'
-    compileJava.options.encoding = 'UTF-8'
-
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        compileOnly 'org.projectlombok:lombok'
-        compileOnly 'org.projectlombok:lombok'
-
-        annotationProcessor 'org.projectlombok:lombok'
-        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-
-        testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    }
-
-    test {
-        useJUnitPlatform()
-    }
-}
-
-project(':mapshot-common') {
-    bootJar { enabled = false }
-    jar { enabled = true }
-
-    dependencies {
-
-    }
-}
 
 
-project(':mapshot-slack') {
-    bootJar { enabled = false }
-    jar { enabled = true }
-
-    dependencies {
-        implementation project(':mapshot-common')
-    }
-}
 
 
-project(':mapshot-notice') {
-    bootJar { enabled = false }
-    jar { enabled = true }
-
-    dependencies {
-        implementation project(':mapshot-slack')
-        implementation project(':mapshot-common')
-    }
-}
-
-project(':mapshot-image') {
-    bootJar { enabled = false }
-    jar { enabled = true }
-
-    dependencies {
-        implementation project(':mapshot-slack')
-        implementation project(':mapshot-common')
-    }
-}
-
-project(':mapshot-executor') {
-    bootJar { enabled = true }
-    jar { enabled = false }
-
-    dependencies {
-        implementation project(':mapshot-image')
-        implementation project(':mapshot-notice')
-
-    }
-}
