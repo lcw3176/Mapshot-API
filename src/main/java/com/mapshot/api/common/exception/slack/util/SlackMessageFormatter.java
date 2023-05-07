@@ -1,6 +1,6 @@
-package com.mapshot.api.slack.util;
+package com.mapshot.api.common.exception.slack.util;
 
-import com.mapshot.api.slack.model.MessageResponse;
+import com.mapshot.api.common.exception.slack.model.MessageResponse;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;

@@ -1,9 +1,9 @@
-package com.mapshot.api.slack.client;
+package com.mapshot.api.common.exception.slack.client;
 
 
 import com.mapshot.api.common.client.CommonClient;
-import com.mapshot.api.slack.model.MessageResponse;
-import com.mapshot.api.slack.util.SlackMessageFormatter;
+import com.mapshot.api.common.exception.slack.model.MessageResponse;
+import com.mapshot.api.common.exception.slack.util.SlackMessageFormatter;
 import java.util.Arrays;
 import org.springframework.stereotype.Component;
 

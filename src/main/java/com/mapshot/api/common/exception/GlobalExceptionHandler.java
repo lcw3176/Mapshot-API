@@ -1,6 +1,6 @@
 package com.mapshot.api.common.exception;
 
-import com.mapshot.api.slack.client.SlackClient;
+import com.mapshot.api.common.exception.slack.client.SlackClient;
 import javax.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

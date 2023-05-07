@@ -1,4 +1,4 @@
-package com.mapshot.api.slack.model;
+package com.mapshot.api.common.exception.slack.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
