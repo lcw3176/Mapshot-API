@@ -31,10 +31,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Mapshot Executor Jib
+      - name: Mapshot Jib
         env:
           MAPSHOT_EXECUTOR_DOCKERHUB_REPO_PATH: ${{ secrets.MAPSHOT_DOCKERHUB_REPO_PATH }}
-        run: ./gradlew mapshot-executor:jib -x test
+        run: ./gradlew jib -x test
           -Djib.to.image=$MAPSHOT_EXECUTOR_DOCKERHUB_REPO_PATH
           -Djib.to.tags=mapshot-executor
 
