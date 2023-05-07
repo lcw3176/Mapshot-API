@@ -14,7 +14,7 @@ import org.springframework.util.PatternMatchUtils;
 
 public class AuthFilter implements Filter {
 
-    private static final String[] whitelist = {"/image/queue", "/image/storage/*"};
+    private static final String[] whitelist = {"/image/queue", "/image/storage/*", "/image/template/*"};
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
