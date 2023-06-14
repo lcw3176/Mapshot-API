@@ -17,20 +17,18 @@ public class GlobalExceptionHandler {
 
     private final SlackClient slackClient;
 
-
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public void exceptionHandler(Exception exception) {
-        log.error(exception.getMessage(), exception);
-        slackClient.sendMessage(exception);
-    }
-
     @ExceptionHandler({ConstraintViolationException.class, IllegalStateException.class,
             MethodArgumentTypeMismatchException.class, IllegalArgumentException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void violationExceptionHandler(Exception e) {
-        log.info(e.getMessage(), e);
+        log.error(e.getMessage(), e);
     }
 
 
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public void exceptionHandler(Exception e) {
+        log.error(e.getMessage(), e);
+        slackClient.sendMessage(e);
+    }
 }

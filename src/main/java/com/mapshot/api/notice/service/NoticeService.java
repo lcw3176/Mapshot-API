@@ -40,9 +40,7 @@ public class NoticeService {
     @Transactional(readOnly = true)
     public PostDetailResponse getSinglePost(long id) {
         NoticeEntity noticeEntity = noticeRepository.findById(id)
-                .orElseThrow(() -> {
-                    throw new IllegalArgumentException(BAD_REQUEST);
-                });
+                .orElseThrow(() -> new IllegalArgumentException(BAD_REQUEST));
 
         return PostDetailResponse.builder()
                 .id(noticeEntity.getId())
