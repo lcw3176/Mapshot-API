@@ -5,12 +5,15 @@ import com.mapshot.api.common.client.CommonClient;
 import com.mapshot.api.common.exception.slack.model.MessageResponse;
 import com.mapshot.api.common.exception.slack.util.SlackMessageFormatter;
 import java.util.Arrays;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SlackClient extends CommonClient {
 
-    private final String slackUrl = System.getenv("SLACK_URL");
+    @Value("${slack.url}")
+    private String slackUrl;
 
 
     public void sendMessage(Exception e) {

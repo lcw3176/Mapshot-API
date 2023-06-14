@@ -16,3 +16,6 @@ spring:
 lambda:
   host: ${lambdaHost}
   path: ${lambdaPath}
+
+slack:
+  url: ${slackUrl}
