@@ -1,4 +1,4 @@
-package com.mapshot.api.common.exception.slack.model;
+package com.mapshot.api.common.slack.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MessageResponse {
+public class ErrorMessage {
     private String title;
     private String message;
 }
