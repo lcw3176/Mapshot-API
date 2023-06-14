@@ -1,4 +1,4 @@
-package com.mapshot.api.common.auth;
+package com.mapshot.api.common.token;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;

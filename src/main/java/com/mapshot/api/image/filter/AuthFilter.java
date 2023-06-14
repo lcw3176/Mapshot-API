@@ -1,7 +1,7 @@
 package com.mapshot.api.image.filter;
 
 
-import com.mapshot.api.common.auth.JwtTokenProvider;
+import com.mapshot.api.common.token.JwtTokenProvider;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
