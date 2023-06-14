@@ -1,4 +1,4 @@
-package com.mapshot.api.image.filter;
+package com.mapshot.api.common.filter;
 
 
 import com.mapshot.api.common.token.JwtTokenProvider;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.util.PatternMatchUtils;
 
-public class AuthFilter implements Filter {
+public class ImageAuthFilter implements Filter {
 
     private static final String[] whitelist = {"/image/queue", "/image/storage/*", "/image/template/*"};
 
