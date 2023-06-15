@@ -1,11 +1,12 @@
-package com.mapshot.api.common.exception.slack.util;
+package com.mapshot.api.common.slack.util;
 
-import com.mapshot.api.common.exception.slack.model.MessageResponse;
+import com.mapshot.api.common.slack.model.ErrorMessage;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
+
 import lombok.experimental.UtilityClass;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -54,7 +55,7 @@ public class SlackMessageFormatter {
         return json;
     }
 
-    public String makeExceptionMessage(MessageResponse message) {
+    public String makeExceptionMessage(ErrorMessage message) {
         JSONObject headerJson = getHeader("Error");
         Map<String, Object> map = new HashMap<>();
 

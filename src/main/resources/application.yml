@@ -1,11 +1,17 @@
 spring:
+#  datasource:
+#    url: ${databaseUrl}
+#    driver-class-name: org.mariadb.jdbc.Driver
+#    username: ${databaseUserName}
+#    password: ${databasePassword}
   datasource:
-    url: ${databaseUrl}
-    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:h2:file:./mapshot-executor/maindb;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
+    driverClassName: org.h2.Driver
     username: ${databaseUserName}
     password: ${databasePassword}
 
   jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: none
 
@@ -16,3 +22,6 @@ spring:
 lambda:
   host: ${lambdaHost}
   path: ${lambdaPath}
+
+slack:
+  url: ${slackUrl}

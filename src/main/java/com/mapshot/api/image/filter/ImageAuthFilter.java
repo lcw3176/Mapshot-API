@@ -1,7 +1,7 @@
 package com.mapshot.api.image.filter;
 
 
-import com.mapshot.api.common.auth.JwtTokenProvider;
+import com.mapshot.api.image.token.JwtProvider;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.util.PatternMatchUtils;
 
-public class AuthFilter implements Filter {
+public class ImageAuthFilter implements Filter {
 
     private static final String[] whitelist = {"/image/queue", "/image/storage/*", "/image/template/*"};
 
@@ -21,9 +21,9 @@ public class AuthFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        String token = httpRequest.getHeader(JwtTokenProvider.HEADER_NAME);
+        String token = httpRequest.getHeader(JwtProvider.HEADER_NAME);
 
-        if (isNotWhitelistPath(httpRequest.getRequestURI()) && !JwtTokenProvider.isValid(token)) {
+        if (isNotWhitelistPath(httpRequest.getRequestURI()) && !JwtProvider.isValid(token)) {
             httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }

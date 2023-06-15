@@ -1,20 +1,23 @@
-package com.mapshot.api.common.exception.slack.client;
+package com.mapshot.api.common.slack.client;
 
 
 import com.mapshot.api.common.client.CommonClient;
-import com.mapshot.api.common.exception.slack.model.MessageResponse;
-import com.mapshot.api.common.exception.slack.util.SlackMessageFormatter;
+import com.mapshot.api.common.slack.model.ErrorMessage;
+import com.mapshot.api.common.slack.util.SlackMessageFormatter;
 import java.util.Arrays;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SlackClient extends CommonClient {
 
-    private final String slackUrl = System.getenv("SLACK_URL");
+    @Value("${slack.url}")
+    private String slackUrl;
 
 
     public void sendMessage(Exception e) {
-        MessageResponse errorMessage = MessageResponse.builder()
+        ErrorMessage errorMessage = ErrorMessage.builder()
                 .title(e.getClass().getName())
                 .message(makeTransmissible(e))
                 .build();
@@ -22,7 +25,7 @@ public class SlackClient extends CommonClient {
         sendSlackMessage(errorMessage);
     }
 
-    private void sendSlackMessage(MessageResponse exception) {
+    private void sendSlackMessage(ErrorMessage exception) {
         int timeoutMillis = 3000;
 
         String message = SlackMessageFormatter.makeExceptionMessage(exception);
