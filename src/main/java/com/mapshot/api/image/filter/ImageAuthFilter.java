@@ -1,7 +1,7 @@
-package com.mapshot.api.common.filter;
+package com.mapshot.api.image.filter;
 
 
-import com.mapshot.api.common.token.JwtTokenProvider;
+import com.mapshot.api.image.token.JwtProvider;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -21,9 +21,9 @@ public class ImageAuthFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        String token = httpRequest.getHeader(JwtTokenProvider.HEADER_NAME);
+        String token = httpRequest.getHeader(JwtProvider.HEADER_NAME);
 
-        if (isNotWhitelistPath(httpRequest.getRequestURI()) && !JwtTokenProvider.isValid(token)) {
+        if (isNotWhitelistPath(httpRequest.getRequestURI()) && !JwtProvider.isValid(token)) {
             httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }

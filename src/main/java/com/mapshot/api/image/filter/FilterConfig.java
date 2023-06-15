@@ -1,4 +1,4 @@
-package com.mapshot.api.common.filter;
+package com.mapshot.api.image.filter;
 
 import javax.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;

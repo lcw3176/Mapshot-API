@@ -1,7 +1,7 @@
 package com.mapshot.api.image.client;
 
 
-import com.mapshot.api.common.token.JwtTokenProvider;
+import com.mapshot.api.image.token.JwtProvider;
 import com.mapshot.api.common.client.CommonClient;
 import com.mapshot.api.image.model.ImageRequest;
 import com.mapshot.api.image.model.ImageResponse;
@@ -32,7 +32,7 @@ public class LambdaClient extends CommonClient {
                 .queryParam("lng", request.getLng())
                 .queryParam("level", request.getLevel())
                 .queryParam("layerMode", request.isLayerMode())
-                .queryParam(JwtTokenProvider.HEADER_NAME, JwtTokenProvider.generate())
+                .queryParam(JwtProvider.HEADER_NAME, JwtProvider.generate())
                 .build()
                 .toString();
 

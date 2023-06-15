@@ -17,7 +17,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mapshot.api.common.token.JwtTokenProvider;
+import com.mapshot.api.image.token.JwtProvider;
 import com.mapshot.api.image.model.StorageRequest;
 import com.mapshot.api.image.service.StorageService;
 import java.util.Base64;
@@ -64,7 +64,7 @@ class StorageControllerTest {
         return RestDocumentationRequestBuilders.post(urlTemplate)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content)
-                .header(JwtTokenProvider.HEADER_NAME, token);
+                .header(JwtProvider.HEADER_NAME, token);
     }
 
 
@@ -96,13 +96,13 @@ class StorageControllerTest {
 
         String bodyContent = mapper.writeValueAsString(request);
 
-        mockMvc.perform(postRequest(BASE_URL, JwtTokenProvider.generate(), bodyContent))
+        mockMvc.perform(postRequest(BASE_URL, JwtProvider.generate(), bodyContent))
                 .andExpect(status().isOk())
                 .andDo(document("image/storage/post",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
-                                headerWithName(JwtTokenProvider.HEADER_NAME).description("서버 간 인증 토큰")
+                                headerWithName(JwtProvider.HEADER_NAME).description("서버 간 인증 토큰")
                         ),
                         requestFields(
                                 fieldWithPath("uuid")
@@ -139,7 +139,7 @@ class StorageControllerTest {
         String bodyContent = mapper.writeValueAsString(request);
 
         mockMvc.perform(post(BASE_URL).content(bodyContent)
-                        .header(JwtTokenProvider.HEADER_NAME, "none"))
+                        .header(JwtProvider.HEADER_NAME, "none"))
                 .andExpect(status().is4xxClientError());
     }
 

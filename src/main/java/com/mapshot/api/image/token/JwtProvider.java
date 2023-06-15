@@ -1,13 +1,13 @@
-package com.mapshot.api.common.token;
+package com.mapshot.api.image.token;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.time.Duration;
 import java.util.Date;
 
-public class JwtTokenProvider {
+public class JwtProvider {
 
-    private JwtTokenProvider() {
+    private JwtProvider() {
 
     }
 
