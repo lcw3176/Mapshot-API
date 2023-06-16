@@ -8,6 +8,7 @@ public enum ErrorCode implements StatusCode {
 
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
     NO_AUTH_TOKEN(HttpStatus.UNAUTHORIZED, "허용되지 않는 접근입니다."),
+    NO_SUCH_NOTICE(HttpStatus.NO_CONTENT, "존재하지 않는 공지사항입니다."),
     ;
 
     private final HttpStatus httpStatus;

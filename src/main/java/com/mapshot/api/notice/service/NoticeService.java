@@ -1,22 +1,24 @@
 package com.mapshot.api.notice.service;
 
 
+import com.mapshot.api.common.exception.ApiException;
+import com.mapshot.api.common.exception.status.ErrorCode;
 import com.mapshot.api.notice.entity.NoticeEntity;
 import com.mapshot.api.notice.model.PostDetailResponse;
 import com.mapshot.api.notice.model.PostSummaryResponse;
 import com.mapshot.api.notice.repository.NoticeRepository;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class NoticeService {
-    private final NoticeRepository noticeRepository;
 
-    private static final String BAD_REQUEST = "[ERROR] 존재하지 않는 공지사항 접근";
+    private final NoticeRepository noticeRepository;
 
     @Transactional(readOnly = true)
     public List<PostSummaryResponse> getMultiplePostsSummary(long startId) {
@@ -40,7 +42,7 @@ public class NoticeService {
     @Transactional(readOnly = true)
     public PostDetailResponse getSinglePost(long id) {
         NoticeEntity noticeEntity = noticeRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(BAD_REQUEST));
+                .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_NOTICE));
 
         return PostDetailResponse.builder()
                 .id(noticeEntity.getId())
