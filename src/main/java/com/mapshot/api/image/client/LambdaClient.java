@@ -1,7 +1,7 @@
 package com.mapshot.api.image.client;
 
 
-import com.mapshot.api.image.token.JwtProvider;
+import com.mapshot.api.common.token.JwtProvider;
 import com.mapshot.api.common.client.CommonClient;
 import com.mapshot.api.image.model.ImageRequest;
 import com.mapshot.api.image.model.ImageResponse;

@@ -1,6 +1,8 @@
-package com.mapshot.api.image.filter;
+package com.mapshot.api.common.config;
 
 import javax.servlet.Filter;
+
+import com.mapshot.api.image.filter.ImageAuthFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
