@@ -2,6 +2,7 @@ package com.mapshot.api.common.config;
 
 import javax.servlet.Filter;
 
+import com.mapshot.api.admin.filter.AdminAuthFilter;
 import com.mapshot.api.image.filter.ImageAuthFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -22,5 +23,13 @@ public class FilterConfig {
         return filterRegistrationBean;
     }
 
+    @Bean
+    public FilterRegistrationBean<Filter> adminAuthFilter() {
+        FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
+        filterRegistrationBean.setFilter(new AdminAuthFilter());
+        filterRegistrationBean.addUrlPatterns("/admin/*");
+
+        return filterRegistrationBean;
+    }
 
 }
