@@ -1,0 +1,20 @@
+package com.mapshot.api.common.exception.status;
+
+import lombok.Getter;
+import org.springframework.http.HttpStatus;
+
+@Getter
+public enum ErrorCode implements StatusCode {
+
+    BAD_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
+    NO_AUTH_TOKEN(HttpStatus.UNAUTHORIZED, "허용되지 않는 접근입니다."),
+    ;
+
+    private final HttpStatus httpStatus;
+    private final String message;
+
+    private ErrorCode(HttpStatus httpStatus, String message) {
+        this.httpStatus = httpStatus;
+        this.message = message;
+    }
+}

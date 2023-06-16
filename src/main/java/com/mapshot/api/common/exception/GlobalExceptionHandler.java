@@ -1,14 +1,17 @@
 package com.mapshot.api.common.exception;
 
+import com.mapshot.api.common.exception.status.StatusCode;
 import com.mapshot.api.common.slack.client.SlackClient;
-import javax.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
+import javax.validation.ConstraintViolationException;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
@@ -24,11 +27,20 @@ public class GlobalExceptionHandler {
         log.error(e.getMessage(), e);
     }
 
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<String> apiExceptionHandler(ApiException e) {
+        log.error(e.getMessage(), e);
+        StatusCode code = e.getCode();
+
+        return ResponseEntity.status(code.getHttpStatus())
+                .body(code.getMessage());
+    }
+
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public void exceptionHandler(Exception e) {
         log.error(e.getMessage(), e);
-        slackClient.sendMessage(e);
+//        slackClient.sendMessage(e);
     }
 }
