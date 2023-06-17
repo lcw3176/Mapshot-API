@@ -1,5 +1,6 @@
 package com.mapshot.api.notice.model;
 
+import com.mapshot.api.notice.entity.NoticeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,4 +19,15 @@ public class NoticeDetailResponse {
     private String title;
     private String content;
     private LocalDateTime createdDate;
+
+
+    public static NoticeDetailResponse fromEntity(NoticeEntity noticeEntity) {
+        return NoticeDetailResponse.builder()
+                .id(noticeEntity.getId())
+                .noticeType(noticeEntity.getNoticeType().getKorean())
+                .title(noticeEntity.getTitle())
+                .content(noticeEntity.getContent())
+                .createdDate(noticeEntity.getCreatedDate())
+                .build();
+    }
 }
