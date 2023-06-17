@@ -2,8 +2,12 @@ package com.mapshot.api.notice.service;
 
 import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;
+import com.mapshot.api.notice.enums.NoticeType;
 import com.mapshot.api.notice.model.NoticeDetailResponse;
+import com.mapshot.api.notice.model.NoticeRequest;
 import com.mapshot.api.notice.model.NoticeSummaryResponse;
+import com.mapshot.api.notice.repository.NoticeRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -15,12 +19,21 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class NoticeServiceTest {
 
     @Autowired
     private NoticeService noticeService;
+
+    @Autowired
+    private NoticeRepository noticeRepository;
+
+    @AfterEach
+    void release() {
+        noticeRepository.deleteAll();
+    }
 
 
     @ParameterizedTest
@@ -73,4 +86,23 @@ class NoticeServiceTest {
                 .isSortedAccordingTo(Comparator.comparing(NoticeSummaryResponse::getId).reversed());
 
     }
+
+
+    @Test
+    void 저장_테스트() {
+
+        NoticeRequest request = NoticeRequest.builder()
+                .noticeType(NoticeType.FIX.toString())
+                .title("헬로")
+                .content("방가방가")
+                .build();
+
+        long id = noticeService.save(request);
+
+        long savedId = noticeService.getSinglePost(id).getId();
+
+        assertEquals(id, savedId);
+    }
+
+    
 }
