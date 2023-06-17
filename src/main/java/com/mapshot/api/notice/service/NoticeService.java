@@ -4,8 +4,8 @@ package com.mapshot.api.notice.service;
 import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;
 import com.mapshot.api.notice.entity.NoticeEntity;
-import com.mapshot.api.notice.model.PostDetailResponse;
-import com.mapshot.api.notice.model.PostSummaryResponse;
+import com.mapshot.api.notice.model.NoticeDetailResponse;
+import com.mapshot.api.notice.model.NoticeSummaryResponse;
 import com.mapshot.api.notice.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class NoticeService {
     private final NoticeRepository noticeRepository;
 
     @Transactional(readOnly = true)
-    public List<PostSummaryResponse> getMultiplePostsSummary(long startId) {
+    public List<NoticeSummaryResponse> getMultiplePostsSummary(long startId) {
 
         if (startId == 0) {
             startId = noticeRepository.findFirstByOrderByIdDesc().getId() + 1;
@@ -30,7 +30,7 @@ public class NoticeService {
         List<NoticeEntity> noticeEntities = noticeRepository.findTop10ByIdLessThanOrderByIdDesc(startId);
 
         return noticeEntities.stream()
-                .map(i -> PostSummaryResponse.builder()
+                .map(i -> NoticeSummaryResponse.builder()
                         .id(i.getId())
                         .noticeType(i.getNoticeType().getKorean())
                         .title(i.getTitle())
@@ -40,11 +40,11 @@ public class NoticeService {
     }
 
     @Transactional(readOnly = true)
-    public PostDetailResponse getSinglePost(long id) {
+    public NoticeDetailResponse getSinglePost(long id) {
         NoticeEntity noticeEntity = noticeRepository.findById(id)
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_NOTICE));
 
-        return PostDetailResponse.builder()
+        return NoticeDetailResponse.builder()
                 .id(noticeEntity.getId())
                 .noticeType(noticeEntity.getNoticeType().getKorean())
                 .title(noticeEntity.getTitle())
@@ -52,5 +52,6 @@ public class NoticeService {
                 .createdDate(noticeEntity.getCreatedDate())
                 .build();
     }
+
 
 }

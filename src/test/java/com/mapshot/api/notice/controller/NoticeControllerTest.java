@@ -1,22 +1,9 @@
 package com.mapshot.api.notice.controller;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mapshot.api.notice.model.PostDetailResponse;
-import com.mapshot.api.notice.model.PostSummaryResponse;
-import java.util.Comparator;
-import java.util.List;
+import com.mapshot.api.notice.model.NoticeDetailResponse;
+import com.mapshot.api.notice.model.NoticeSummaryResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -25,6 +12,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.Comparator;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @SpringBootTest
@@ -56,13 +55,13 @@ class NoticeControllerTest {
                         )))
                 .andReturn();
 
-        List<PostSummaryResponse> actual = mapper.readValue(result.getResponse().getContentAsString(),
-                new TypeReference<List<PostSummaryResponse>>() {
+        List<NoticeSummaryResponse> actual = mapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<List<NoticeSummaryResponse>>() {
                 });
 
         assertThat(actual)
                 .hasSize(10)
-                .isSortedAccordingTo(Comparator.comparing(PostSummaryResponse::getId).reversed());
+                .isSortedAccordingTo(Comparator.comparing(NoticeSummaryResponse::getId).reversed());
     }
 
     @Test
@@ -88,8 +87,8 @@ class NoticeControllerTest {
                         )))
                 .andReturn();
 
-        PostDetailResponse actual = mapper.readValue(result.getResponse().getContentAsString(),
-                new TypeReference<PostDetailResponse>() {
+        NoticeDetailResponse actual = mapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<NoticeDetailResponse>() {
                 });
 
         assertThat(actual.getId()).isEqualTo(requestId);

@@ -2,8 +2,8 @@ package com.mapshot.api.notice.service;
 
 import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;
-import com.mapshot.api.notice.model.PostDetailResponse;
-import com.mapshot.api.notice.model.PostSummaryResponse;
+import com.mapshot.api.notice.model.NoticeDetailResponse;
+import com.mapshot.api.notice.model.NoticeSummaryResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -28,7 +28,7 @@ class NoticeServiceTest {
     void 단일_공지사항_가져오기(long id) {
         assertThat(noticeService.getSinglePost(id))
                 .isNotNull()
-                .extracting(PostDetailResponse::getId)
+                .extracting(NoticeDetailResponse::getId)
                 .isEqualTo(id);
 
     }
@@ -47,9 +47,9 @@ class NoticeServiceTest {
         long id = 12;
         int size = 10;
 
-        List<PostSummaryResponse> lst = noticeService.getMultiplePostsSummary(id);
+        List<NoticeSummaryResponse> lst = noticeService.getMultiplePostsSummary(id);
         assertThat(lst).hasSize(size)
-                .isSortedAccordingTo(Comparator.comparing(PostSummaryResponse::getId).reversed());
+                .isSortedAccordingTo(Comparator.comparing(NoticeSummaryResponse::getId).reversed());
 
     }
 
@@ -57,9 +57,9 @@ class NoticeServiceTest {
     void 데이터_갯수가_모자란_여러개의_공지사항_가져오기() {
         int id = 4;
         int size = 3;
-        List<PostSummaryResponse> lst = noticeService.getMultiplePostsSummary(id);
+        List<NoticeSummaryResponse> lst = noticeService.getMultiplePostsSummary(id);
         assertThat(lst).hasSize(size)
-                .isSortedAccordingTo(Comparator.comparing(PostSummaryResponse::getId).reversed());
+                .isSortedAccordingTo(Comparator.comparing(NoticeSummaryResponse::getId).reversed());
 
     }
 
@@ -68,9 +68,9 @@ class NoticeServiceTest {
     void 시작_id를_0으로_전송_시_가장_최근_게시글부터_10개_반환() {
         int id = 0;
 
-        List<PostSummaryResponse> lst = noticeService.getMultiplePostsSummary(id);
+        List<NoticeSummaryResponse> lst = noticeService.getMultiplePostsSummary(id);
         assertThat(lst).hasSize(10)
-                .isSortedAccordingTo(Comparator.comparing(PostSummaryResponse::getId).reversed());
+                .isSortedAccordingTo(Comparator.comparing(NoticeSummaryResponse::getId).reversed());
 
     }
 }
