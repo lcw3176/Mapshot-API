@@ -13,10 +13,11 @@ import lombok.NoArgsConstructor;
 @Builder
 public class NoticeRequest {
 
+    private Long id;
     private String noticeType;
     private String title;
     private String content;
-    
+
     public NoticeEntity toEntity() {
         return NoticeEntity.builder()
                 .noticeType(NoticeType.valueOf(noticeType))
