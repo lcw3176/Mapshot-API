@@ -4,6 +4,7 @@ package com.mapshot.api.notice.service;
 import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;
 import com.mapshot.api.notice.entity.NoticeEntity;
+import com.mapshot.api.notice.enums.NoticeType;
 import com.mapshot.api.notice.model.NoticeDetailResponse;
 import com.mapshot.api.notice.model.NoticeRequest;
 import com.mapshot.api.notice.model.NoticeSummaryResponse;
@@ -48,5 +49,17 @@ public class NoticeService {
 
         return noticeRepository.save(request.toEntity()).getId();
     }
+
+    @Transactional
+    public long update(NoticeRequest request) {
+
+        NoticeEntity noticeEntity = noticeRepository.findById(request.getId())
+                .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_NOTICE));
+
+        noticeEntity.update(request.getTitle(), NoticeType.valueOf(request.getNoticeType()), request.getContent());
+
+        return noticeRepository.save(noticeEntity).getId();
+    }
+
 
 }
