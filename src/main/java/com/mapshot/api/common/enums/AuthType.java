@@ -10,11 +10,11 @@ import java.util.function.Function;
 @AllArgsConstructor
 public enum AuthType {
 
-    FRIENDLY_SERVER(JwtUtil::isValid),
-    ADMIN(JwtUtil::isValidAdmin),
+    FRIENDLY_SERVER(JwtUtil.HEADER_NAME, JwtUtil::isValid),
+    ADMIN(JwtUtil.ADMIN_HEADER_NAME, JwtUtil::isValidAdmin),
     ;
 
-
+    private final String requiredToken;
     private final Function<String, Boolean> validationFunction;
 
 }

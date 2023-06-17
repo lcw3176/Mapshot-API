@@ -1,6 +1,7 @@
 package com.mapshot.api.notice.entity;
 
 import com.mapshot.api.common.entity.BaseTimeEntity;
+import com.mapshot.api.notice.consts.NoticeConst;
 import com.mapshot.api.notice.enums.NoticeType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +28,7 @@ public class NoticeEntity extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private NoticeType noticeType;
 
-    @Column(name = "content", length = 2000)
+    @Column(name = "content", length = NoticeConst.MAX_CONTENT_LENGTH)
     private String content;
 
     public void update(String title, NoticeType noticeType, String content) {

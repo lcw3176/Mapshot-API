@@ -51,14 +51,23 @@ public class NoticeService {
     }
 
     @Transactional
-    public long update(NoticeRequest request) {
+    public long modify(long id, NoticeRequest request) {
 
-        NoticeEntity noticeEntity = noticeRepository.findById(request.getId())
+        NoticeEntity noticeEntity = noticeRepository.findById(id)
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_NOTICE));
 
         noticeEntity.update(request.getTitle(), NoticeType.valueOf(request.getNoticeType()), request.getContent());
 
         return noticeRepository.save(noticeEntity).getId();
+    }
+
+
+    @Transactional
+    public void delete(long id) {
+        NoticeEntity noticeEntity = noticeRepository.findById(id)
+                .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_NOTICE));
+
+        noticeRepository.delete(noticeEntity);
     }
 
 
