@@ -1,21 +1,18 @@
 package com.mapshot.api.image.controller;
 
+import com.mapshot.api.common.annotation.PreAuth;
+import com.mapshot.api.common.enums.AuthType;
 import com.mapshot.api.image.model.StorageInner;
 import com.mapshot.api.image.model.StorageRequest;
 import com.mapshot.api.image.service.StorageService;
-import java.time.LocalDateTime;
-import java.util.Base64;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.Base64;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,6 +32,7 @@ public class StorageController {
                 .body(imageByte);
     }
 
+    @PreAuth(AuthType.IMAGE)
     @PostMapping
     public void saveCompletedImage(@RequestBody StorageRequest storageRequest) {
         StorageInner storageInner = StorageInner.builder()

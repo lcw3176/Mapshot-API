@@ -1,14 +1,15 @@
 package com.mapshot.api.image.client;
 
 
-import com.mapshot.api.common.token.JwtProvider;
 import com.mapshot.api.common.client.CommonClient;
+import com.mapshot.api.common.token.JwtUtil;
 import com.mapshot.api.image.model.ImageRequest;
 import com.mapshot.api.image.model.ImageResponse;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
 
 @Component
 public class LambdaClient extends CommonClient {
@@ -32,7 +33,7 @@ public class LambdaClient extends CommonClient {
                 .queryParam("lng", request.getLng())
                 .queryParam("level", request.getLevel())
                 .queryParam("layerMode", request.isLayerMode())
-                .queryParam(JwtProvider.HEADER_NAME, JwtProvider.generate())
+                .queryParam(JwtUtil.HEADER_NAME, JwtUtil.generate())
                 .build()
                 .toString();
 
