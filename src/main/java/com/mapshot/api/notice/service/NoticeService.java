@@ -5,6 +5,7 @@ import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;
 import com.mapshot.api.notice.entity.NoticeEntity;
 import com.mapshot.api.notice.model.NoticeDetailResponse;
+import com.mapshot.api.notice.model.NoticeRequest;
 import com.mapshot.api.notice.model.NoticeSummaryResponse;
 import com.mapshot.api.notice.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,12 +31,7 @@ public class NoticeService {
         List<NoticeEntity> noticeEntities = noticeRepository.findTop10ByIdLessThanOrderByIdDesc(startId);
 
         return noticeEntities.stream()
-                .map(i -> NoticeSummaryResponse.builder()
-                        .id(i.getId())
-                        .noticeType(i.getNoticeType().getKorean())
-                        .title(i.getTitle())
-                        .createdDate(i.getCreatedDate())
-                        .build())
+                .map(NoticeSummaryResponse::fromEntity)
                 .collect(Collectors.toList());
     }
 
@@ -44,14 +40,13 @@ public class NoticeService {
         NoticeEntity noticeEntity = noticeRepository.findById(id)
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_NOTICE));
 
-        return NoticeDetailResponse.builder()
-                .id(noticeEntity.getId())
-                .noticeType(noticeEntity.getNoticeType().getKorean())
-                .title(noticeEntity.getTitle())
-                .content(noticeEntity.getContent())
-                .createdDate(noticeEntity.getCreatedDate())
-                .build();
+        return NoticeDetailResponse.fromEntity(noticeEntity);
     }
 
+    @Transactional
+    public long save(NoticeRequest request) {
+
+        return noticeRepository.save(request.toEntity()).getId();
+    }
 
 }
