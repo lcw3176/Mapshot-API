@@ -20,4 +20,17 @@ class JwtUtilTest {
         assertFalse(JwtUtil.isValid(token));
     }
 
+    @Test
+    void 관리자_토큰_생성_테스트() {
+        String token = JwtUtil.generateAdmin();
+
+        assertTrue(JwtUtil.isValidAdmin(token));
+    }
+
+    @Test
+    void 유효하지_않은_관리자_토큰이면_false_리턴() {
+        String token = "hellohello";
+        assertFalse(JwtUtil.isValidAdmin(token));
+    }
+
 }
