@@ -32,7 +32,7 @@ public class StorageController {
                 .body(imageByte);
     }
 
-    @PreAuth(AuthType.IMAGE)
+    @PreAuth(AuthType.FRIENDLY_SERVER)
     @PostMapping
     public void saveCompletedImage(@RequestBody StorageRequest storageRequest) {
         StorageInner storageInner = StorageInner.builder()

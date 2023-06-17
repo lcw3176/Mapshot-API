@@ -10,7 +10,7 @@ import java.util.function.Function;
 @AllArgsConstructor
 public enum AuthType {
 
-    IMAGE(JwtUtil::isValid),
+    FRIENDLY_SERVER(JwtUtil::isValid),
     ADMIN(JwtUtil::isValidAdmin),
     ;
 
