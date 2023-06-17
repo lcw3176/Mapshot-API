@@ -16,8 +16,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import java.util.Comparator;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -54,18 +53,75 @@ class NoticeServiceTest {
 
         long id = noticeService.save(request);
 
-        long updatedId = noticeService.update(NoticeRequest.builder()
-                .id(id)
-                .noticeType(NoticeType.FIX.toString())
-                .title("헬로")
-                .content("헬로")
-                .build());
+        long updatedId = noticeService.modify(id,
+                NoticeRequest.builder()
+                        .noticeType(NoticeType.FIX.toString())
+                        .title("헬로")
+                        .content("헬로")
+                        .build());
 
 
         assertEquals(id, updatedId);
 
         String noticeType = noticeService.getSinglePost(updatedId).getNoticeType();
         assertEquals(NoticeType.FIX.getKorean(), noticeType);
+    }
+
+    @Test
+    void 없는_데이터_수정시_예외_발생() {
+
+        NoticeRequest request = NoticeRequest.builder()
+                .noticeType(NoticeType.UPDATE.toString())
+                .title("초기화")
+                .content("초기화")
+                .build();
+
+        long id = noticeService.save(request);
+
+        assertThatThrownBy(() ->
+                noticeService.modify(id + 1,
+                        NoticeRequest.builder()
+                                .noticeType(NoticeType.FIX.toString())
+                                .title("헬로")
+                                .content("헬로")
+                                .build()))
+                .isInstanceOf(ApiException.class)
+                .hasMessage(ErrorCode.NO_SUCH_NOTICE.getMessage());
+
+    }
+
+
+    @Test
+    void 삭제_테스트() {
+
+        NoticeRequest request = NoticeRequest.builder()
+                .noticeType(NoticeType.UPDATE.toString())
+                .title("초기화")
+                .content("초기화")
+                .build();
+
+        long id = noticeService.save(request);
+
+        assertThatNoException()
+                .isThrownBy(() -> noticeService.delete(id));
+
+    }
+
+
+    @Test
+    void 없는_데이터_삭제_요청시_예외_발생() {
+
+        NoticeRequest request = NoticeRequest.builder()
+                .noticeType(NoticeType.UPDATE.toString())
+                .title("초기화")
+                .content("초기화")
+                .build();
+
+        long id = noticeService.save(request);
+
+        assertThatThrownBy(() -> noticeService.delete(id + 1))
+                .isInstanceOf(ApiException.class)
+                .hasMessage(ErrorCode.NO_SUCH_NOTICE.getMessage());
     }
 
 
