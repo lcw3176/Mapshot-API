@@ -2,33 +2,43 @@ package com.mapshot.api.admin.service;
 
 import com.mapshot.api.admin.model.AdminRequest;
 import com.mapshot.api.admin.repository.AdminRepository;
+import com.mapshot.api.common.exception.ApiException;
+import com.mapshot.api.common.exception.status.ErrorCode;
+import com.mapshot.api.common.token.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
 public class AdminService {
 
     private final AdminRepository adminRepository;
-    private static final String NO_SUCH_ALGORITHM = "[ERROR] 암호화 알고리즘 탐색 불가";
-    private static final String NO_SUCH_USER = "[ERROR] Admin 유저 탐색 불가";
     private static final String ENCRYPT_ALGORITHM = "SHA-256";
 
     @Transactional(readOnly = true)
-    public boolean login(AdminRequest request) {
+    public MultiValueMap<String, String> login(AdminRequest request) {
         String nickname = request.getNickname();
         String password = encrypt(request.getPassword());
 
         adminRepository.findByNicknameAndPassword(nickname, password)
-                .orElseThrow(() -> new NoSuchElementException(NO_SUCH_USER));
+                .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_USER));
 
-        return true;
+        return makeToken();
     }
+
+    public MultiValueMap<String, String> makeToken() {
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add(JwtUtil.ADMIN_HEADER_NAME, JwtUtil.generateAdmin());
+
+        return map;
+    }
+
 
     private String encrypt(String text) {
         try {
@@ -37,7 +47,7 @@ public class AdminService {
 
             return bytesToHex(md.digest());
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(NO_SUCH_ALGORITHM);
+            throw new ApiException(ErrorCode.NO_SUCH_ALGORITHM);
         }
 
     }
