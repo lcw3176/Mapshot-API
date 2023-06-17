@@ -1,27 +1,10 @@
 package com.mapshot.api.image.controller;
 
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mapshot.api.common.token.JwtProvider;
+import com.mapshot.api.common.token.JwtUtil;
 import com.mapshot.api.image.model.StorageRequest;
 import com.mapshot.api.image.service.StorageService;
-import java.util.Base64;
-import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -34,6 +17,22 @@ import org.springframework.restdocs.generate.RestDocumentationGenerator;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+
+import java.util.Base64;
+import java.util.UUID;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -64,7 +63,7 @@ class StorageControllerTest {
         return RestDocumentationRequestBuilders.post(urlTemplate)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content)
-                .header(JwtProvider.HEADER_NAME, token);
+                .header(JwtUtil.HEADER_NAME, token);
     }
 
 
@@ -96,13 +95,13 @@ class StorageControllerTest {
 
         String bodyContent = mapper.writeValueAsString(request);
 
-        mockMvc.perform(postRequest(BASE_URL, JwtProvider.generate(), bodyContent))
+        mockMvc.perform(postRequest(BASE_URL, JwtUtil.generate(), bodyContent))
                 .andExpect(status().isOk())
                 .andDo(document("image/storage/post",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
-                                headerWithName(JwtProvider.HEADER_NAME).description("서버 간 인증 토큰")
+                                headerWithName(JwtUtil.HEADER_NAME).description("서버 간 인증 토큰")
                         ),
                         requestFields(
                                 fieldWithPath("uuid")
@@ -139,7 +138,7 @@ class StorageControllerTest {
         String bodyContent = mapper.writeValueAsString(request);
 
         mockMvc.perform(post(BASE_URL).content(bodyContent)
-                        .header(JwtProvider.HEADER_NAME, "none"))
+                        .header(JwtUtil.HEADER_NAME, "none"))
                 .andExpect(status().is4xxClientError());
     }
 

@@ -1,23 +1,23 @@
 package com.mapshot.api.common.token;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.Test;
-
-class JwtProviderTest {
+class JwtUtilTest {
 
     @Test
     void 토큰_생성_테스트() {
-        String token = JwtProvider.generate();
+        String token = JwtUtil.generate();
 
-        assertTrue(JwtProvider.isValid(token));
+        assertTrue(JwtUtil.isValid(token));
     }
 
     @Test
     void 유효하지_않은_토큰이면_false_리턴() {
         String token = "hellohello";
-        assertFalse(JwtProvider.isValid(token));
+        assertFalse(JwtUtil.isValid(token));
     }
 
 }

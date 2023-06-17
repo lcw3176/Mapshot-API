@@ -1,17 +1,20 @@
 package com.mapshot.api.notice.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
+import com.mapshot.api.common.exception.ApiException;
+import com.mapshot.api.common.exception.status.ErrorCode;
 import com.mapshot.api.notice.model.PostDetailResponse;
 import com.mapshot.api.notice.model.PostSummaryResponse;
-import java.util.Comparator;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Comparator;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 class NoticeServiceTest {
@@ -33,8 +36,8 @@ class NoticeServiceTest {
     @Test
     void 존재하지_않는_공지사항을_가져올_시_예외발생() {
         assertThatThrownBy(() -> noticeService.getSinglePost(-1))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageStartingWith("[ERROR]");
+                .isInstanceOf(ApiException.class)
+                .hasMessageStartingWith(ErrorCode.NO_SUCH_NOTICE.getMessage());
 
     }
 
