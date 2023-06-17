@@ -2,17 +2,12 @@ package com.mapshot.api.notice.entity;
 
 import com.mapshot.api.common.entity.BaseTimeEntity;
 import com.mapshot.api.notice.enums.NoticeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
@@ -35,4 +30,9 @@ public class NoticeEntity extends BaseTimeEntity {
     @Column(name = "content", length = 2000)
     private String content;
 
+    public void update(String title, NoticeType noticeType, String content) {
+        this.title = title;
+        this.noticeType = noticeType;
+        this.content = content;
+    }
 }
