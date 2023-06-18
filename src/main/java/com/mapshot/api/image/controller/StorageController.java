@@ -1,7 +1,7 @@
 package com.mapshot.api.image.controller;
 
 import com.mapshot.api.common.annotation.PreAuth;
-import com.mapshot.api.common.enums.AuthType;
+import com.mapshot.api.common.enums.Accessible;
 import com.mapshot.api.image.model.StorageInner;
 import com.mapshot.api.image.model.StorageRequest;
 import com.mapshot.api.image.service.StorageService;
@@ -22,6 +22,7 @@ public class StorageController {
 
     private final StorageService storageService;
 
+    @PreAuth(Accessible.EVERYONE)
     @GetMapping("/{uuid}")
     public ResponseEntity<ByteArrayResource> returnCompletedImageToUser(@PathVariable String uuid) {
         byte[] imageResource = storageService.getImage(uuid);
@@ -32,7 +33,7 @@ public class StorageController {
                 .body(imageByte);
     }
 
-    @PreAuth(AuthType.FRIENDLY_SERVER)
+    @PreAuth(Accessible.FRIENDLY_SERVER)
     @PostMapping
     public void saveCompletedImage(@RequestBody StorageRequest storageRequest) {
         StorageInner storageInner = StorageInner.builder()

@@ -1,7 +1,7 @@
 package com.mapshot.api.common.interceptor;
 
 import com.mapshot.api.common.annotation.PreAuth;
-import com.mapshot.api.common.enums.AuthType;
+import com.mapshot.api.common.enums.Accessible;
 import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;
 import io.netty.util.internal.StringUtil;
@@ -26,9 +26,13 @@ public class AuthInterceptor implements HandlerInterceptor {
             throw new ApiException(ErrorCode.NO_AUTH_TOKEN);
         }
 
-        AuthType[] authTypes = preAuth.value();
+        Accessible[] accessibles = preAuth.value();
 
-        for (AuthType type : authTypes) {
+        for (Accessible type : accessibles) {
+
+            if (type == Accessible.EVERYONE) {
+                continue;
+            }
 
             String token = request.getHeader(type.getRequiredToken());
 

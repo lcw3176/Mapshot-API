@@ -3,7 +3,7 @@ package com.mapshot.api.admin.controller;
 import com.mapshot.api.admin.model.AdminRequest;
 import com.mapshot.api.admin.service.AdminService;
 import com.mapshot.api.common.annotation.PreAuth;
-import com.mapshot.api.common.enums.AuthType;
+import com.mapshot.api.common.enums.Accessible;
 import com.mapshot.api.common.token.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +18,7 @@ public class AdminController {
 
     private final AdminService adminService;
 
+    @PreAuth(Accessible.EVERYONE)
     @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody AdminRequest request) {
         MultiValueMap<String, String> authHeader = adminService.login(request);
@@ -27,7 +28,7 @@ public class AdminController {
                 .build();
     }
 
-    @PreAuth(AuthType.ADMIN)
+    @PreAuth(Accessible.ADMIN)
     @PostMapping("/token/refresh")
     public ResponseEntity<Void> refreshToken(@RequestHeader HttpHeaders headers) {
         headers.remove(JwtUtil.ADMIN_HEADER_NAME);
@@ -39,7 +40,7 @@ public class AdminController {
     }
 
 
-    @PreAuth(AuthType.ADMIN)
+    @PreAuth(Accessible.ADMIN)
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(@RequestHeader HttpHeaders httpHeaders) {
         httpHeaders.remove(JwtUtil.ADMIN_HEADER_NAME);

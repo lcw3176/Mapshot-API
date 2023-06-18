@@ -17,14 +17,14 @@ public class WebConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(authInterceptor)
                 .order(1)
-                .excludePathPatterns("/image/queue")
-                .excludePathPatterns("/image/storage/*")
-                .excludePathPatterns("/image/template/*")
-
-                .excludePathPatterns("/notice/detail/*")
-                .excludePathPatterns("/notice/summary/*")
-
-                .excludePathPatterns("/admin/login")
+//                .excludePathPatterns("/image/queue")
+//                .excludePathPatterns("/image/storage/*")
+//                .excludePathPatterns("/image/template/*")
+//
+//                .excludePathPatterns("/notice/detail/*")
+//                .excludePathPatterns("/notice/summary/*")
+//
+//                .excludePathPatterns("/admin/login")
 
                 .addPathPatterns("/**");
     }

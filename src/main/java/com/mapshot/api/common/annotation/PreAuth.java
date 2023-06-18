@@ -1,6 +1,6 @@
 package com.mapshot.api.common.annotation;
 
-import com.mapshot.api.common.enums.AuthType;
+import com.mapshot.api.common.enums.Accessible;
 
 import java.lang.annotation.*;
 
@@ -9,6 +9,6 @@ import java.lang.annotation.*;
 @Documented
 public @interface PreAuth {
 
-    AuthType[] value();
+    Accessible[] value();
 
 }

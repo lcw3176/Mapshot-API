@@ -8,10 +8,11 @@ import java.util.function.Function;
 
 @Getter
 @AllArgsConstructor
-public enum AuthType {
+public enum Accessible {
 
     FRIENDLY_SERVER(JwtUtil.HEADER_NAME, JwtUtil::isValid),
     ADMIN(JwtUtil.ADMIN_HEADER_NAME, JwtUtil::isValidAdmin),
+    EVERYONE("", (str) -> true),
     ;
 
     private final String requiredToken;
