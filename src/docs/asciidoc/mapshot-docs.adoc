@@ -98,3 +98,39 @@ include::{snippets}/notice/delete/request-headers.adoc[]
 
 include::{snippets}/notice/delete/path-parameters.adoc[]
 include::{snippets}/notice/delete/http-request.adoc[]
+
+== 관리자
+
+=== 로그인
+
+==== request
+
+include::{snippets}/admin/login/request-fields.adoc[]
+include::{snippets}/admin/login/http-request.adoc[]
+
+==== response
+
+include::{snippets}/admin/login/http-response.adoc[]
+
+=== 로그인 연장
+
+==== header
+
+include::{snippets}/admin/token/refresh/request-headers.adoc[]
+include::{snippets}/admin/token/refresh/http-request.adoc[]
+
+==== response
+
+include::{snippets}/admin/token/refresh/http-response.adoc[]
+
+=== 로그아웃
+
+==== header
+
+include::{snippets}/admin/logout/request-headers.adoc[]
+include::{snippets}/admin/logout/http-request.adoc[]
+
+==== response
+
+include::{snippets}/admin/logout/http-response.adoc[]
+
