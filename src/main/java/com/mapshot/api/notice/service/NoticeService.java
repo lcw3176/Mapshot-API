@@ -6,8 +6,8 @@ import com.mapshot.api.common.exception.status.ErrorCode;
 import com.mapshot.api.notice.entity.NoticeEntity;
 import com.mapshot.api.notice.enums.NoticeType;
 import com.mapshot.api.notice.model.NoticeDetailResponse;
+import com.mapshot.api.notice.model.NoticeListResponse;
 import com.mapshot.api.notice.model.NoticeRequest;
-import com.mapshot.api.notice.model.NoticeSummaryResponse;
 import com.mapshot.api.notice.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ public class NoticeService {
     private final NoticeRepository noticeRepository;
 
     @Transactional(readOnly = true)
-    public List<NoticeSummaryResponse> getMultiplePostsSummary(long startId) {
+    public List<NoticeListResponse> getNoticeList(long startId) {
 
         if (startId == 0) {
             startId = noticeRepository.findFirstByOrderByIdDesc().getId() + 1;
@@ -32,7 +32,7 @@ public class NoticeService {
         List<NoticeEntity> noticeEntities = noticeRepository.findTop10ByIdLessThanOrderByIdDesc(startId);
 
         return noticeEntities.stream()
-                .map(NoticeSummaryResponse::fromEntity)
+                .map(NoticeListResponse::fromEntity)
                 .collect(Collectors.toList());
     }
 

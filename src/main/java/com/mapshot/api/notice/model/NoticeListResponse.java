@@ -12,15 +12,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class NoticeSummaryResponse {
+public class NoticeListResponse {
 
     private long id;
     private String noticeType;
     private String title;
     private LocalDateTime createdDate;
 
-    public static NoticeSummaryResponse fromEntity(NoticeEntity noticeEntity) {
-        return NoticeSummaryResponse.builder()
+    public static NoticeListResponse fromEntity(NoticeEntity noticeEntity) {
+        return NoticeListResponse.builder()
                 .id(noticeEntity.getId())
                 .noticeType(noticeEntity.getNoticeType().getKorean())
                 .title(noticeEntity.getTitle())

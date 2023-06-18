@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapshot.api.common.token.JwtUtil;
 import com.mapshot.api.notice.enums.NoticeType;
 import com.mapshot.api.notice.model.NoticeDetailResponse;
+import com.mapshot.api.notice.model.NoticeListResponse;
 import com.mapshot.api.notice.model.NoticeRequest;
-import com.mapshot.api.notice.model.NoticeSummaryResponse;
 import com.mapshot.api.notice.service.NoticeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,9 +56,9 @@ class NoticeControllerTest {
     @Test
     void 게시글_목록_조회_테스트() throws Exception {
         MvcResult result = mockMvc.perform(
-                        RestDocumentationRequestBuilders.get(BASE_URL + "/summary/{startPostNumber}", 11))
+                        RestDocumentationRequestBuilders.get(BASE_URL + "/list/{startPostNumber}", 11))
                 .andExpect(status().isOk())
-                .andDo(document("notice/summary",
+                .andDo(document("notice/list",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         pathParameters(
@@ -68,13 +68,13 @@ class NoticeControllerTest {
                         )))
                 .andReturn();
 
-        List<NoticeSummaryResponse> actual = mapper.readValue(result.getResponse().getContentAsString(),
-                new TypeReference<List<NoticeSummaryResponse>>() {
+        List<NoticeListResponse> actual = mapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<List<NoticeListResponse>>() {
                 });
 
         assertThat(actual)
                 .hasSize(10)
-                .isSortedAccordingTo(Comparator.comparing(NoticeSummaryResponse::getId).reversed());
+                .isSortedAccordingTo(Comparator.comparing(NoticeListResponse::getId).reversed());
     }
 
     @Test
@@ -153,7 +153,7 @@ class NoticeControllerTest {
 
     @Test
     void 게시글_삭제_테스트() throws Exception {
-        NoticeSummaryResponse mostRecentNotice = noticeService.getMultiplePostsSummary(0).get(0);
+        NoticeListResponse mostRecentNotice = noticeService.getNoticeList(0).get(0);
 
         mockMvc.perform(
                         RestDocumentationRequestBuilders.get(BASE_URL + "/delete/{noticeNumber}", mostRecentNotice.getId())
@@ -173,7 +173,7 @@ class NoticeControllerTest {
 
     @Test
     void 관리자가_아닌_사람이_삭제_요청시_예외() throws Exception {
-        NoticeSummaryResponse mostRecentNotice = noticeService.getMultiplePostsSummary(0).get(0);
+        NoticeListResponse mostRecentNotice = noticeService.getNoticeList(0).get(0);
 
         mockMvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/delete/{noticeNumber}", mostRecentNotice.getId())
                         .contentType(MediaType.APPLICATION_JSON))
@@ -182,7 +182,7 @@ class NoticeControllerTest {
 
     @Test
     void 게시글_수정_테스트() throws Exception {
-        NoticeSummaryResponse mostRecentNotice = noticeService.getMultiplePostsSummary(0).get(0);
+        NoticeListResponse mostRecentNotice = noticeService.getNoticeList(0).get(0);
 
         NoticeRequest request = NoticeRequest.builder()
                 .noticeType(NoticeType.RESERVED_CHECK.toString())
@@ -212,7 +212,7 @@ class NoticeControllerTest {
 
     @Test
     void 관리자가_아닌_사람이_수정_요청시_예외() throws Exception {
-        NoticeSummaryResponse mostRecentNotice = noticeService.getMultiplePostsSummary(0).get(0);
+        NoticeListResponse mostRecentNotice = noticeService.getNoticeList(0).get(0);
 
         NoticeRequest request = NoticeRequest.builder()
                 .noticeType(NoticeType.RESERVED_CHECK.toString())

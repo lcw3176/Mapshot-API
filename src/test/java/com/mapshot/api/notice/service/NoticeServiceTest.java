@@ -4,8 +4,8 @@ import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;
 import com.mapshot.api.notice.enums.NoticeType;
 import com.mapshot.api.notice.model.NoticeDetailResponse;
+import com.mapshot.api.notice.model.NoticeListResponse;
 import com.mapshot.api.notice.model.NoticeRequest;
-import com.mapshot.api.notice.model.NoticeSummaryResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -129,9 +129,9 @@ class NoticeServiceTest {
     void 시작_id를_0으로_전송_시_가장_최근_게시글부터_10개_반환() {
         int id = 0;
 
-        List<NoticeSummaryResponse> lst = noticeService.getMultiplePostsSummary(id);
+        List<NoticeListResponse> lst = noticeService.getNoticeList(id);
         assertThat(lst).hasSize(10)
-                .isSortedAccordingTo(Comparator.comparing(NoticeSummaryResponse::getId).reversed());
+                .isSortedAccordingTo(Comparator.comparing(NoticeListResponse::getId).reversed());
 
     }
 
@@ -160,9 +160,9 @@ class NoticeServiceTest {
         long id = 12;
         int size = 10;
 
-        List<NoticeSummaryResponse> lst = noticeService.getMultiplePostsSummary(id);
+        List<NoticeListResponse> lst = noticeService.getNoticeList(id);
         assertThat(lst).hasSize(size)
-                .isSortedAccordingTo(Comparator.comparing(NoticeSummaryResponse::getId).reversed());
+                .isSortedAccordingTo(Comparator.comparing(NoticeListResponse::getId).reversed());
 
     }
 
@@ -170,9 +170,9 @@ class NoticeServiceTest {
     void 데이터_갯수가_모자란_여러개의_공지사항_가져오기() {
         int id = 4;
         int size = 3;
-        List<NoticeSummaryResponse> lst = noticeService.getMultiplePostsSummary(id);
+        List<NoticeListResponse> lst = noticeService.getNoticeList(id);
         assertThat(lst).hasSize(size)
-                .isSortedAccordingTo(Comparator.comparing(NoticeSummaryResponse::getId).reversed());
+                .isSortedAccordingTo(Comparator.comparing(NoticeListResponse::getId).reversed());
 
     }
 
