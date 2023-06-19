@@ -33,11 +33,11 @@ asciidoctor {
     dependsOn test
 }
 
-//task copyDocument(type: Copy) {
-//    dependsOn asciidoctor
-//    from file("build/docs/asciidoc")
-//    into file("src/main/resources/static/docs")
-//}
+task copyDocument(type: Copy) {
+    dependsOn asciidoctor
+    from file("build/docs/asciidoc")
+    into file("src/main/resources/static/docs")
+}
 
 
 repositories {
@@ -46,11 +46,7 @@ repositories {
 
 dependencies {
     // spring
-    implementation('org.springframework.boot:spring-boot-starter-web') {
-        exclude module: 'spring-boot-starter-tomcat'
-    }
-
-    implementation 'org.springframework.boot:spring-boot-starter-undertow'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -81,9 +77,9 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-//build {
-//    dependsOn copyDocument
-//}
+build {
+    dependsOn copyDocument
+}
 
 jib {
     from {
