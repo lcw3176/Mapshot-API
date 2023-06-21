@@ -161,12 +161,12 @@ include::{snippets}/admin/login/http-response.adoc[]
 
 header
 
-include::{snippets}/admin/token/refresh/request-headers.adoc[]
+include::{snippets}/admin/auth/refresh/request-headers.adoc[]
 
 request
 
-include::{snippets}/admin/token/refresh/http-request.adoc[]
+include::{snippets}/admin/auth/refresh/http-request.adoc[]
 
 response
 
-include::{snippets}/admin/token/refresh/http-response.adoc[]
+include::{snippets}/admin/auth/refresh/http-response.adoc[]
