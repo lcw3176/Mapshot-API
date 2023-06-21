@@ -30,8 +30,8 @@ public class AdminController {
     }
 
     @PreAuth(Accessible.ADMIN)
-    @PostMapping("/token/refresh")
-    public ResponseEntity<Void> refreshToken() {
+    @PostMapping("/auth/refresh")
+    public ResponseEntity<Void> refreshAuth() {
         MultiValueMap<String, String> authHeader = adminService.makeToken();
 
         return ResponseEntity.ok()
