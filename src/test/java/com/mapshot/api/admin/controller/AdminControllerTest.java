@@ -91,11 +91,11 @@ class AdminControllerTest {
     @Test
     void 관리자_로그인_연장_테스트() throws Exception {
         mockMvc.perform(
-                        RestDocumentationRequestBuilders.post(BASE_URL + "/token/refresh")
+                        RestDocumentationRequestBuilders.post(BASE_URL + "/auth/refresh")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header(adminToken.getHeaderName(), adminToken.generate()))
                 .andExpect(status().isOk())
-                .andDo(document("admin/token/refresh",
+                .andDo(document("admin/auth/refresh",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
@@ -106,7 +106,7 @@ class AdminControllerTest {
     @Test
     void 토큰_없이_관리자_로그인_연장_요청시_예외() throws Exception {
         mockMvc.perform(
-                        post(BASE_URL + "/token/refresh")
+                        post(BASE_URL + "/auth/refresh")
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError());
     }
