@@ -4,7 +4,9 @@ import com.mapshot.api.common.annotation.PreAuth;
 import com.mapshot.api.common.enums.Accessible;
 import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;
-import io.netty.util.internal.StringUtil;
+import com.mapshot.api.common.validation.Validation;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -15,7 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
 
 @Component
+@RequiredArgsConstructor
 public class AuthInterceptor implements HandlerInterceptor {
+
+    private final ApplicationContext applicationContext;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -27,30 +32,20 @@ public class AuthInterceptor implements HandlerInterceptor {
         HandlerMethod method = (HandlerMethod) handler;
         PreAuth preAuth = method.getMethodAnnotation(PreAuth.class);
 
-
         if (preAuth == null) {
-            throw new ApiException(ErrorCode.NO_AUTH_TOKEN);
+            throw new ApiException(ErrorCode.NO_PRE_AUTH);
         }
 
-        Accessible[] accessibles = preAuth.value();
+        Accessible[] accessible = preAuth.value();
 
-        for (Accessible type : accessibles) {
+        for (Accessible type : accessible) {
 
             if (type == Accessible.EVERYONE) {
                 continue;
             }
 
-            String token = request.getHeader(type.getRequiredToken());
-
-            if (StringUtil.isNullOrEmpty(token)) {
-                throw new ApiException(ErrorCode.NO_AUTH_TOKEN);
-            }
-
-            boolean isValid = type.getValidationFunction().apply(token);
-
-            if (!isValid) {
-                throw new ApiException(ErrorCode.NOT_VALID_TOKEN);
-            }
+            Validation validation = applicationContext.getBean(type.getValidationClass());
+            validation.checkValidation(request);
         }
 
         return true;

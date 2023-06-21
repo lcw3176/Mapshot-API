@@ -1,7 +1,7 @@
 package com.mapshot.api.common.config;
 
 import com.mapshot.api.common.interceptor.AuthInterceptor;
-import com.mapshot.api.common.token.JwtUtil;
+import com.mapshot.api.common.validation.token.AdminToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -13,6 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
     private final AuthInterceptor authInterceptor;
+    private final AdminToken adminToken;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -28,12 +29,12 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**");
     }
 
-    //fixme 나중에 로컬 호스트 삭제
+    //fixme 나중에 삭제
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("https://kmapshot.com", "https://*.kmapshot.com", "http://localhost:8081")
-                .exposedHeaders(JwtUtil.ADMIN_HEADER_NAME)
+                .exposedHeaders(adminToken.getHeaderName())
                 .allowCredentials(true);
         ;
     }

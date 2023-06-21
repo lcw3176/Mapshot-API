@@ -1,21 +1,20 @@
 package com.mapshot.api.common.enums;
 
-import com.mapshot.api.common.token.JwtUtil;
+import com.mapshot.api.common.validation.AdminValidation;
+import com.mapshot.api.common.validation.ServerValidation;
+import com.mapshot.api.common.validation.Validation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import java.util.function.Function;
 
 @Getter
 @AllArgsConstructor
 public enum Accessible {
 
-    FRIENDLY_SERVER(JwtUtil.HEADER_NAME, JwtUtil::isValid),
-    ADMIN(JwtUtil.ADMIN_HEADER_NAME, JwtUtil::isValidAdmin),
-    EVERYONE("", (str) -> true),
+    FRIENDLY_SERVER(ServerValidation.class),
+    ADMIN(AdminValidation.class),
+    EVERYONE(null),
     ;
 
-    private final String requiredToken;
-    private final Function<String, Boolean> validationFunction;
 
+    private final Class<? extends Validation> validationClass;
 }

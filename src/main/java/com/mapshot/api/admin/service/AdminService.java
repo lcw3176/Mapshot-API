@@ -4,7 +4,7 @@ import com.mapshot.api.admin.model.AdminRequest;
 import com.mapshot.api.admin.repository.AdminRepository;
 import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;
-import com.mapshot.api.common.token.JwtUtil;
+import com.mapshot.api.common.validation.token.AdminToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +19,7 @@ import java.security.NoSuchAlgorithmException;
 public class AdminService {
 
     private final AdminRepository adminRepository;
+    private final AdminToken adminToken;
     private static final String ENCRYPT_ALGORITHM = "SHA-256";
 
     @Transactional(readOnly = true)
@@ -34,7 +35,7 @@ public class AdminService {
 
     public MultiValueMap<String, String> makeToken() {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add(JwtUtil.ADMIN_HEADER_NAME, JwtUtil.generateAdmin());
+        map.add(adminToken.getHeaderName(), adminToken.generate());
 
         return map;
     }

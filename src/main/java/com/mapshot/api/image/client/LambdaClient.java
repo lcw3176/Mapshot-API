@@ -2,9 +2,10 @@ package com.mapshot.api.image.client;
 
 
 import com.mapshot.api.common.client.CommonClient;
-import com.mapshot.api.common.token.JwtUtil;
+import com.mapshot.api.common.validation.token.ImageToken;
 import com.mapshot.api.image.model.ImageRequest;
 import com.mapshot.api.image.model.ImageResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -12,6 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class LambdaClient extends CommonClient {
 
     @Value("${lambda.host}")
@@ -19,6 +21,8 @@ public class LambdaClient extends CommonClient {
 
     @Value("${lambda.path}")
     private String path;
+
+    private final ImageToken imageToken;
 
     public List<ImageResponse> sendRequest(ImageRequest request) {
         long timeoutMillis = 30 * 1000L;
@@ -33,7 +37,7 @@ public class LambdaClient extends CommonClient {
                 .queryParam("lng", request.getLng())
                 .queryParam("level", request.getLevel())
                 .queryParam("layerMode", request.isLayerMode())
-                .queryParam(JwtUtil.HEADER_NAME, JwtUtil.generate())
+                .queryParam(imageToken.getHeaderName(), imageToken.generate())
                 .build()
                 .toString();
 
