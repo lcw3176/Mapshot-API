@@ -29,8 +29,10 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<String> apiExceptionHandler(ApiException e) {
-        log.error(e.getMessage(), e);
         StatusCode code = e.getCode();
+        log.error(code.getMessage(), e);
+        // fixme 나중에 주석 해제
+//        slackClient.sendMessage(e);
 
         return ResponseEntity.status(code.getHttpStatus())
                 .body(code.getMessage());
@@ -41,6 +43,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public void exceptionHandler(Exception e) {
         log.error(e.getMessage(), e);
+        // fixme 나중에 주석 해제
 //        slackClient.sendMessage(e);
     }
 }

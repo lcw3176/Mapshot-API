@@ -1,6 +1,4 @@
-package com.mapshot.api.common.annotation;
-
-import com.mapshot.api.common.enums.Accessible;
+package com.mapshot.api.common.validation;
 
 import java.lang.annotation.*;
 

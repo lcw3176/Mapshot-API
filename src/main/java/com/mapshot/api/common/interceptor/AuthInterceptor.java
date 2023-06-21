@@ -1,9 +1,9 @@
 package com.mapshot.api.common.interceptor;
 
-import com.mapshot.api.common.annotation.PreAuth;
-import com.mapshot.api.common.enums.Accessible;
 import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;
+import com.mapshot.api.common.validation.Accessible;
+import com.mapshot.api.common.validation.PreAuth;
 import com.mapshot.api.common.validation.Validation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;

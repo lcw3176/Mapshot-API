@@ -1,7 +1,7 @@
 package com.mapshot.api.image.controller;
 
-import com.mapshot.api.common.annotation.PreAuth;
-import com.mapshot.api.common.enums.Accessible;
+import com.mapshot.api.common.validation.Accessible;
+import com.mapshot.api.common.validation.PreAuth;
 import com.mapshot.api.image.client.LambdaClient;
 import com.mapshot.api.image.model.ImageRequest;
 import com.mapshot.api.image.model.ImageResponse;
