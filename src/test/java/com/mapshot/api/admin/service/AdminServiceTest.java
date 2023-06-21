@@ -3,14 +3,14 @@ package com.mapshot.api.admin.service;
 import com.mapshot.api.admin.model.AdminRequest;
 import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;
-import com.mapshot.api.common.token.JwtUtil;
+import com.mapshot.api.common.validation.token.AdminToken;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.MultiValueMap;
 
+import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class AdminServiceTest {
@@ -18,12 +18,16 @@ class AdminServiceTest {
     @Autowired
     private AdminService adminService;
 
+    @Autowired
+    AdminToken adminToken;
+
+
     @Test
     void 토큰_생성_테스트() {
         MultiValueMap<String, String> headers = adminService.makeToken();
-        String token = headers.getFirst(JwtUtil.ADMIN_HEADER_NAME);
+        String token = headers.getFirst(adminToken.getHeaderName());
 
-        assertTrue(JwtUtil.isValidAdmin(token));
+        assertThatNoException().isThrownBy(() -> adminToken.isValid(token));
     }
 
 
@@ -35,9 +39,9 @@ class AdminServiceTest {
                 .build();
 
         MultiValueMap<String, String> headers = adminService.login(request);
-        String token = headers.getFirst(JwtUtil.ADMIN_HEADER_NAME);
+        String token = headers.getFirst(adminToken.getHeaderName());
 
-        assertTrue(JwtUtil.isValidAdmin(token));
+        assertThatNoException().isThrownBy(() -> adminToken.isValid(token));
     }
 
     @Test
@@ -51,5 +55,5 @@ class AdminServiceTest {
                 .isInstanceOf(ApiException.class)
                 .hasMessage(ErrorCode.NO_SUCH_USER.getMessage());
     }
-    
+
 }

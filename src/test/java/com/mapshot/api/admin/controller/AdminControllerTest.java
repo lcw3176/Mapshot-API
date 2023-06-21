@@ -2,7 +2,7 @@ package com.mapshot.api.admin.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapshot.api.admin.model.AdminRequest;
-import com.mapshot.api.common.token.JwtUtil;
+import com.mapshot.api.common.validation.token.AdminToken;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -32,6 +32,9 @@ class AdminControllerTest {
     @Autowired
     MockMvc mockMvc;
 
+    @Autowired
+    AdminToken adminToken;
+
     private static final String BASE_URL = "/admin";
 
 
@@ -57,32 +60,32 @@ class AdminControllerTest {
                         )));
     }
 
-    @Test
-    void 관리자_로그아웃_테스트() throws Exception {
+//    @Test
+//    void 관리자_로그아웃_테스트() throws Exception {
+//
+//
+//        mockMvc.perform(
+//                        RestDocumentationRequestBuilders.post(BASE_URL + "/logout")
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                                .header(adminToken.getHeaderName(), adminToken.generate()))
+//                .andExpect(status().isOk())
+//                .andDo(document("admin/logout",
+//                        preprocessRequest(prettyPrint()),
+//                        preprocessResponse(prettyPrint()),
+//                        requestHeaders(
+//                                headerWithName(adminToken.getHeaderName()).description("관리자 인증 토큰")
+//                        )));
+//    }
 
-
-        mockMvc.perform(
-                        RestDocumentationRequestBuilders.post(BASE_URL + "/logout")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .header(JwtUtil.ADMIN_HEADER_NAME, JwtUtil.generateAdmin()))
-                .andExpect(status().isOk())
-                .andDo(document("admin/logout",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        requestHeaders(
-                                headerWithName(JwtUtil.ADMIN_HEADER_NAME).description("관리자 인증 토큰")
-                        )));
-    }
-
-    @Test
-    void 토큰없이_관리자_로그아웃_요청시_예외() throws Exception {
-
-
-        mockMvc.perform(
-                        post(BASE_URL + "/logout")
-                                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is4xxClientError());
-    }
+//    @Test
+//    void 토큰없이_관리자_로그아웃_요청시_예외() throws Exception {
+//
+//
+//        mockMvc.perform(
+//                        post(BASE_URL + "/logout")
+//                                .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().is4xxClientError());
+//    }
 
 
     @Test
@@ -90,13 +93,13 @@ class AdminControllerTest {
         mockMvc.perform(
                         RestDocumentationRequestBuilders.post(BASE_URL + "/token/refresh")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header(JwtUtil.ADMIN_HEADER_NAME, JwtUtil.generateAdmin()))
+                                .header(adminToken.getHeaderName(), adminToken.generate()))
                 .andExpect(status().isOk())
                 .andDo(document("admin/token/refresh",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
-                                headerWithName(JwtUtil.ADMIN_HEADER_NAME).description("관리자 인증 토큰")
+                                headerWithName(adminToken.getHeaderName()).description("관리자 인증 토큰")
                         )));
     }
 

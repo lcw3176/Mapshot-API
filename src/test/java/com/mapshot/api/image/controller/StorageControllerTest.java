@@ -2,7 +2,7 @@ package com.mapshot.api.image.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mapshot.api.common.token.JwtUtil;
+import com.mapshot.api.common.validation.token.ImageToken;
 import com.mapshot.api.image.model.StorageRequest;
 import com.mapshot.api.image.service.StorageService;
 import org.junit.jupiter.api.Test;
@@ -52,18 +52,21 @@ class StorageControllerTest {
     @LocalServerPort
     int port;
 
+    @Autowired
+    ImageToken imageToken;
+
     private static final String BASE_URL = "/image/storage";
 
-    private static MockHttpServletRequestBuilder getRequest(String urlTemplate, Object... urlVariables) {
+    private MockHttpServletRequestBuilder getRequest(String urlTemplate, Object... urlVariables) {
         return RestDocumentationRequestBuilders.get(urlTemplate, urlVariables)
                 .requestAttr(RestDocumentationGenerator.ATTRIBUTE_NAME_URL_TEMPLATE, urlTemplate);
     }
 
-    private static MockHttpServletRequestBuilder postRequest(String urlTemplate, String token, String content) {
+    private MockHttpServletRequestBuilder postRequest(String urlTemplate, String token, String content) {
         return RestDocumentationRequestBuilders.post(urlTemplate)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content)
-                .header(JwtUtil.HEADER_NAME, token);
+                .header(imageToken.getHeaderName(), token);
     }
 
 
@@ -95,13 +98,13 @@ class StorageControllerTest {
 
         String bodyContent = mapper.writeValueAsString(request);
 
-        mockMvc.perform(postRequest(BASE_URL, JwtUtil.generate(), bodyContent))
+        mockMvc.perform(postRequest(BASE_URL, imageToken.generate(), bodyContent))
                 .andExpect(status().isOk())
                 .andDo(document("image/storage/post",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
-                                headerWithName(JwtUtil.HEADER_NAME).description("서버 간 인증 토큰")
+                                headerWithName(imageToken.getHeaderName()).description("서버 간 인증 토큰")
                         ),
                         requestFields(
                                 fieldWithPath("uuid")
@@ -138,7 +141,7 @@ class StorageControllerTest {
         String bodyContent = mapper.writeValueAsString(request);
 
         mockMvc.perform(post(BASE_URL).content(bodyContent)
-                        .header(JwtUtil.HEADER_NAME, "none"))
+                        .header(imageToken.getHeaderName(), "none"))
                 .andExpect(status().is4xxClientError());
     }
 

@@ -20,3 +20,15 @@ lambda:
 
 slack:
   url: ${slackUrl}
+
+
+jwt:
+  admin:
+    secret: ${jwtAdminSecret}
+    header: ADMIN_AUTH_TOKEN
+    second: 3600
+
+  image:
+    secret: ${jwtImageSecret}
+    header: AUTH_TOKEN
+    second: 60

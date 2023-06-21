@@ -2,7 +2,7 @@ package com.mapshot.api.notice.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mapshot.api.common.token.JwtUtil;
+import com.mapshot.api.common.validation.token.AdminToken;
 import com.mapshot.api.notice.enums.NoticeType;
 import com.mapshot.api.notice.model.NoticeDetailResponse;
 import com.mapshot.api.notice.model.NoticeListResponse;
@@ -52,6 +52,8 @@ class NoticeControllerTest {
     @Autowired
     private NoticeService noticeService;
 
+    @Autowired
+    private AdminToken adminToken;
 
     @Test
     void 게시글_목록_조회_테스트() throws Exception {
@@ -120,13 +122,13 @@ class NoticeControllerTest {
                         RestDocumentationRequestBuilders.post(BASE_URL + "/register")
                                 .content(mapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header(JwtUtil.ADMIN_HEADER_NAME, JwtUtil.generateAdmin()))
+                                .header(adminToken.getHeaderName(), adminToken.generate()))
                 .andExpect(status().isOk())
                 .andDo(document("notice/register",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
-                                headerWithName(JwtUtil.ADMIN_HEADER_NAME).description("관리자 인증 토큰")
+                                headerWithName(adminToken.getHeaderName()).description("관리자 인증 토큰")
                         ),
                         requestFields(
                                 fieldWithPath("title").description("공지사항 제목"),
@@ -158,13 +160,13 @@ class NoticeControllerTest {
         mockMvc.perform(
                         RestDocumentationRequestBuilders.get(BASE_URL + "/delete/{noticeNumber}", mostRecentNotice.getId())
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header(JwtUtil.ADMIN_HEADER_NAME, JwtUtil.generateAdmin()))
+                                .header(adminToken.getHeaderName(), adminToken.generate()))
                 .andExpect(status().isOk())
                 .andDo(document("notice/delete",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
-                                headerWithName(JwtUtil.ADMIN_HEADER_NAME).description("관리자 인증 토큰")
+                                headerWithName(adminToken.getHeaderName()).description("관리자 인증 토큰")
                         ),
                         pathParameters(
                                 parameterWithName("noticeNumber").description("게시글 번호")
@@ -194,13 +196,13 @@ class NoticeControllerTest {
                         RestDocumentationRequestBuilders.post(BASE_URL + "/modify/{noticeNumber}", mostRecentNotice.getId())
                                 .content(mapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header(JwtUtil.ADMIN_HEADER_NAME, JwtUtil.generateAdmin()))
+                                .header(adminToken.getHeaderName(), adminToken.generate()))
                 .andExpect(status().isOk())
                 .andDo(document("notice/modify",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
-                                headerWithName(JwtUtil.ADMIN_HEADER_NAME).description("관리자 인증 토큰")
+                                headerWithName(adminToken.getHeaderName()).description("관리자 인증 토큰")
                         ),
                         requestFields(
                                 fieldWithPath("title").description("수정할 공지사항 제목"),
