@@ -59,15 +59,6 @@ https://docs.kmapshot.com
     - 관리자는 별도의 페이지에서 해당 사항을 처리합니다.
     - 이미지 파일 첨부가 가능해야 합니다.
 
-## 트러블 슈팅, 기술적 과제 및 생각
-
-- [aws lambda를 이용한 분산 작업 처리](https://chanwoo-lee.gitbook.io/service-issues/troubleshooting-and-thinking/1.)
-- [모놀리틱 서버의 장애 대응](https://chanwoo-lee.gitbook.io/service-issues/troubleshooting-and-thinking/2.)
-- [간헐적인 오류 잡기](https://chanwoo-lee.gitbook.io/service-issues/troubleshooting-and-thinking/3.)
-- [맵샷이 다수의 서버에서 작동한다면](https://chanwoo-lee.gitbook.io/service-issues/troubleshooting-and-thinking/4.)
-- [광고 수익과 DAU](https://chanwoo-lee.gitbook.io/service-issues/buisness/1.-dau)
-- [API 제약 사항과 사용자 만족](https://chanwoo-lee.gitbook.io/service-issues/buisness/2.-api)
-
 ## 부가 정보
 
 ### 기술 스택
