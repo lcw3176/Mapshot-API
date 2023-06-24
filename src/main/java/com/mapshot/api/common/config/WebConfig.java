@@ -28,15 +28,13 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/favicon.ico")
                 .addPathPatterns("/**");
     }
-
-    //fixme 나중에 삭제
+    
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("https://kmapshot.com", "https://*.kmapshot.com", "http://localhost:8081")
+        registry.addMapping("/admin/**")
                 .exposedHeaders(adminToken.getHeaderName())
                 .allowCredentials(true);
-        ;
+
     }
 
 }
