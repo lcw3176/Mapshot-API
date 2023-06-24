@@ -63,14 +63,13 @@ https://docs.kmapshot.com
 
 ### 기술 스택
 
-#### BackEnd
-
-- Java 11, Spring Boot 2.6.5
-- H2 Database, Spring-Data-JPA
-
-#### Infra
-
-- AWS (EC2, Lambda), Cloud Flare(https, domain), Docker
+- Java 11, Node.js
+- Spring Boot 2.6.5
+- Spring-Data-JPA
+- H2 Database
+- AWS (EC2, Lambda)
+- Cloud Flare(https, domain)
+- Docker(compose, hub)
 - Whatap, Slack, Sentry
 
 ### 배포 프로세스
@@ -95,6 +94,7 @@ https://docs.kmapshot.com
         ├── info.log
         ├── warn.log
         └── error.log
+    └── main.db
     
 ```
 
