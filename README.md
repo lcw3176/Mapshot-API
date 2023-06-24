@@ -9,22 +9,78 @@
   <a href="https://kmapshot.com">https://kmapshot.com</a>
 </p>  
 
-## 기술 스택
+## 소개
 
-### BackEnd
+맵샷은 넓은 반경의 고화질 위성 이미지를 제공해주는 서비스입니다.
 
-- Java 11, Spring Boot 2.6.5
-- MariaDB, Spring-Data-JPA
+도시 계획 직종에 근무하는 친구의 효율적인 작업을 위해 고안되었으며,
+지도를 한 구역씩 캡쳐해서 포토샵으로 합치던 기존의 프로세스를 자동화해서
+효율적인 업무가 가능합니다. (약 1시간 -> 20초).
 
-### Infra
+### 이용 추천 대상
 
-- AWS (EC2, Lambda), Cloud Flare(https, domain)
-- Nginx, Docker
-- Whatap, Slack
+<div style="text-align: center">
+<img width="200" style="margin:10px;" src="https://user-images.githubusercontent.com/59993347/164415956-f8a6a057-8943-4656-bd94-e8a5ffdec329.jpg">
+<img width="200" style="margin:10px;" src="https://user-images.githubusercontent.com/59993347/164415966-d33b7751-cdfe-4a65-8b72-03b1a6b4cae9.jpg">
+</div>
 
-## 기타
+1. 위와 같은 도시 계획도의 배경 위성 이미지가 필요하신 분
+2. 연속 지적도, 토지이용 계획도 등 도시 계획 레이어 지도 이미지가 필요하신 분
+3. 고화질의 넓은 지도 이미지가 필요하신 분
 
-### 서버 구조
+### 유저 활성도
+
+#### 방문자 추이
+
+![방문](https://hits.seeyoufarm.com/api/count/graph/dailyhits.svg?url=https://kmapshot.com?)
+
+#### 일일 방문자 (측정 시작: 23.02 ~ )
+
+![카운트](https://hits.seeyoufarm.com/api/count/keep/badge.svg?url=https%3A%2F%2Fkmapshot.com&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)
+
+### API 문서
+
+https://docs.kmapshot.com
+
+![localhost_63342_mapshot-api_src_main_resources_static_docs_mapshot-docs html__ijt=lkjgksifj5npj4b8olrn74bour _ij_reload=RELOAD_ON_SAVE](https://github.com/lcw3176/Mapshot-API/assets/59993347/e8e3bed9-9198-4ddf-8049-0f582249a8db)
+
+## 구현 기능
+
+### 완료
+
+- 사용자는 고화질의 지도 이미지를 생성할 수 있습니다.
+- 사용자는 공지사항을 읽을 수 있습니다.
+- 사용자는 문의사항을 보낼 수 있습니다. (관리자 이메일로 전송)
+- 관리자는 공지사항을 등록, 수정, 삭제할 수 있습니다.
+
+### 예정
+
+- 사용자는 문의사항을 보낼 수 있습니다.
+    - 관리자는 별도의 페이지에서 해당 사항을 처리합니다.
+    - 이미지 파일 첨부가 가능해야 합니다.
+
+## 부가 정보
+
+### 기술 스택
+
+- Java 11, Node.js
+- Spring Boot 2.6.5
+- Spring-Data-JPA
+- H2 Database
+- AWS (EC2, Lambda)
+- Cloud Flare(https, domain)
+- Docker(compose, hub)
+- Whatap, Slack, Sentry
+
+### 배포 프로세스
+
+![asdasd (1)](https://github.com/lcw3176/Mapshot-API/assets/59993347/3b448bb3-19d4-4397-bb65-64ec2d6805f1)
+
+### 서버 아키텍쳐
+
+![asdasd](https://github.com/lcw3176/Mapshot-API/assets/59993347/005720e8-f1c6-43e8-b138-5eaaf85f66a0)
+
+### 서버 내부 구조
 
 ```shell
 ├── ***.env
@@ -38,6 +94,7 @@
         ├── info.log
         ├── warn.log
         └── error.log
+    └── main.db
     
 ```
 
