@@ -27,6 +27,13 @@ public class GlobalExceptionHandler {
         log.error(e.getMessage(), e);
     }
 
+    @ExceptionHandler(ClassCastException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void botExceptionHandler(ClassCastException e) {
+        log.error(e.getMessage(), e);
+    }
+
+
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<String> apiExceptionHandler(ApiException e) {
         StatusCode code = e.getCode();
