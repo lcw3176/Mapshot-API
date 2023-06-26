@@ -2,12 +2,13 @@ package com.mapshot.api.common.slack.client;
 
 
 import com.mapshot.api.common.client.CommonClient;
+import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.slack.model.ErrorMessage;
 import com.mapshot.api.common.slack.util.SlackMessageFormatter;
-import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
 
 @Component
 public class SlackClient extends CommonClient {
@@ -15,6 +16,15 @@ public class SlackClient extends CommonClient {
     @Value("${slack.url}")
     private String slackUrl;
 
+
+    public void sendMessage(ApiException e) {
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .title(e.getCode().getMessage())
+                .message(makeTransmissible(e))
+                .build();
+
+        sendSlackMessage(errorMessage);
+    }
 
     public void sendMessage(Exception e) {
         ErrorMessage errorMessage = ErrorMessage.builder()
