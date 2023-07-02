@@ -1,4 +1,6 @@
-package com.mapshot.api.common.validation;
+package com.mapshot.api.auth.validation.annotation;
+
+import com.mapshot.api.auth.validation.Accessible;
 
 import java.lang.annotation.*;
 

@@ -2,8 +2,8 @@ package com.mapshot.api.admin.controller;
 
 import com.mapshot.api.admin.model.AdminRequest;
 import com.mapshot.api.admin.service.AdminService;
-import com.mapshot.api.common.validation.Accessible;
-import com.mapshot.api.common.validation.PreAuth;
+import com.mapshot.api.auth.validation.Accessible;
+import com.mapshot.api.auth.validation.annotation.PreAuth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;

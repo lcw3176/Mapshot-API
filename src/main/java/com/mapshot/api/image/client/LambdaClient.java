@@ -1,8 +1,8 @@
 package com.mapshot.api.image.client;
 
 
+import com.mapshot.api.auth.validation.token.ImageToken;
 import com.mapshot.api.common.client.CommonClient;
-import com.mapshot.api.common.validation.token.ImageToken;
 import com.mapshot.api.image.model.ImageRequest;
 import com.mapshot.api.image.model.ImageResponse;
 import lombok.RequiredArgsConstructor;

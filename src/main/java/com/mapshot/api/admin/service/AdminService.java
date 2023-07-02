@@ -2,9 +2,9 @@ package com.mapshot.api.admin.service;
 
 import com.mapshot.api.admin.model.AdminRequest;
 import com.mapshot.api.admin.repository.AdminRepository;
+import com.mapshot.api.auth.validation.token.AdminToken;
 import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;
-import com.mapshot.api.common.validation.token.AdminToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

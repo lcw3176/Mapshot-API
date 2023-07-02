@@ -1,5 +1,6 @@
 package com.mapshot.api.common.validation.token;
 
+import com.mapshot.api.auth.validation.token.AdminToken;
 import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;
 import org.junit.jupiter.api.Test;
@@ -32,6 +33,6 @@ class AdminTokenTest {
                 .isInstanceOf(ApiException.class)
                 .hasMessage(ErrorCode.NOT_VALID_TOKEN.getMessage());
     }
-    
+
 
 }

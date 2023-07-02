@@ -1,4 +1,4 @@
-package com.mapshot.api.common.validation.token;
+package com.mapshot.api.auth.validation.token;
 
 import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;

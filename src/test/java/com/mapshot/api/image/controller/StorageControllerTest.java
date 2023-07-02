@@ -2,7 +2,7 @@ package com.mapshot.api.image.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mapshot.api.common.validation.token.ImageToken;
+import com.mapshot.api.auth.validation.token.ImageToken;
 import com.mapshot.api.image.model.StorageRequest;
 import com.mapshot.api.image.service.StorageService;
 import org.junit.jupiter.api.Test;

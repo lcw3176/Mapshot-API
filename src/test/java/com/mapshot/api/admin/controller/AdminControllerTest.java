@@ -2,7 +2,7 @@ package com.mapshot.api.admin.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapshot.api.admin.model.AdminRequest;
-import com.mapshot.api.common.validation.token.AdminToken;
+import com.mapshot.api.auth.validation.token.AdminToken;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
