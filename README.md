@@ -28,6 +28,14 @@
 2. 연속 지적도, 토지이용 계획도 등 도시 계획 레이어 지도 이미지가 필요하신 분
 3. 고화질의 넓은 지도 이미지가 필요하신 분
 
+### 작동 방식
+
+![화면 캡처 2023-07-02 211656](https://github.com/lcw3176/mapshot-admin/assets/59993347/54d34f27-bfe8-4bc3-91a4-c051c2128c7d)
+
+- 캡쳐할 범위가 정해지면, 반경에 맞게 범위를 적절히 나누어 각각의 이미지 좌표를 계산합니다.
+- 분할한 타일들의 이미지를 불러온 후, 알맞게 조립합니다.
+- 최소 121장, 최대 441장의 사진을 호출합니다.
+
 ### 유저 활성도
 
 #### 방문자 추이
@@ -86,14 +94,9 @@ https://docs.kmapshot.com
 ├── ***.env
 ├── docker-compose.yml
 └── mapshot-executor
-    └── was-logs
-        ├── info.2023-03-01.0.log.gz
-        ├── warn.2023-03-01.0.log.gz
-        └── error.2023-03-01.0.log.gz
     └── logs
-        ├── info.log
-        ├── warn.log
-        └── error.log
+        ├── app.log
+        └── app.2023-03-01.0.log.gz
     └── main.db
     
 ```
