@@ -1,8 +1,8 @@
 package com.mapshot.api.auth.interceptor;
 
-import com.mapshot.api.auth.validation.Accessible;
+import com.mapshot.api.auth.annotation.PreAuth;
+import com.mapshot.api.auth.enums.Accessible;
 import com.mapshot.api.auth.validation.Validation;
-import com.mapshot.api.auth.validation.annotation.PreAuth;
 import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;
 import lombok.RequiredArgsConstructor;
