@@ -47,3 +47,4 @@ src/main/resources/static/docs/mapshot-docs.html
 docker-compose.yml
 /logs
 /was-logs
+*.log

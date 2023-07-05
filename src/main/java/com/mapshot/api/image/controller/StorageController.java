@@ -1,7 +1,7 @@
 package com.mapshot.api.image.controller;
 
-import com.mapshot.api.common.validation.Accessible;
-import com.mapshot.api.common.validation.PreAuth;
+import com.mapshot.api.auth.annotation.PreAuth;
+import com.mapshot.api.auth.enums.Accessible;
 import com.mapshot.api.image.model.StorageInner;
 import com.mapshot.api.image.model.StorageRequest;
 import com.mapshot.api.image.service.StorageService;

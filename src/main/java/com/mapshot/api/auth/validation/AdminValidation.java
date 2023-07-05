@@ -1,6 +1,6 @@
-package com.mapshot.api.common.validation;
+package com.mapshot.api.auth.validation;
 
-import com.mapshot.api.common.validation.token.AdminToken;
+import com.mapshot.api.auth.validation.token.AdminToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

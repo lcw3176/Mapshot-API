@@ -1,5 +1,6 @@
 package com.mapshot.api.common.validation.token;
 
+import com.mapshot.api.auth.validation.token.ImageToken;
 import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;
 import org.junit.jupiter.api.Test;

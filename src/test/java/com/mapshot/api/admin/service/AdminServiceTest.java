@@ -1,9 +1,9 @@
 package com.mapshot.api.admin.service;
 
 import com.mapshot.api.admin.model.AdminRequest;
+import com.mapshot.api.auth.validation.token.AdminToken;
 import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;
-import com.mapshot.api.common.validation.token.AdminToken;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

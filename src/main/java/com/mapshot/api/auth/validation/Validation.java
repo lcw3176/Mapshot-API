@@ -1,4 +1,4 @@
-package com.mapshot.api.common.validation;
+package com.mapshot.api.auth.validation;
 
 import javax.servlet.http.HttpServletRequest;
 

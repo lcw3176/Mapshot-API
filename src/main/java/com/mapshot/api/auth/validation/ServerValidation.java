@@ -1,6 +1,6 @@
-package com.mapshot.api.common.validation;
+package com.mapshot.api.auth.validation;
 
-import com.mapshot.api.common.validation.token.ImageToken;
+import com.mapshot.api.auth.validation.token.ImageToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
