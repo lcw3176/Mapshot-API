@@ -49,7 +49,7 @@ public class LoggingFilter extends OncePerRequestFilter {
                 request.getMethod(),
                 queryString == null ? request.getRequestURI() : request.getRequestURI() + queryString);
 
-        logPayload("Request", request.getContentType(), request.getInputStream());
+//        logPayload("Request", request.getContentType(), request.getInputStream());
     }
 
     private static void logResponse(ContentCachingResponseWrapper response) {
