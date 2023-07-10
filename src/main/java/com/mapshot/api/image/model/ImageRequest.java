@@ -1,13 +1,7 @@
 package com.mapshot.api.image.model;
 
 
-import com.mapshot.api.image.enums.CompanyType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
@@ -32,9 +26,5 @@ public class ImageRequest {
     // 지도 생성 타입
     // ex) satellite_base -> 위성 사진 기반의 지도
     private String type;
-
-    // 지도 이미지를 가져올 회사 타입
-    // ex) kakao -> 카카오 지도를 이용해서 이미지 생성
-    private CompanyType companyType;
 
 }
