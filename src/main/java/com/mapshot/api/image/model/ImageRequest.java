@@ -27,4 +27,6 @@ public class ImageRequest {
     // ex) satellite_base -> 위성 사진 기반의 지도
     private String type;
 
+    // 지도 생성 회사
+    private String companyType;
 }

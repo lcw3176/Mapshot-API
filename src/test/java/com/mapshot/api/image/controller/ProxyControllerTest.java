@@ -64,6 +64,7 @@ class ProxyControllerTest {
         when(lambdaClient.sendRequest(any(ImageRequest.class)))
                 .thenReturn(responses);
         ImageRequest request = ImageRequest.builder()
+                .companyType("kakao")
                 .lat(111)
                 .layerMode(false)
                 .level(2)
@@ -72,6 +73,7 @@ class ProxyControllerTest {
                 .build();
 
         MvcResult result = mockMvc.perform(get("/image/queue")
+                        .queryParam("companyType", request.getCompanyType().toString())
                         .queryParam("lat", Double.toString(request.getLat()))
                         .queryParam("lng", Double.toString(request.getLng()))
                         .queryParam("layerMode", Boolean.toString(request.isLayerMode()))
@@ -82,6 +84,8 @@ class ProxyControllerTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestParameters(
+                                parameterWithName("companyType")
+                                        .description("지도를 제공하는 회사"),
                                 parameterWithName("lat")
                                         .description("위도"),
                                 parameterWithName("lng")
