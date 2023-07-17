@@ -1,71 +1,74 @@
-name: deploy
+# 잠시 수동 배포로 운영
 
-on:
-  push:
-    branches: [ master ]
-    paths-ignore:
-      - 'README.md'
+#name: deploy
+#
+#on:
+#  push:
+#    branches: [ master ]
+#    paths-ignore:
+#      - 'README.md'
+#
+#jobs:
+#  depoly:
+#    name: CI/CD release
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#
+#      - name: Set up JDK
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: '11'
+#          distribution: 'temurin'
+#
+#      - name: Grant execute permission for gradlew
+#        run: chmod +x gradlew
+#
+#      - name: Build
+#        run: ./gradlew build -x test
+#
+#      - name: Login to Docker Hub
+#        uses: docker/login-action@v1
+#        with:
+#          username: ${{ secrets.DOCKERHUB_USERNAME }}
+#          password: ${{ secrets.DOCKERHUB_TOKEN }}
+#
+#      - name: Mapshot Jib
+#        env:
+#          MAPSHOT_EXECUTOR_DOCKERHUB_REPO_PATH: ${{ secrets.MAPSHOT_DOCKERHUB_REPO_PATH }}
+#        run: ./gradlew jib -x test
+#          -Djib.to.image=$MAPSHOT_EXECUTOR_DOCKERHUB_REPO_PATH
+#          -Djib.to.tags=mapshot-executor
+#
+#      - name: Get Github action IP
+#        id: ip
+#        uses: haythem/public-ip@v1.3
+#
+#      - name: Configure AWS Credentials
+#        uses: aws-actions/configure-aws-credentials@v1
+#        with:
+#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          aws-secret-access-key: ${{ secrets.AWS_ACCESS_SECRET_KEY }}
+#          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+#
+#      - name: Add Github Actions IP to Security group
+#        run: |
+#          aws ec2 authorize-security-group-ingress --group-name ${{ secrets.AWS_SECURITY_GROUP_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+#
+#      - name: Deploy
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.AWS_SSH_HOST }}
+#          username: ${{ secrets.AWS_SSH_USERNAME }}
+#          key: ${{ secrets.AWS_SSH_KEY }}
+#          script: |
+#            cd /home/${{ secrets.AWS_SSH_USERNAME }}/
+#            docker-compose down --rmi all
+#            docker-compose up -d
+#
+#      - name: Remove Github Actions IP From Security Group
+#        run: |
+#          aws ec2 revoke-security-group-ingress --group-name ${{ secrets.AWS_SECURITY_GROUP_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
 
-jobs:
-  depoly:
-    name: CI/CD release
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          java-version: '11'
-          distribution: 'temurin'
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Build
-        run: ./gradlew build -x test
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Mapshot Jib
-        env:
-          MAPSHOT_EXECUTOR_DOCKERHUB_REPO_PATH: ${{ secrets.MAPSHOT_DOCKERHUB_REPO_PATH }}
-        run: ./gradlew jib -x test
-          -Djib.to.image=$MAPSHOT_EXECUTOR_DOCKERHUB_REPO_PATH
-          -Djib.to.tags=mapshot-executor
-
-      - name: Get Github action IP
-        id: ip
-        uses: haythem/public-ip@v1.3
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_ACCESS_SECRET_KEY }}
-          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
-
-      - name: Add Github Actions IP to Security group
-        run: |
-          aws ec2 authorize-security-group-ingress --group-name ${{ secrets.AWS_SECURITY_GROUP_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
-
-      - name: Deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.AWS_SSH_HOST }}
-          username: ${{ secrets.AWS_SSH_USERNAME }}
-          key: ${{ secrets.AWS_SSH_KEY }}
-          script: |
-            cd /home/${{ secrets.AWS_SSH_USERNAME }}/
-            docker-compose down --rmi all
-            docker-compose up -d
-
-      - name: Remove Github Actions IP From Security Group
-        run: |
-          aws ec2 revoke-security-group-ingress --group-name ${{ secrets.AWS_SECURITY_GROUP_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
