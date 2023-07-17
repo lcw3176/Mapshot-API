@@ -1,14 +1,15 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.6.5'
+    id 'org.springframework.boot' version '3.0.3'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
     id 'com.google.cloud.tools.jib' version '3.1.2'
+    id 'org.graalvm.buildtools.native' version '0.9.17'
 }
 
 group = 'com.joebrooks'
-version = ''
-sourceCompatibility = '11'
+version = '1'
+sourceCompatibility = '17'
 
 configurations {
     compileOnly {
@@ -83,7 +84,7 @@ tasks.named('test') {
 
 jib {
     from {
-        image = "eclipse-temurin:11-jre"
+        image = "eclipse-temurin:17-jre"
     }
 
     to {
@@ -93,6 +94,10 @@ jib {
     container {
         jvmFlags = ["-Duser.timezone=Asia/Seoul"]
     }
+}
+
+bootBuildImage {
+    imageName = 'mapshot-native'
 }
 
 

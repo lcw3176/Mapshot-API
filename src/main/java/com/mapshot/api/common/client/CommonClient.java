@@ -3,15 +3,16 @@ package com.mapshot.api.common.client;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
-import java.nio.charset.StandardCharsets;
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
+
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 public abstract class CommonClient {
 
@@ -39,7 +40,7 @@ public abstract class CommonClient {
                     .acceptCharset(StandardCharsets.UTF_8)
                     .bodyValue(body)
                     .retrieve()
-                    .onStatus(HttpStatus::isError, response -> response.bodyToMono(String.class)
+                    .onStatus(HttpStatusCode::isError, response -> response.bodyToMono(String.class)
                             .flatMap(errorBody -> Mono.error(new RuntimeException(errorBody))))
                     .bodyToMono(clazz)
                     .block(Duration.ofMillis(timeoutMillis));
@@ -57,7 +58,7 @@ public abstract class CommonClient {
                     .accept(MediaType.APPLICATION_JSON)
                     .acceptCharset(StandardCharsets.UTF_8)
                     .retrieve()
-                    .onStatus(HttpStatus::isError, response -> response.bodyToMono(String.class)
+                    .onStatus(HttpStatusCode::isError, response -> response.bodyToMono(String.class)
                             .flatMap(errorBody -> Mono.error(new RuntimeException(errorBody))))
                     .bodyToMono(clazz)
                     .block(Duration.ofMillis(timeoutMillis));

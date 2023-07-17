@@ -3,20 +3,20 @@ package com.mapshot.api.notice.model;
 import com.mapshot.api.notice.consts.NoticeConst;
 import com.mapshot.api.notice.entity.NoticeEntity;
 import com.mapshot.api.notice.enums.NoticeType;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class NoticeRequest {
-    
+
     @NotBlank
     private String noticeType;
 
