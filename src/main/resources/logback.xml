@@ -13,7 +13,7 @@
 
     <!-- file -->
     <property name="file.format" value="* %date [%thread] %-5level %logger : {%mdc} - %msg%n"/>
-    <property name="file.basedir" value="./mapshot-executor/logs"/>
+    <property name="file.basedir" value="/mapshot-executor"/>
     <property name="file.name" value="app"/>
     <appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${file.basedir}/${file.name}.log</file>
