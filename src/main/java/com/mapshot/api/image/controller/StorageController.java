@@ -6,7 +6,6 @@ import com.mapshot.api.image.model.StorageInner;
 import com.mapshot.api.image.model.StorageRequest;
 import com.mapshot.api.image.service.StorageService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +23,12 @@ public class StorageController {
 
     @PreAuth(Accessible.EVERYONE)
     @GetMapping("/{uuid}")
-    public ResponseEntity<ByteArrayResource> returnCompletedImageToUser(@PathVariable String uuid) {
+    public ResponseEntity<byte[]> returnCompletedImageToUser(@PathVariable String uuid) {
         byte[] imageResource = storageService.getImage(uuid);
-        ByteArrayResource imageByte = new ByteArrayResource(imageResource);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG)
-                .body(imageByte);
+                .body(imageResource);
     }
 
     @PreAuth(Accessible.FRIENDLY_SERVER)
