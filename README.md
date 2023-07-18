@@ -71,8 +71,8 @@ https://docs.kmapshot.com
 
 ### 기술 스택
 
-- Java 11, Node.js
-- Spring Boot 2.6.5
+- Java 17, Node.js
+- Spring Boot 3.0.3
 - Spring-Data-JPA
 - H2 Database
 - AWS (EC2, Lambda)
