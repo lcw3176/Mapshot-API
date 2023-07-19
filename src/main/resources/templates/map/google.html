@@ -32,7 +32,7 @@
         var goalWidth;
         var zoomLevel;
         var maptype;
-        var defaultWidth = 500;
+        var defaultWidth = 1000;
         var dynamicWidth = defaultWidth;
 
         // var width;
@@ -82,7 +82,7 @@
 
         var map = new google.maps.Map(container, options);
 
-        goalWidth += defaultWidth;
+        // goalWidth += defaultWidth;
         var intervalCount = 0;
         var finalLoading = false;
         var endLoading = false;
@@ -93,12 +93,12 @@
 
             map.setCenter(new google.maps.LatLng(lat, lng));
 
-            if (dynamicWidth < goalWidth && !finalLoading) {
+            if (dynamicWidth <= goalWidth && !finalLoading) {
                 dynamicWidth += defaultWidth;
 
-            } else if (dynamicWidth >= goalWidth && !finalLoading) {
+            } else if (dynamicWidth > goalWidth && !finalLoading) {
                 finalLoading = true;
-                dynamicWidth -= defaultWidth;
+                dynamicWidth = goalWidth;
 
             } else if (finalLoading && !endLoading) {
                 endLoading = true;
@@ -110,7 +110,7 @@
             container.style.height = dynamicWidth + "px";
             container.style.width = dynamicWidth + "px";
 
-            if (intervalCount >= 40) {
+            if (intervalCount >= 30) {
                 clearInterval(timerId);
             }
 
