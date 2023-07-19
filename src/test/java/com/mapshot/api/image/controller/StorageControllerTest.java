@@ -11,7 +11,6 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.generate.RestDocumentationGenerator;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
@@ -49,8 +48,6 @@ class StorageControllerTest {
     @MockBean
     StorageService storageService;
 
-    @LocalServerPort
-    int port;
 
     @Autowired
     ImageToken imageToken;
