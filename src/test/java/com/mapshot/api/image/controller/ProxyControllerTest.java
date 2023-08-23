@@ -3,6 +3,7 @@ package com.mapshot.api.image.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mapshot.api.SlackMockExtension;
 import com.mapshot.api.image.client.LambdaClient;
 import com.mapshot.api.image.model.ImageRequest;
 import com.mapshot.api.image.model.ImageResponse;
@@ -34,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
-class ProxyControllerTest {
+class ProxyControllerTest extends SlackMockExtension {
 
     @Autowired
     MockMvc mockMvc;
