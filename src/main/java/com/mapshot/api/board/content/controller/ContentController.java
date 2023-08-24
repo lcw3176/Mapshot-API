@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/contact")
+@RequestMapping("/board/content")
 @CrossOrigin(originPatterns = {"https://*.kmapshot.com", "https://kmapshot.com"})
 @Validated
 public class ContentController {
@@ -27,7 +27,7 @@ public class ContentController {
     @PreAuth(Accessible.EVERYONE)
     @GetMapping("/list/{pageNumber}")
     public ResponseEntity<List<ContentListResponse>> showContentList(
-            @PositiveOrZero @PathVariable(value = "pageNumber") long pageNumber) {
+            @PositiveOrZero @PathVariable(value = "pageNumber") int pageNumber) {
 
         List<ContentListResponse> contentList = contentService.getContentList(pageNumber);
 

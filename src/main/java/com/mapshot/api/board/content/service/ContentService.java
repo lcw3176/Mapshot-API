@@ -8,6 +8,10 @@ import com.mapshot.api.board.content.repository.ContentRepository;
 import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,14 +23,19 @@ import java.util.stream.Collectors;
 public class ContentService {
 
     private final ContentRepository contentRepository;
+    private static final int DEFAULT_PAGE_COUNT = 10;
 
     @Transactional(readOnly = true)
-    public List<ContentListResponse> getContentList(long id) {
-        if (id == 0) {
-            id = contentRepository.findFirstByOrderByIdDesc().getId() + 1;
+    public List<ContentListResponse> getContentList(int pageNumber) {
+        pageNumber -= 1;
+
+        if (pageNumber < 0) {
+            throw new ApiException(ErrorCode.NO_SUCH_CONTENT);
         }
 
-        List<ContentEntity> contents = contentRepository.findTop10ByIdLessThanOrderByIdDesc(id);
+        Pageable pageable = PageRequest.of(pageNumber, DEFAULT_PAGE_COUNT, Sort.by(Sort.Direction.DESC, "id"));
+
+        Page<ContentEntity> contents = contentRepository.findAll(pageable);
 
         return contents.stream()
                 .map(ContentListResponse::fromEntity)
