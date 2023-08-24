@@ -2,9 +2,8 @@ spring:
   datasource:
     url: jdbc:h2:file:./testdb
     driverClassName: org.h2.Driver
-    username: ${databaseUserName}
-    password: ${databasePassword}
-
+    username: test
+    password: test
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
@@ -15,20 +14,20 @@ spring:
     suffix: .html
 
 lambda:
-  host: ${lambdaHost}
-  path: ${lambdaPath}
+  host: hello
+  path: hello
 
 slack:
-  url: ${slackUrl}
+  url: hello
 
 
 jwt:
   admin:
-    secret: ${jwtAdminSecret}
+    secret: hello
     header: ADMIN_AUTH_TOKEN
     second: 3600
 
   image:
-    secret: ${jwtImageSecret}
+    secret: hello
     header: AUTH_TOKEN
     second: 60
