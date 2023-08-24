@@ -6,7 +6,7 @@ import com.mapshot.api.board.content.model.ContentRequest;
 import com.mapshot.api.board.content.repository.ContentRepository;
 import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,7 +26,7 @@ class ContentServiceTest {
     @Autowired
     private ContentRepository contentRepository;
 
-    @BeforeEach
+    @AfterEach
     void init() {
         contentRepository.deleteAll();
     }
@@ -47,18 +47,40 @@ class ContentServiceTest {
 
     @Test
     void 목록_조회() {
-        ContentRequest request = ContentRequest
-                .builder()
-                .title("하이")
-                .content("방가방가")
-                .nickname("1234567890")
-                .build();
+        for (int i = 1; i <= 10; i++) {
+            ContentRequest request = ContentRequest
+                    .builder()
+                    .title("하이")
+                    .content("방가방가")
+                    .nickname("1234567890")
+                    .build();
 
-        contentService.save(request);
+            contentService.save(request);
+        }
 
-        List<ContentListResponse> lst = contentService.getContentList(0);
 
-        assertThat(lst).hasSize(1);
+        List<ContentListResponse> lst = contentService.getContentList(1);
+
+        assertThat(lst).hasSize(10);
+    }
+
+    @Test
+    void 페이지_1이하로_요청시_예외_발생() {
+        for (int i = 1; i <= 10; i++) {
+            ContentRequest request = ContentRequest
+                    .builder()
+                    .title("하이")
+                    .content("방가방가")
+                    .nickname("1234567890")
+                    .build();
+
+            contentService.save(request);
+        }
+
+
+        assertThatThrownBy(() -> contentService.getContentList(0))
+                .isInstanceOf(ApiException.class)
+                .hasMessage(ErrorCode.NO_SUCH_CONTENT.getMessage());
     }
 
     @Test
