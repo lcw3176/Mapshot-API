@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class ContentDetailResponse {
 
     private Long id;
-    private String writerIpAddress;
+    private String nickname;
     private String content;
     private String title;
     private Long commentCount;
@@ -26,7 +26,7 @@ public class ContentDetailResponse {
 
         return ContentDetailResponse.builder()
                 .id(content.getId())
-                .writerIpAddress(content.getWriterIpAddress())
+                .nickname(content.getNickname())
                 .content(content.getContent())
                 .title(content.getTitle())
                 .commentCount(content.getCommentCount())

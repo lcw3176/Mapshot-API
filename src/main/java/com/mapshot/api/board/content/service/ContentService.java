@@ -47,6 +47,4 @@ public class ContentService {
 
         return contentRepository.save(request.toEntity()).getId();
     }
-
-
 }

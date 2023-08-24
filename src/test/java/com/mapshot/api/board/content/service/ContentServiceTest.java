@@ -37,7 +37,7 @@ class ContentServiceTest {
                 .builder()
                 .title("하이")
                 .content("방가방가")
-                .writerIpAddress("127.0.0.1")
+                .nickname("1234567890")
                 .build();
 
         assertThatNoException()
@@ -51,7 +51,7 @@ class ContentServiceTest {
                 .builder()
                 .title("하이")
                 .content("방가방가")
-                .writerIpAddress("127.0.0.1")
+                .nickname("1234567890")
                 .build();
 
         contentService.save(request);
@@ -67,7 +67,7 @@ class ContentServiceTest {
                 .builder()
                 .title("하이")
                 .content("방가방가")
-                .writerIpAddress("127.0.0.1")
+                .nickname("1234567890")
                 .build();
 
         long id = contentService.save(request);
@@ -77,7 +77,7 @@ class ContentServiceTest {
 
         assertThat(response.getTitle()).isEqualTo(request.getTitle());
         assertThat(response.getContent()).isEqualTo(request.getContent());
-        assertThat(response.getWriterIpAddress()).isEqualTo(request.getWriterIpAddress());
+        assertThat(response.getNickname()).isEqualTo(request.getNickname());
     }
 
     @Test

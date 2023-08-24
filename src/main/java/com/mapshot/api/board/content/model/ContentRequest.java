@@ -16,19 +16,17 @@ import org.hibernate.validator.constraints.Length;
 @Builder
 public class ContentRequest {
 
-    private String writerIpAddress;
+    @NotBlank
+    @Length(max = ContentConfig.MAX_NICKNAME_LENGTH)
+    private String nickname;
 
     @NotBlank
+    @Length(max = ContentConfig.MAX_TITLE_LENGTH)
     private String title;
 
     @NotBlank
     @Length(max = ContentConfig.MAX_CONTENT_LENGTH)
     private String content;
-
-    public void setIp(String writerIpAddress) {
-        this.writerIpAddress = writerIpAddress;
-    }
-
 
     public ContentEntity toEntity() {
 
@@ -37,7 +35,7 @@ public class ContentRequest {
                 .content(content)
                 .commentCount(0L)
                 .viewCount(0L)
-                .writerIpAddress(writerIpAddress)
+                .nickname(nickname)
                 .build();
     }
 }

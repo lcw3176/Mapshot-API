@@ -19,7 +19,7 @@ public class ContentEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String writerIpAddress;
+    private String nickname;
 
     @Column(length = ContentConfig.MAX_TITLE_LENGTH)
     private String title;
