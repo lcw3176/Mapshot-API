@@ -2,6 +2,7 @@ package com.mapshot.api.image.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mapshot.api.SlackMockExtension;
 import com.mapshot.api.auth.validation.token.ImageToken;
 import com.mapshot.api.image.model.StorageRequest;
 import com.mapshot.api.image.service.StorageService;
@@ -37,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
-class StorageControllerTest {
+class StorageControllerTest extends SlackMockExtension {
 
     @Autowired
     ObjectMapper mapper;

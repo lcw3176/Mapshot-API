@@ -2,6 +2,7 @@ package com.mapshot.api.notice.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mapshot.api.SlackMockExtension;
 import com.mapshot.api.auth.validation.token.AdminToken;
 import com.mapshot.api.notice.enums.NoticeType;
 import com.mapshot.api.notice.model.NoticeDetailResponse;
@@ -37,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
-class NoticeControllerTest {
+class NoticeControllerTest extends SlackMockExtension {
 
     @Autowired
     ObjectMapper mapper;

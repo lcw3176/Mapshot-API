@@ -1,6 +1,7 @@
 package com.mapshot.api.admin.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mapshot.api.SlackMockExtension;
 import com.mapshot.api.admin.model.AdminRequest;
 import com.mapshot.api.auth.validation.token.AdminToken;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
-class AdminControllerTest {
+class AdminControllerTest extends SlackMockExtension {
+
 
     @Autowired
     ObjectMapper mapper;
@@ -110,4 +112,6 @@ class AdminControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError());
     }
+
+
 }
