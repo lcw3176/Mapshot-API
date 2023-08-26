@@ -1,5 +1,6 @@
 package com.mapshot.api.board.content.model;
 
+import com.mapshot.api.board.BoardConst;
 import com.mapshot.api.board.content.consts.ContentConfig;
 import com.mapshot.api.board.content.entity.ContentEntity;
 import jakarta.validation.constraints.NotBlank;
@@ -17,7 +18,7 @@ import org.hibernate.validator.constraints.Length;
 public class ContentRequest {
 
     @NotBlank
-    @Length(max = ContentConfig.MAX_NICKNAME_LENGTH)
+    @Length(max = BoardConst.MAX_NICKNAME_LENGTH)
     private String nickname;
 
     @NotBlank

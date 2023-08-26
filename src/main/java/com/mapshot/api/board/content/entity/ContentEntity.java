@@ -1,5 +1,6 @@
 package com.mapshot.api.board.content.entity;
 
+import com.mapshot.api.board.BoardConst;
 import com.mapshot.api.board.content.consts.ContentConfig;
 import com.mapshot.api.common.entity.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -19,6 +20,7 @@ public class ContentEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = BoardConst.MAX_NICKNAME_LENGTH)
     private String nickname;
 
     @Column(length = ContentConfig.MAX_TITLE_LENGTH)
