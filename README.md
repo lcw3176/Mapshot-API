@@ -4,6 +4,7 @@
 <p align="center">
 <img src="https://img.shields.io/badge/Made%20with-SpringBoot-blue">
 <img src="https://img.shields.io/badge/Service%20begun%20in-2021.01-brigntgreen">
+<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fkmapshot.com&count_bg=%23E16B3F&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=23.02+%7E&edge_flat=false">
 </p>
 <p align="center">
   <a href="https://kmapshot.com">https://kmapshot.com</a>
@@ -15,7 +16,7 @@
 
 도시 계획 직종에 근무하는 친구의 효율적인 작업을 위해 고안되었으며,
 지도를 한 구역씩 캡쳐해서 포토샵으로 합치던 기존의 프로세스를 자동화해서
-효율적인 업무가 가능합니다. (약 1시간 -> 20초).
+효율적인 업무가 가능합니다.
 
 ### 이용 추천 대상
 
@@ -36,36 +37,11 @@
 - 분할한 타일들의 이미지를 불러온 후, 알맞게 조립합니다.
 - 최소 121장, 최대 441장의 사진을 호출합니다.
 
-### 유저 활성도
-
-#### 방문자 추이
-
-![방문](https://hits.seeyoufarm.com/api/count/graph/dailyhits.svg?url=https://kmapshot.com?)
-
-#### 일일 방문자 (측정 시작: 23.02 ~ )
-
-![카운트](https://hits.seeyoufarm.com/api/count/keep/badge.svg?url=https%3A%2F%2Fkmapshot.com&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)
-
 ### API 문서
 
 https://docs.kmapshot.com
 
 ![localhost_63342_mapshot-api_src_main_resources_static_docs_mapshot-docs html__ijt=lkjgksifj5npj4b8olrn74bour _ij_reload=RELOAD_ON_SAVE](https://github.com/lcw3176/Mapshot-API/assets/59993347/e8e3bed9-9198-4ddf-8049-0f582249a8db)
-
-## 구현 기능
-
-### 완료
-
-- 사용자는 고화질의 지도 이미지를 생성할 수 있습니다.
-- 사용자는 공지사항을 읽을 수 있습니다.
-- 사용자는 문의사항을 보낼 수 있습니다. (관리자 이메일로 전송)
-- 관리자는 공지사항을 등록, 수정, 삭제할 수 있습니다.
-
-### 예정
-
-- 사용자는 문의사항을 보낼 수 있습니다.
-    - 관리자는 별도의 페이지에서 해당 사항을 처리합니다.
-    - 이미지 파일 첨부가 가능해야 합니다.
 
 ## 부가 정보
 
