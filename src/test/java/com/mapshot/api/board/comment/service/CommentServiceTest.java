@@ -5,6 +5,8 @@ import com.mapshot.api.board.comment.model.CommentResponse;
 import com.mapshot.api.board.comment.repositlry.CommentRepository;
 import com.mapshot.api.board.content.model.ContentRequest;
 import com.mapshot.api.board.content.service.ContentService;
+import com.mapshot.api.common.exception.ApiException;
+import com.mapshot.api.common.exception.status.ErrorCode;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatNoException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -117,4 +120,25 @@ class CommentServiceTest {
         assertEquals(commentResponses.get(0).getReferenceCommentId(), commentId);
     }
 
+    @Test
+    void 페이지_1미만으로_요청시_예외_발생() {
+
+        long contentId = generateContent();
+        long commentId = saveComment(contentId);
+
+        CommentRequest reRequest = CommentRequest
+                .builder()
+                .referenceCommentId(0L)
+                .contentId(commentId)
+                .content("대댓글~")
+                .nickname("1234567890")
+                .build();
+
+        commentService.save(reRequest);
+
+        assertThatThrownBy(() -> commentService.getComments(contentId, 0))
+                .isInstanceOf(ApiException.class)
+                .hasMessage(ErrorCode.NO_SUCH_COMMENT.getMessage());
+    }
+    
 }
