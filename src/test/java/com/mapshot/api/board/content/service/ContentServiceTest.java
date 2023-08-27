@@ -65,7 +65,7 @@ class ContentServiceTest {
     }
 
     @Test
-    void 페이지_1이하로_요청시_예외_발생() {
+    void 페이지_1미만으로_요청시_예외_발생() {
         for (int i = 1; i <= 10; i++) {
             ContentRequest request = ContentRequest
                     .builder()
