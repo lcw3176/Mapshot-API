@@ -11,8 +11,6 @@ public enum ErrorCode implements StatusCode {
     NOT_VALID_TOKEN(HttpStatus.FORBIDDEN, "잘못된 인증 토큰입니다."),
     NO_SUCH_NOTICE(HttpStatus.NOT_FOUND, "존재하지 않는 공지사항입니다."),
     NO_SUCH_USER(HttpStatus.NOT_FOUND, "존재하지 않는 유저입니다."),
-    NO_SUCH_CONTENT(HttpStatus.NOT_FOUND, "존재하지 않는 게시글입니다."),
-    NO_SUCH_COMMENT(HttpStatus.NOT_FOUND, "존재하지 않는 댓글입니다."),
     NO_SUCH_ALGORITHM(HttpStatus.NOT_FOUND, "암호화 알고리즘 탐색 불가"),
     NO_PRE_AUTH(HttpStatus.INTERNAL_SERVER_ERROR, "PreAuth 탐색 불가"),
     ;
