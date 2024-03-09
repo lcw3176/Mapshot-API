@@ -1,0 +1,69 @@
+name: deploy-dev
+
+on:
+  push:
+    branches: [ dev ]
+    paths-ignore:
+      - 'README.md'
+
+jobs:
+  depoly:
+    name: CI/CD release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build
+        run: ./gradlew build -x test
+
+      - name: Stop App
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DEV_HOST }}
+          username: ${{ secrets.DEV_USERNAME }}
+          key: ${{ secrets.DEV_KEY }}
+          port: ${{ secrets.DEV_PORT }}
+          passphrase: ${{ secrets.DEV_PASSPHRASE }}
+          script: |
+            pid=`ps aux | grep "[m]apshot-api-1.jar" | awk '{print $2}'`
+            if [ "$pid" == "" ]; then
+              echo "Process not found"
+            else
+              kill -15 $pid
+            fi
+            sudo mkdir -p /app
+
+      - name: 'Push JAR'
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.DEV_HOST }}
+          username: ${{ secrets.DEV_USERNAME }}
+          key: ${{ secrets.DEV_KEY }}
+          port: ${{ secrets.DEV_PORT }}
+          passphrase: ${{ secrets.DEV_PASSPHRASE }}
+          source: "build/libs/mapshot-api-1.jar"
+          target: "app"
+          strip_components: 2
+
+
+      - name: 'Start App'
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DEV_HOST }}
+          username: ${{ secrets.DEV_USERNAME }}
+          key: ${{ secrets.DEV_KEY }}
+          port: ${{ secrets.DEV_PORT }}
+          passphrase: ${{ secrets.DEV_PASSPHRASE }}
+          script: |
+            nohup java -jar -Duser.timezone=Asia/Seoul -Xms300m -Xmx300m -server -XX:OnOutOfMemoryError=restart.sh ./app/mapshot-api-1.jar 2>> /dev/null >> /dev/null &
