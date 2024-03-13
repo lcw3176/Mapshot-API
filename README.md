@@ -44,6 +44,20 @@ https://docs.kmapshot.com
 
 ![localhost_63342_mapshot-api_src_main_resources_static_docs_mapshot-docs html__ijt=lkjgksifj5npj4b8olrn74bour _ij_reload=RELOAD_ON_SAVE](https://github.com/lcw3176/Mapshot-API/assets/59993347/e8e3bed9-9198-4ddf-8049-0f582249a8db)
 
+### 모니터링
+
+http://monitor.kmapshot.com
+
+![스크린샷 2024-03-14 004135](https://github.com/lcw3176/Mapshot-API/assets/59993347/77b9a605-46a2-4ac7-a5d4-255ccc07a26d)
+
+- 그라파나 테스트중, 곧 추가 예정
+- 게스트 전용 계정
+
+```text
+id: guest
+pw: iammapshotguest
+```
+
 ## 부가 정보
 
 ### 기술 스택
@@ -80,7 +94,7 @@ https://docs.kmapshot.com
 
 ### docker-compose
 
-```shell
+```sh
 version: '3'
 
 services:
@@ -94,10 +108,13 @@ services:
       - ***.env
     volumes:
       - /mapshot-executor:/mapshot-executor
+    environment:
+      - JVM_OPTS=-Xmx300m -Xms300m
+      - TZ=Asia/Seoul
     deploy:
       resources:
         limits:
-          memory: 400M
+          memory: 512M
 ```
 
 
