@@ -36,3 +36,9 @@ jwt:
     secret: ${jwtImageSecret}
     header: AUTH_TOKEN
     second: 60
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
