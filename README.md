@@ -117,6 +117,12 @@ services:
           memory: 512M
 ```
 
+### 할일
 
+- 모니터링 주말 설치, 네이티브 이미지 호환여부 확인
+- 패키지 구조 변경
+    - 반 헥사고날?
+    - presentation, domain, infra, application
+    - 대신 도메인의 복잡도는 높지 않으니 in, out, adapter같은 인터페이스 남발 자제
 
 
