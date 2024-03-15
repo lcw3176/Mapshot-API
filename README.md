@@ -46,30 +46,22 @@ https://docs.kmapshot.com
 
 ### 모니터링
 
-http://monitor.kmapshot.com
+#### 리눅스 (Node Exporter Full)
 
-![스크린샷 2024-03-14 004135](https://github.com/lcw3176/Mapshot-API/assets/59993347/77b9a605-46a2-4ac7-a5d4-255ccc07a26d)
+![스크린샷 2024-03-16 003531](https://github.com/lcw3176/Mapshot-API/assets/59993347/a07c4f90-e1bd-445c-97b1-700a3fe87965)
 
-- 그라파나 테스트중, 곧 추가 예정
-- 게스트 전용 계정
+#### 어플리케이션 (Spring Boot Statistics & Endpoint Metrics)
 
-```text
-id: guest
-pw: iammapshotguest
-```
+![스크린샷 2024-03-16 003746](https://github.com/lcw3176/Mapshot-API/assets/59993347/a8b0ee5a-3a36-40a8-a66e-72a63225453b)
 
 ## 부가 정보
 
 ### 기술 스택
 
-- Java 17, Node.js
-- Spring Boot 3.0.3
-- Spring-Data-JPA
-- H2 Database
-- AWS (EC2, Lambda)
-- Cloud Flare(https, domain)
-- Docker(compose, hub)
-- Whatap, Slack, Sentry
+- Java 17, Spring Boot 3.0.3, Node.js
+- Spring-Data-JPA, H2 Database
+- AWS (EC2, Lambda), Cloud Flare(https, domain), Docker(compose, hub)
+- Sentry, Grafana
 
 ### 배포 프로세스
 
@@ -119,7 +111,7 @@ services:
 
 ### 할일
 
-- 모니터링 주말 설치, 네이티브 이미지 호환여부 확인
+- 모니터링 주말 설치 (O)
 - 패키지 구조 변경
     - 반 헥사고날?
     - presentation, domain, infra, application
