@@ -3,7 +3,7 @@ package com.mapshot.api.admin.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapshot.api.SlackMockExtension;
 import com.mapshot.api.admin.model.AdminRequest;
-import com.mapshot.api.auth.validation.token.AdminToken;
+import com.mapshot.api.auth.validation.Validation;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,7 +37,7 @@ class AdminControllerTest extends SlackMockExtension {
     MockMvc mockMvc;
 
     @Autowired
-    AdminToken adminToken;
+    Validation adminValidation;
 
     @Value("${jwt.admin.header}")
     private String ADMIN_HEADER_NAME;
@@ -101,7 +101,7 @@ class AdminControllerTest extends SlackMockExtension {
         mockMvc.perform(
                         RestDocumentationRequestBuilders.post(BASE_URL + "/auth/refresh")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .headers(HttpHeaders.readOnlyHttpHeaders(adminToken.getTokenHeader())))
+                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.getHeader())))
                 .andExpect(status().isOk())
                 .andDo(document("admin/auth/refresh",
                         preprocessRequest(prettyPrint()),

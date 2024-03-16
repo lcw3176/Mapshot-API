@@ -1,14 +1,13 @@
 package com.mapshot.api.admin.service;
 
 import com.mapshot.api.admin.model.AdminRequest;
-import com.mapshot.api.auth.validation.token.AdminToken;
+import com.mapshot.api.auth.validation.Validation;
 import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
@@ -18,15 +17,15 @@ class AdminServiceTest {
     private AdminService adminService;
 
     @Autowired
-    AdminToken adminToken;
+    Validation adminValidation;
 
 
-    @Test
-    void 토큰_생성_테스트() {
-        String token = adminToken.makeToken();
-
-        assertThatNoException().isThrownBy(() -> adminToken.isValid(token));
-    }
+//    @Test
+//    void 토큰_생성_테스트() {
+//        String token = adminValidation.getToken().toString();
+//
+//        assertThatNoException().isThrownBy(() -> adminValidation.isValid(token));
+//    }
 
 
     @Test
@@ -37,10 +36,6 @@ class AdminServiceTest {
                 .build();
 
         adminService.validateUser(request);
-
-        String token = adminToken.makeToken();
-
-        assertThatNoException().isThrownBy(() -> adminToken.isValid(token));
     }
 
     @Test

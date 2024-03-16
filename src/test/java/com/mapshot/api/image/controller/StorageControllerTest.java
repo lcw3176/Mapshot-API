@@ -3,11 +3,12 @@ package com.mapshot.api.image.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapshot.api.SlackMockExtension;
-import com.mapshot.api.auth.validation.token.ImageToken;
+import com.mapshot.api.auth.validation.Validation;
 import com.mapshot.api.image.model.StorageRequest;
 import com.mapshot.api.image.service.StorageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -51,7 +52,10 @@ class StorageControllerTest extends SlackMockExtension {
 
 
     @Autowired
-    ImageToken imageToken;
+    Validation serverValidation;
+
+    @Value("${jwt.image.header}")
+    private String SERVER_HEADER_NAME;
 
     private static final String BASE_URL = "/image/storage";
 
@@ -64,7 +68,7 @@ class StorageControllerTest extends SlackMockExtension {
         return RestDocumentationRequestBuilders.post(urlTemplate)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content)
-                .header(imageToken.getHeaderName(), token);
+                .header(SERVER_HEADER_NAME, token);
     }
 
 
@@ -96,13 +100,13 @@ class StorageControllerTest extends SlackMockExtension {
 
         String bodyContent = mapper.writeValueAsString(request);
 
-        mockMvc.perform(postRequest(BASE_URL, imageToken.generate(), bodyContent))
+        mockMvc.perform(postRequest(BASE_URL, serverValidation.getToken(), bodyContent))
                 .andExpect(status().isOk())
                 .andDo(document("image/storage/post",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
-                                headerWithName(imageToken.getHeaderName()).description("서버 간 인증 토큰")
+                                headerWithName(SERVER_HEADER_NAME).description("서버 간 인증 토큰")
                         ),
                         requestFields(
                                 fieldWithPath("uuid")
@@ -139,7 +143,7 @@ class StorageControllerTest extends SlackMockExtension {
         String bodyContent = mapper.writeValueAsString(request);
 
         mockMvc.perform(post(BASE_URL).content(bodyContent)
-                        .header(imageToken.getHeaderName(), "none"))
+                        .header(SERVER_HEADER_NAME, "none"))
                 .andExpect(status().is4xxClientError());
     }
 

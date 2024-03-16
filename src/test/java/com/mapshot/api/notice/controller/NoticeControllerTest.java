@@ -3,7 +3,7 @@ package com.mapshot.api.notice.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapshot.api.SlackMockExtension;
-import com.mapshot.api.auth.validation.token.AdminToken;
+import com.mapshot.api.auth.validation.Validation;
 import com.mapshot.api.notice.enums.NoticeType;
 import com.mapshot.api.notice.model.NoticeDetailResponse;
 import com.mapshot.api.notice.model.NoticeListResponse;
@@ -54,7 +54,7 @@ class NoticeControllerTest extends SlackMockExtension {
     private NoticeService noticeService;
 
     @Autowired
-    private AdminToken adminToken;
+    private Validation adminValidation;
 
     @Value("${jwt.admin.header}")
     private String ADMIN_HEADER_NAME;
@@ -126,7 +126,7 @@ class NoticeControllerTest extends SlackMockExtension {
                         RestDocumentationRequestBuilders.post(BASE_URL + "/register")
                                 .content(mapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .headers(HttpHeaders.readOnlyHttpHeaders(adminToken.getTokenHeader())))
+                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.getHeader())))
                 .andExpect(status().isOk())
                 .andDo(document("notice/register",
                         preprocessRequest(prettyPrint()),
@@ -164,7 +164,7 @@ class NoticeControllerTest extends SlackMockExtension {
         mockMvc.perform(
                         RestDocumentationRequestBuilders.get(BASE_URL + "/delete/{noticeNumber}", mostRecentNotice.getId())
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .headers(HttpHeaders.readOnlyHttpHeaders(adminToken.getTokenHeader())))
+                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.getHeader())))
                 .andExpect(status().isOk())
                 .andDo(document("notice/delete",
                         preprocessRequest(prettyPrint()),
@@ -200,7 +200,7 @@ class NoticeControllerTest extends SlackMockExtension {
                         RestDocumentationRequestBuilders.post(BASE_URL + "/modify/{noticeNumber}", mostRecentNotice.getId())
                                 .content(mapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .headers(HttpHeaders.readOnlyHttpHeaders(adminToken.getTokenHeader())))
+                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.getHeader())))
                 .andExpect(status().isOk())
                 .andDo(document("notice/modify",
                         preprocessRequest(prettyPrint()),

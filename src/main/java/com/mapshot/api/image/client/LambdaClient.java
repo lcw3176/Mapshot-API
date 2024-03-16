@@ -1,7 +1,7 @@
 package com.mapshot.api.image.client;
 
 
-import com.mapshot.api.auth.validation.token.ImageToken;
+import com.mapshot.api.auth.validation.Validation;
 import com.mapshot.api.common.client.CommonClient;
 import com.mapshot.api.image.model.ImageRequest;
 import com.mapshot.api.image.model.ImageResponse;
@@ -16,13 +16,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LambdaClient extends CommonClient {
 
+    private final Validation serverValidation;
+
     @Value("${lambda.host}")
     private String host;
 
     @Value("${lambda.path}")
     private String path;
 
-    private final ImageToken imageToken;
+    @Value("${jwt.image.header}")
+    private String SERVER_HEADER_NAME;
+
 
     public List<ImageResponse> sendRequest(ImageRequest request) {
         long timeoutMillis = 40 * 1000L;
@@ -37,7 +41,7 @@ public class LambdaClient extends CommonClient {
                 .queryParam("lng", request.getLng())
                 .queryParam("level", request.getLevel())
                 .queryParam("layerMode", request.isLayerMode())
-                .queryParam(imageToken.getHeaderName(), imageToken.generate())
+                .queryParam(SERVER_HEADER_NAME, serverValidation.getToken())
                 .build()
                 .toString();
 

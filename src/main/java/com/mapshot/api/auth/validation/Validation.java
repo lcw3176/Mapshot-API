@@ -8,7 +8,7 @@ public interface Validation {
 
     void checkValidation(HttpServletRequest request);
 
-    Object getAuth();
+    String getToken();
 
     MultiValueMap<String, String> getHeader();
 }

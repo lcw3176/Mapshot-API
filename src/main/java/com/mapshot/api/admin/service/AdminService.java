@@ -2,7 +2,6 @@ package com.mapshot.api.admin.service;
 
 import com.mapshot.api.admin.model.AdminRequest;
 import com.mapshot.api.admin.repository.AdminRepository;
-import com.mapshot.api.auth.validation.token.AdminToken;
 import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,6 @@ import java.security.NoSuchAlgorithmException;
 public class AdminService {
 
     private final AdminRepository adminRepository;
-    private final AdminToken adminToken;
     private static final String ENCRYPT_ALGORITHM = "SHA-256";
 
 
