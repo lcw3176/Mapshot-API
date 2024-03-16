@@ -6,9 +6,11 @@ import com.mapshot.api.admin.model.AdminRequest;
 import com.mapshot.api.auth.validation.token.AdminToken;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,6 +38,10 @@ class AdminControllerTest extends SlackMockExtension {
 
     @Autowired
     AdminToken adminToken;
+
+    @Value("${jwt.admin.header}")
+    private String ADMIN_HEADER_NAME;
+
 
     private static final String BASE_URL = "/admin";
 
@@ -69,13 +75,13 @@ class AdminControllerTest extends SlackMockExtension {
 //        mockMvc.perform(
 //                        RestDocumentationRequestBuilders.post(BASE_URL + "/logout")
 //                                .contentType(MediaType.APPLICATION_JSON)
-//                                .header(adminToken.getHeaderName(), adminToken.generate()))
+//                                .header(ADMIN_HEADER_NAME, adminToken.generate()))
 //                .andExpect(status().isOk())
 //                .andDo(document("admin/logout",
 //                        preprocessRequest(prettyPrint()),
 //                        preprocessResponse(prettyPrint()),
 //                        requestHeaders(
-//                                headerWithName(adminToken.getHeaderName()).description("관리자 인증 토큰")
+//                                headerWithName(ADMIN_HEADER_NAME).description("관리자 인증 토큰")
 //                        )));
 //    }
 
@@ -95,13 +101,13 @@ class AdminControllerTest extends SlackMockExtension {
         mockMvc.perform(
                         RestDocumentationRequestBuilders.post(BASE_URL + "/auth/refresh")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header(adminToken.getHeaderName(), adminToken.generate()))
+                                .headers(HttpHeaders.readOnlyHttpHeaders(adminToken.getTokenHeader())))
                 .andExpect(status().isOk())
                 .andDo(document("admin/auth/refresh",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
-                                headerWithName(adminToken.getHeaderName()).description("관리자 인증 토큰")
+                                headerWithName(ADMIN_HEADER_NAME).description("관리자 인증 토큰")
                         )));
     }
 

@@ -1,8 +1,8 @@
 package com.mapshot.api.auth.config;
 
 import com.mapshot.api.auth.interceptor.AuthInterceptor;
-import com.mapshot.api.auth.validation.token.AdminToken;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -13,7 +13,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebAuthConfig implements WebMvcConfigurer {
 
     private final AuthInterceptor authInterceptor;
-    private final AdminToken adminToken;
+
+    @Value("${jwt.admin.header}")
+    public String ADMIN_HEADER_NAME;
+
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -32,7 +35,7 @@ public class WebAuthConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/admin/**")
-                .exposedHeaders(adminToken.getHeaderName())
+                .exposedHeaders(ADMIN_HEADER_NAME)
                 .allowCredentials(true);
 
     }

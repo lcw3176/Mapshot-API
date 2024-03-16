@@ -8,8 +8,6 @@ import com.mapshot.api.common.exception.status.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -22,22 +20,14 @@ public class AdminService {
     private final AdminToken adminToken;
     private static final String ENCRYPT_ALGORITHM = "SHA-256";
 
+
     @Transactional(readOnly = true)
-    public MultiValueMap<String, String> login(AdminRequest request) {
+    public void validateUser(AdminRequest request) {
         String nickname = request.getNickname();
         String password = encrypt(request.getPassword());
 
         adminRepository.findByNicknameAndPassword(nickname, password)
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_USER));
-
-        return makeToken();
-    }
-
-    public MultiValueMap<String, String> makeToken() {
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add(adminToken.getHeaderName(), adminToken.generate());
-
-        return map;
     }
 
 

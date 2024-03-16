@@ -7,7 +7,6 @@ import com.mapshot.api.common.exception.status.ErrorCode;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.util.MultiValueMap;
 
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -24,8 +23,7 @@ class AdminServiceTest {
 
     @Test
     void 토큰_생성_테스트() {
-        MultiValueMap<String, String> headers = adminService.makeToken();
-        String token = headers.getFirst(adminToken.getHeaderName());
+        String token = adminToken.makeToken();
 
         assertThatNoException().isThrownBy(() -> adminToken.isValid(token));
     }
@@ -38,8 +36,9 @@ class AdminServiceTest {
                 .password("1234")
                 .build();
 
-        MultiValueMap<String, String> headers = adminService.login(request);
-        String token = headers.getFirst(adminToken.getHeaderName());
+        adminService.validateUser(request);
+
+        String token = adminToken.makeToken();
 
         assertThatNoException().isThrownBy(() -> adminToken.isValid(token));
     }
@@ -51,7 +50,7 @@ class AdminServiceTest {
                 .password("1234")
                 .build();
 
-        assertThatThrownBy(() -> adminService.login(request))
+        assertThatThrownBy(() -> adminService.validateUser(request))
                 .isInstanceOf(ApiException.class)
                 .hasMessage(ErrorCode.NO_SUCH_USER.getMessage());
     }

@@ -11,9 +11,11 @@ import com.mapshot.api.notice.model.NoticeRequest;
 import com.mapshot.api.notice.service.NoticeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
@@ -53,6 +55,9 @@ class NoticeControllerTest extends SlackMockExtension {
 
     @Autowired
     private AdminToken adminToken;
+
+    @Value("${jwt.admin.header}")
+    private String ADMIN_HEADER_NAME;
 
     @Test
     void 게시글_목록_조회_테스트() throws Exception {
@@ -121,13 +126,13 @@ class NoticeControllerTest extends SlackMockExtension {
                         RestDocumentationRequestBuilders.post(BASE_URL + "/register")
                                 .content(mapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header(adminToken.getHeaderName(), adminToken.generate()))
+                                .headers(HttpHeaders.readOnlyHttpHeaders(adminToken.getTokenHeader())))
                 .andExpect(status().isOk())
                 .andDo(document("notice/register",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
-                                headerWithName(adminToken.getHeaderName()).description("관리자 인증 토큰")
+                                headerWithName(ADMIN_HEADER_NAME).description("관리자 인증 토큰")
                         ),
                         requestFields(
                                 fieldWithPath("title").description("공지사항 제목"),
@@ -159,13 +164,13 @@ class NoticeControllerTest extends SlackMockExtension {
         mockMvc.perform(
                         RestDocumentationRequestBuilders.get(BASE_URL + "/delete/{noticeNumber}", mostRecentNotice.getId())
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header(adminToken.getHeaderName(), adminToken.generate()))
+                                .headers(HttpHeaders.readOnlyHttpHeaders(adminToken.getTokenHeader())))
                 .andExpect(status().isOk())
                 .andDo(document("notice/delete",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
-                                headerWithName(adminToken.getHeaderName()).description("관리자 인증 토큰")
+                                headerWithName(ADMIN_HEADER_NAME).description("관리자 인증 토큰")
                         ),
                         pathParameters(
                                 parameterWithName("noticeNumber").description("게시글 번호")
@@ -195,13 +200,13 @@ class NoticeControllerTest extends SlackMockExtension {
                         RestDocumentationRequestBuilders.post(BASE_URL + "/modify/{noticeNumber}", mostRecentNotice.getId())
                                 .content(mapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header(adminToken.getHeaderName(), adminToken.generate()))
+                                .headers(HttpHeaders.readOnlyHttpHeaders(adminToken.getTokenHeader())))
                 .andExpect(status().isOk())
                 .andDo(document("notice/modify",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestHeaders(
-                                headerWithName(adminToken.getHeaderName()).description("관리자 인증 토큰")
+                                headerWithName(ADMIN_HEADER_NAME).description("관리자 인증 토큰")
                         ),
                         requestFields(
                                 fieldWithPath("title").description("수정할 공지사항 제목"),

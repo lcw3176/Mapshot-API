@@ -6,6 +6,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.time.Duration;
 import java.util.Date;
@@ -20,9 +22,9 @@ public class AdminToken {
     private int DEFAULT_SECONDS;
 
     @Value("${jwt.admin.header}")
-    public String HEADER_NAME;
+    private String ADMIN_HEADER_NAME;
 
-    public String generate() {
+    public String makeToken() {
         Date now = new Date();
 
         return Jwts.builder()
@@ -31,10 +33,13 @@ public class AdminToken {
                 .compact();
     }
 
-    public String getHeaderName() {
-        return this.HEADER_NAME;
-    }
+    public MultiValueMap<String, String> getTokenHeader() {
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add(ADMIN_HEADER_NAME, makeToken());
 
+        return map;
+    }
+    
     public void isValid(String token) {
         try {
             Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);

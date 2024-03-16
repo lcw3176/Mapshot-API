@@ -18,7 +18,7 @@ class AdminTokenTest {
 
     @Test
     void 토큰_생성_테스트() {
-        String token = adminToken.generate();
+        String token = adminToken.makeToken();
 
         assertThatNoException().isThrownBy(() -> {
             adminToken.isValid(token);
