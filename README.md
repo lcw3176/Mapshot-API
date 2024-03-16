@@ -54,6 +54,14 @@ https://docs.kmapshot.com
 
 ![스크린샷 2024-03-16 003746](https://github.com/lcw3176/Mapshot-API/assets/59993347/a8b0ee5a-3a36-40a8-a66e-72a63225453b)
 
+### 배포 프로세스
+
+![asdasd (1)](https://github.com/lcw3176/Mapshot-API/assets/59993347/3b448bb3-19d4-4397-bb65-64ec2d6805f1)
+
+### 서버 아키텍쳐
+
+![asdasd](https://github.com/lcw3176/Mapshot-API/assets/59993347/005720e8-f1c6-43e8-b138-5eaaf85f66a0)
+
 ## 부가 정보
 
 ### 기술 스택
@@ -62,14 +70,6 @@ https://docs.kmapshot.com
 - Spring-Data-JPA, H2 Database
 - AWS (EC2, Lambda), Cloud Flare(https, domain), Docker(compose, hub)
 - Sentry, Grafana
-
-### 배포 프로세스
-
-![asdasd (1)](https://github.com/lcw3176/Mapshot-API/assets/59993347/3b448bb3-19d4-4397-bb65-64ec2d6805f1)
-
-### 서버 아키텍쳐
-
-![asdasd](https://github.com/lcw3176/Mapshot-API/assets/59993347/005720e8-f1c6-43e8-b138-5eaaf85f66a0)
 
 ### 서버 내부 구조
 
@@ -112,9 +112,6 @@ services:
 ### 할일
 
 - 모니터링 주말 설치 (O)
-- 패키지 구조 변경
-    - 반 헥사고날?
-    - presentation, domain, infra, application
-    - 대신 도메인의 복잡도는 높지 않으니 in, out, adapter같은 인터페이스 남발 자제
+- 패키지 구조 변경, 리팩토링
 
 
