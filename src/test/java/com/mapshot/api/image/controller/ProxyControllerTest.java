@@ -4,9 +4,9 @@ package com.mapshot.api.image.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapshot.api.SlackMockExtension;
-import com.mapshot.api.image.client.LambdaClient;
-import com.mapshot.api.image.model.ImageRequest;
-import com.mapshot.api.image.model.ImageResponse;
+import com.mapshot.api.infra.client.lambda.LambdaImageClient;
+import com.mapshot.api.infra.client.lambda.model.LambdaRequest;
+import com.mapshot.api.infra.client.lambda.model.LambdaResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -41,17 +41,17 @@ class ProxyControllerTest extends SlackMockExtension {
     MockMvc mockMvc;
 
     @MockBean
-    LambdaClient lambdaClient;
+    LambdaImageClient lambdaImageClient;
 
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Test
     void 이미지_제작_요청_테스트() throws Exception {
-        List<ImageResponse> responses = new ArrayList<>();
+        List<LambdaResponse> responses = new ArrayList<>();
 
         for (int i = 0; i < 3000; i += 1000) {
             for (int j = 0; j < 3000; j += 1000) {
-                ImageResponse response = ImageResponse.builder()
+                LambdaResponse response = LambdaResponse.builder()
                         .uuid(UUID.randomUUID().toString())
                         .x(j)
                         .y(i)
@@ -62,9 +62,9 @@ class ProxyControllerTest extends SlackMockExtension {
 
         }
 
-        when(lambdaClient.sendRequest(any(ImageRequest.class)))
+        when(lambdaImageClient.sendRequest(any(LambdaRequest.class)))
                 .thenReturn(responses);
-        ImageRequest request = ImageRequest.builder()
+        LambdaRequest request = LambdaRequest.builder()
                 .companyType("kakao")
                 .lat(111)
                 .layerMode(false)
@@ -108,8 +108,8 @@ class ProxyControllerTest extends SlackMockExtension {
                         )))
                 .andReturn();
 
-        List<ImageResponse> lst = mapper.readValue(result.getResponse().getContentAsString(),
-                new TypeReference<List<ImageResponse>>() {
+        List<LambdaResponse> lst = mapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<List<LambdaResponse>>() {
                 });
 
         assertThat(lst).hasSize(responses.size());
