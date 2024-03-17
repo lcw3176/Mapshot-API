@@ -1,13 +1,15 @@
 package com.mapshot.api.image.service;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import com.mapshot.api.image.model.StorageInner;
-import java.time.LocalDateTime;
-import java.util.UUID;
+import com.mapshot.api.domain.map.StorageService;
+import com.mapshot.api.presentation.map.model.StorageInner;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class StorageServiceTest {
 

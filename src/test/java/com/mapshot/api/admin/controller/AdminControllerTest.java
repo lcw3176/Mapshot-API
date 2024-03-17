@@ -2,12 +2,12 @@ package com.mapshot.api.admin.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapshot.api.SlackMockExtension;
-import com.mapshot.api.admin.entity.AdminEntity;
-import com.mapshot.api.admin.model.AdminRequest;
-import com.mapshot.api.admin.repository.AdminRepository;
+import com.mapshot.api.domain.admin.AdminEntity;
+import com.mapshot.api.domain.admin.AdminRepository;
 import com.mapshot.api.infra.web.auth.Validation;
 import com.mapshot.api.infra.web.exception.ApiException;
 import com.mapshot.api.infra.web.exception.status.ErrorCode;
+import com.mapshot.api.presentation.admin.model.AdminRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

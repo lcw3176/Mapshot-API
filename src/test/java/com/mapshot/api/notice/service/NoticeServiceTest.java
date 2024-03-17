@@ -1,13 +1,14 @@
 package com.mapshot.api.notice.service;
 
+import com.mapshot.api.domain.notice.NoticeEntity;
+import com.mapshot.api.domain.notice.NoticeRepository;
+import com.mapshot.api.domain.notice.NoticeService;
+import com.mapshot.api.domain.notice.NoticeType;
 import com.mapshot.api.infra.web.exception.ApiException;
 import com.mapshot.api.infra.web.exception.status.ErrorCode;
-import com.mapshot.api.notice.entity.NoticeEntity;
-import com.mapshot.api.notice.enums.NoticeType;
-import com.mapshot.api.notice.model.NoticeDetailResponse;
-import com.mapshot.api.notice.model.NoticeListResponse;
-import com.mapshot.api.notice.model.NoticeRequest;
-import com.mapshot.api.notice.repository.NoticeRepository;
+import com.mapshot.api.presentation.notice.model.NoticeDetailResponse;
+import com.mapshot.api.presentation.notice.model.NoticeListResponse;
+import com.mapshot.api.presentation.notice.model.NoticeRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
