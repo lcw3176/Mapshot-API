@@ -4,11 +4,11 @@ import com.mapshot.api.domain.notice.NoticeEntity;
 import com.mapshot.api.domain.notice.NoticeRepository;
 import com.mapshot.api.domain.notice.NoticeService;
 import com.mapshot.api.domain.notice.NoticeType;
-import com.mapshot.api.infra.web.exception.ApiException;
-import com.mapshot.api.infra.web.exception.status.ErrorCode;
+import com.mapshot.api.infra.exception.ApiException;
+import com.mapshot.api.infra.exception.status.ErrorCode;
 import com.mapshot.api.presentation.notice.model.NoticeDetailResponse;
 import com.mapshot.api.presentation.notice.model.NoticeListResponse;
-import com.mapshot.api.presentation.notice.model.NoticeRequest;
+import com.mapshot.api.presentation.notice.model.NoticeRegistrationRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,7 +52,7 @@ class NoticeServiceTest {
     @Test
     void 저장_테스트() {
 
-        NoticeRequest request = NoticeRequest.builder()
+        NoticeRegistrationRequest request = NoticeRegistrationRequest.builder()
                 .noticeType(NoticeType.FIX.toString())
                 .title("헬로")
                 .content("방가방가")
@@ -68,7 +68,7 @@ class NoticeServiceTest {
     @Test
     void 업데이트_테스트() {
 
-        NoticeRequest request = NoticeRequest.builder()
+        NoticeRegistrationRequest request = NoticeRegistrationRequest.builder()
                 .noticeType(NoticeType.UPDATE.toString())
                 .title("초기화")
                 .content("초기화")
@@ -77,7 +77,7 @@ class NoticeServiceTest {
         long id = noticeService.save(request);
 
         long updatedId = noticeService.modify(id,
-                NoticeRequest.builder()
+                NoticeRegistrationRequest.builder()
                         .noticeType(NoticeType.FIX.toString())
                         .title("헬로")
                         .content("헬로")
@@ -93,7 +93,7 @@ class NoticeServiceTest {
     @Test
     void 없는_데이터_수정시_예외_발생() {
 
-        NoticeRequest request = NoticeRequest.builder()
+        NoticeRegistrationRequest request = NoticeRegistrationRequest.builder()
                 .noticeType(NoticeType.UPDATE.toString())
                 .title("초기화")
                 .content("초기화")
@@ -103,7 +103,7 @@ class NoticeServiceTest {
 
         assertThatThrownBy(() ->
                 noticeService.modify(id + 1,
-                        NoticeRequest.builder()
+                        NoticeRegistrationRequest.builder()
                                 .noticeType(NoticeType.FIX.toString())
                                 .title("헬로")
                                 .content("헬로")
@@ -117,7 +117,7 @@ class NoticeServiceTest {
     @Test
     void 삭제_테스트() {
 
-        NoticeRequest request = NoticeRequest.builder()
+        NoticeRegistrationRequest request = NoticeRegistrationRequest.builder()
                 .noticeType(NoticeType.UPDATE.toString())
                 .title("초기화")
                 .content("초기화")
@@ -134,7 +134,7 @@ class NoticeServiceTest {
     @Test
     void 없는_데이터_삭제_요청시_예외_발생() {
 
-        NoticeRequest request = NoticeRequest.builder()
+        NoticeRegistrationRequest request = NoticeRegistrationRequest.builder()
                 .noticeType(NoticeType.UPDATE.toString())
                 .title("초기화")
                 .content("초기화")

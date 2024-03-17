@@ -1,13 +1,13 @@
 package com.mapshot.api.presentation.admin;
 
 import com.mapshot.api.domain.admin.AdminService;
-import com.mapshot.api.infra.web.auth.Validation;
-import com.mapshot.api.infra.web.auth.annotation.PreAuth;
-import com.mapshot.api.infra.web.auth.enums.Accessible;
+import com.mapshot.api.infra.auth.Validation;
+import com.mapshot.api.infra.auth.annotation.PreAuth;
+import com.mapshot.api.infra.auth.enums.Accessible;
 import com.mapshot.api.presentation.admin.model.AdminRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,20 +23,20 @@ public class AdminController {
     @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody AdminRequest request) {
         adminService.validateUser(request);
-        MultiValueMap<String, String> authHeader = adminValidation.getHeader();
+        HttpHeaders authHeader = adminValidation.getHeader();
 
         return ResponseEntity.ok()
-                .headers((httpHeaders) -> httpHeaders.addAll(authHeader))
+                .headers(authHeader)
                 .build();
     }
 
     @PreAuth(Accessible.ADMIN)
     @PostMapping("/auth/refresh")
     public ResponseEntity<Void> refreshAuth() {
-        MultiValueMap<String, String> authHeader = adminValidation.getHeader();
+        HttpHeaders authHeader = adminValidation.getHeader();
 
         return ResponseEntity.ok()
-                .headers((httpHeaders) -> httpHeaders.addAll(authHeader))
+                .headers(authHeader)
                 .build();
     }
 }

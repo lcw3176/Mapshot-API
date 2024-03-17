@@ -2,11 +2,11 @@ package com.mapshot.api.presentation.notice;
 
 
 import com.mapshot.api.domain.notice.NoticeService;
-import com.mapshot.api.infra.web.auth.annotation.PreAuth;
-import com.mapshot.api.infra.web.auth.enums.Accessible;
+import com.mapshot.api.infra.auth.annotation.PreAuth;
+import com.mapshot.api.infra.auth.enums.Accessible;
 import com.mapshot.api.presentation.notice.model.NoticeDetailResponse;
 import com.mapshot.api.presentation.notice.model.NoticeListResponse;
-import com.mapshot.api.presentation.notice.model.NoticeRequest;
+import com.mapshot.api.presentation.notice.model.NoticeRegistrationRequest;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
@@ -47,8 +47,8 @@ public class NoticeController {
 
     @PreAuth(Accessible.ADMIN)
     @PostMapping("/register")
-    public ResponseEntity<Void> registerNotice(@RequestBody NoticeRequest noticeRequest) {
-        noticeService.save(noticeRequest);
+    public ResponseEntity<Void> registerNotice(@RequestBody NoticeRegistrationRequest noticeRegistrationRequest) {
+        noticeService.save(noticeRegistrationRequest);
 
         return ResponseEntity.ok().build();
     }
@@ -65,8 +65,8 @@ public class NoticeController {
     @PreAuth(Accessible.ADMIN)
     @PostMapping("/modify/{noticeNumber}")
     public ResponseEntity<Void> modifyNotice(@PositiveOrZero @PathVariable(value = "noticeNumber") long noticeNumber,
-                                             @RequestBody NoticeRequest noticeRequest) {
-        noticeService.modify(noticeNumber, noticeRequest);
+                                             @RequestBody NoticeRegistrationRequest noticeRegistrationRequest) {
+        noticeService.modify(noticeNumber, noticeRegistrationRequest);
 
         return ResponseEntity.ok().build();
     }

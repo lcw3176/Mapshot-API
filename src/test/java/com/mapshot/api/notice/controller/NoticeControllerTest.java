@@ -7,10 +7,10 @@ import com.mapshot.api.domain.notice.NoticeEntity;
 import com.mapshot.api.domain.notice.NoticeRepository;
 import com.mapshot.api.domain.notice.NoticeService;
 import com.mapshot.api.domain.notice.NoticeType;
-import com.mapshot.api.infra.web.auth.Validation;
+import com.mapshot.api.infra.auth.Validation;
 import com.mapshot.api.presentation.notice.model.NoticeDetailResponse;
 import com.mapshot.api.presentation.notice.model.NoticeListResponse;
-import com.mapshot.api.presentation.notice.model.NoticeRequest;
+import com.mapshot.api.presentation.notice.model.NoticeRegistrationRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -140,7 +140,7 @@ class NoticeControllerTest extends SlackMockExtension {
 
     @Test
     void 게시글_등록_테스트() throws Exception {
-        NoticeRequest request = NoticeRequest
+        NoticeRegistrationRequest request = NoticeRegistrationRequest
                 .builder()
                 .title("헬로")
                 .content("방가방가")
@@ -168,7 +168,7 @@ class NoticeControllerTest extends SlackMockExtension {
 
     @Test
     void 관리자가_아닌_사람이_등록_요청시_예외() throws Exception {
-        NoticeRequest request = NoticeRequest
+        NoticeRegistrationRequest request = NoticeRegistrationRequest
                 .builder()
                 .title("헬로")
                 .content("방가방가")
@@ -215,7 +215,7 @@ class NoticeControllerTest extends SlackMockExtension {
     void 게시글_수정_테스트() throws Exception {
         NoticeListResponse mostRecentNotice = noticeService.getNoticeList(0).get(0);
 
-        NoticeRequest request = NoticeRequest.builder()
+        NoticeRegistrationRequest request = NoticeRegistrationRequest.builder()
                 .noticeType(NoticeType.RESERVED_CHECK.toString())
                 .title("수정된 타이틀")
                 .content("수정된 컨텐츠")
@@ -245,7 +245,7 @@ class NoticeControllerTest extends SlackMockExtension {
     void 관리자가_아닌_사람이_수정_요청시_예외() throws Exception {
         NoticeListResponse mostRecentNotice = noticeService.getNoticeList(0).get(0);
 
-        NoticeRequest request = NoticeRequest.builder()
+        NoticeRegistrationRequest request = NoticeRegistrationRequest.builder()
                 .noticeType(NoticeType.RESERVED_CHECK.toString())
                 .title("수정된 타이틀")
                 .content("수정된 컨텐츠")
