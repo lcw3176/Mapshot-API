@@ -2,13 +2,15 @@ package com.mapshot.api.notice.service;
 
 import com.mapshot.api.common.exception.ApiException;
 import com.mapshot.api.common.exception.status.ErrorCode;
+import com.mapshot.api.notice.entity.NoticeEntity;
 import com.mapshot.api.notice.enums.NoticeType;
 import com.mapshot.api.notice.model.NoticeDetailResponse;
 import com.mapshot.api.notice.model.NoticeListResponse;
 import com.mapshot.api.notice.model.NoticeRequest;
+import com.mapshot.api.notice.repository.NoticeRepository;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -23,6 +25,28 @@ class NoticeServiceTest {
 
     @Autowired
     private NoticeService noticeService;
+
+    @Autowired
+    private NoticeRepository noticeRepository;
+
+
+    @BeforeEach
+    void init() {
+        for (int i = 0; i < 20; i++) {
+            noticeRepository.save(NoticeEntity.builder()
+                    .noticeType(NoticeType.UPDATE)
+                    .title(Integer.toString(i))
+                    .content(Integer.toString(i))
+                    .build());
+        }
+    }
+
+
+    @AfterEach
+    void release() {
+        noticeRepository.deleteAll();
+    }
+
 
     @Test
     void 저장_테스트() {
@@ -134,9 +158,11 @@ class NoticeServiceTest {
     }
 
 
-    @ParameterizedTest
-    @ValueSource(longs = {1, 2, 3, 4, 5})
-    void 단일_공지사항_가져오기(long id) {
+    @Test
+    void 단일_공지사항_가져오기() {
+
+        long id = noticeRepository.findFirstByOrderByIdDesc().getId();
+
         assertThat(noticeService.getSinglePost(id))
                 .isNotNull()
                 .extracting(NoticeDetailResponse::getId)
@@ -155,7 +181,7 @@ class NoticeServiceTest {
 
     @Test
     void 데이터_갯수가_충분한_여러개의_공지사항_가져오기() {
-        long id = 12;
+        long id = noticeRepository.findFirstByOrderByIdDesc().getId();
         int size = 10;
 
         List<NoticeListResponse> lst = noticeService.getNoticeList(id);
@@ -166,7 +192,9 @@ class NoticeServiceTest {
 
     @Test
     void 데이터_갯수가_모자란_여러개의_공지사항_가져오기() {
-        int id = 4;
+        // fixme 임시로 그냥 숫자 넣음
+
+        long id = noticeRepository.findFirstByOrderByIdDesc().getId() - 16;
         int size = 3;
         List<NoticeListResponse> lst = noticeService.getNoticeList(id);
         assertThat(lst).hasSize(size)

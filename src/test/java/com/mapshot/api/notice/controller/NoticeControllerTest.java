@@ -4,11 +4,15 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapshot.api.SlackMockExtension;
 import com.mapshot.api.auth.validation.Validation;
+import com.mapshot.api.notice.entity.NoticeEntity;
 import com.mapshot.api.notice.enums.NoticeType;
 import com.mapshot.api.notice.model.NoticeDetailResponse;
 import com.mapshot.api.notice.model.NoticeListResponse;
 import com.mapshot.api.notice.model.NoticeRequest;
+import com.mapshot.api.notice.repository.NoticeRepository;
 import com.mapshot.api.notice.service.NoticeService;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,15 +58,36 @@ class NoticeControllerTest extends SlackMockExtension {
     private NoticeService noticeService;
 
     @Autowired
+    private NoticeRepository noticeRepository;
+
+    @Autowired
     private Validation adminValidation;
 
     @Value("${jwt.admin.header}")
     private String ADMIN_HEADER_NAME;
 
+    @BeforeEach
+    void init() {
+        for (int i = 0; i <= 20; i++) {
+            noticeRepository.save(NoticeEntity.builder()
+                    .noticeType(NoticeType.UPDATE)
+                    .title(Integer.toString(i))
+                    .content(Integer.toString(i))
+                    .build());
+        }
+    }
+
+
+    @AfterEach
+    void release() {
+        noticeRepository.deleteAll();
+    }
+
     @Test
     void 게시글_목록_조회_테스트() throws Exception {
         MvcResult result = mockMvc.perform(
-                        RestDocumentationRequestBuilders.get(BASE_URL + "/list/{startPostNumber}", 11))
+                        RestDocumentationRequestBuilders.get(BASE_URL + "/list/{startPostNumber}",
+                                noticeRepository.findFirstByOrderByIdDesc().getId()))
                 .andExpect(status().isOk())
                 .andDo(document("notice/list",
                         preprocessRequest(prettyPrint()),
@@ -85,7 +110,7 @@ class NoticeControllerTest extends SlackMockExtension {
 
     @Test
     void 특정_게시글_조회_테스트() throws Exception {
-        long requestId = 2;
+        long requestId = noticeRepository.findFirstByOrderByIdDesc().getId();
 
         MvcResult result = mockMvc.perform(
                         RestDocumentationRequestBuilders.get(BASE_URL + "/detail/{postNumber}", requestId))

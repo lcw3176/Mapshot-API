@@ -2,8 +2,14 @@ package com.mapshot.api.admin.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapshot.api.SlackMockExtension;
+import com.mapshot.api.admin.entity.AdminEntity;
 import com.mapshot.api.admin.model.AdminRequest;
+import com.mapshot.api.admin.repository.AdminRepository;
 import com.mapshot.api.auth.validation.Validation;
+import com.mapshot.api.common.exception.ApiException;
+import com.mapshot.api.common.exception.status.ErrorCode;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +20,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
@@ -31,19 +40,57 @@ class AdminControllerTest extends SlackMockExtension {
 
 
     @Autowired
-    ObjectMapper mapper;
+    private ObjectMapper mapper;
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Autowired
-    Validation adminValidation;
+    private Validation adminValidation;
+
+    @Autowired
+    private AdminRepository adminRepository;
 
     @Value("${jwt.admin.header}")
     private String ADMIN_HEADER_NAME;
 
 
+    private static final String ENCRYPT_ALGORITHM = "SHA-256";
     private static final String BASE_URL = "/admin";
+
+    @BeforeEach
+    void init() {
+        adminRepository.save(AdminEntity.builder()
+                .nickname("test")
+                .password(encrypt("1234"))
+                .build());
+    }
+
+    @AfterEach
+    void release() {
+        adminRepository.deleteAll();
+    }
+
+
+    private String encrypt(String text) {
+        try {
+            MessageDigest md = MessageDigest.getInstance(ENCRYPT_ALGORITHM);
+            md.update(text.getBytes());
+
+            return bytesToHex(md.digest());
+        } catch (NoSuchAlgorithmException e) {
+            throw new ApiException(ErrorCode.NO_SUCH_ALGORITHM);
+        }
+
+    }
+
+    private String bytesToHex(byte[] bytes) {
+        StringBuilder builder = new StringBuilder();
+        for (byte b : bytes) {
+            builder.append(String.format("%02x", b));
+        }
+        return builder.toString();
+    }
 
 
     @Test
