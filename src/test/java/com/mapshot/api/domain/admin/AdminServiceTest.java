@@ -1,6 +1,5 @@
 package com.mapshot.api.domain.admin;
 
-import com.mapshot.api.infra.auth.Validation;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
 import com.mapshot.api.presentation.admin.model.AdminRequest;
@@ -13,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
@@ -24,9 +24,6 @@ class AdminServiceTest {
     @Autowired
     private AdminRepository adminRepository;
 
-
-    @Autowired
-    private Validation adminValidation;
     private static final String ENCRYPT_ALGORITHM = "SHA-256";
 
     @BeforeEach
@@ -71,7 +68,7 @@ class AdminServiceTest {
                 .password("1234")
                 .build();
 
-        adminService.validateUser(request);
+        assertThatNoException().isThrownBy(() -> adminService.validateUser(request));
     }
 
     @Test
