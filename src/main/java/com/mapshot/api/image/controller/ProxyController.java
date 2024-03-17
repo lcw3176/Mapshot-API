@@ -1,10 +1,10 @@
 package com.mapshot.api.image.controller;
 
-import com.mapshot.api.auth.annotation.PreAuth;
-import com.mapshot.api.auth.enums.Accessible;
-import com.mapshot.api.image.client.LambdaClient;
-import com.mapshot.api.image.model.ImageRequest;
-import com.mapshot.api.image.model.ImageResponse;
+import com.mapshot.api.infra.client.lambda.LambdaImageClient;
+import com.mapshot.api.infra.client.lambda.LambdaRequest;
+import com.mapshot.api.infra.client.lambda.LambdaResponse;
+import com.mapshot.api.infra.web.auth.annotation.PreAuth;
+import com.mapshot.api.infra.web.auth.enums.Accessible;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +17,13 @@ import java.util.List;
 @CrossOrigin(originPatterns = {"https://*.kmapshot.com", "https://kmapshot.com"})
 public class ProxyController {
 
-    private final LambdaClient lambdaClient;
+    private final LambdaImageClient lambdaImageClient;
 
     @PreAuth(Accessible.EVERYONE)
     @GetMapping
-    public ResponseEntity<List<ImageResponse>> sendUserRequestToLambda(@ModelAttribute ImageRequest mapRequest) {
+    public ResponseEntity<List<LambdaResponse>> sendUserRequestToLambda(@ModelAttribute LambdaRequest mapRequest) {
 
-        List<ImageResponse> response = lambdaClient.sendRequest(mapRequest);
+        List<LambdaResponse> response = lambdaImageClient.sendRequest(mapRequest);
 
         return ResponseEntity.ok(response);
     }

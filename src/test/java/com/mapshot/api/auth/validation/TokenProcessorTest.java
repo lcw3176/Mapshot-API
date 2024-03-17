@@ -1,7 +1,8 @@
 package com.mapshot.api.auth.validation;
 
-import com.mapshot.api.common.exception.ApiException;
-import com.mapshot.api.common.exception.status.ErrorCode;
+import com.mapshot.api.infra.web.auth.token.TokenProcessor;
+import com.mapshot.api.infra.web.exception.ApiException;
+import com.mapshot.api.infra.web.exception.status.ErrorCode;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

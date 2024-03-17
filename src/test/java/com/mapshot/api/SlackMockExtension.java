@@ -1,7 +1,7 @@
 package com.mapshot.api;
 
 
-import com.mapshot.api.common.slack.client.SlackClient;
+import com.mapshot.api.infra.client.slack.SlackClient;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.mockito.Mockito;

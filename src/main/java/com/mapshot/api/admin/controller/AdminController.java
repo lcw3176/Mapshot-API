@@ -2,9 +2,9 @@ package com.mapshot.api.admin.controller;
 
 import com.mapshot.api.admin.model.AdminRequest;
 import com.mapshot.api.admin.service.AdminService;
-import com.mapshot.api.auth.annotation.PreAuth;
-import com.mapshot.api.auth.enums.Accessible;
-import com.mapshot.api.auth.validation.Validation;
+import com.mapshot.api.infra.web.auth.Validation;
+import com.mapshot.api.infra.web.auth.annotation.PreAuth;
+import com.mapshot.api.infra.web.auth.enums.Accessible;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;

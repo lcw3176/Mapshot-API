@@ -1,6 +1,6 @@
 package com.mapshot.api.notice.entity;
 
-import com.mapshot.api.common.entity.BaseTimeEntity;
+import com.mapshot.api.infra.db.BaseTimeEntity;
 import com.mapshot.api.notice.consts.NoticeConst;
 import com.mapshot.api.notice.enums.NoticeType;
 import jakarta.persistence.*;

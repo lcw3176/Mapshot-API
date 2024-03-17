@@ -1,8 +1,8 @@
 package com.mapshot.api.notice.controller;
 
 
-import com.mapshot.api.auth.annotation.PreAuth;
-import com.mapshot.api.auth.enums.Accessible;
+import com.mapshot.api.infra.web.auth.annotation.PreAuth;
+import com.mapshot.api.infra.web.auth.enums.Accessible;
 import com.mapshot.api.notice.model.NoticeDetailResponse;
 import com.mapshot.api.notice.model.NoticeListResponse;
 import com.mapshot.api.notice.model.NoticeRequest;
