@@ -1,0 +1,34 @@
+name: Checkstyle
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '**/*.java'
+  pull_request:
+    branches:
+      - master
+      - feature/*
+    paths:
+      - '**/*.java'
+
+
+jobs:
+  checkstyle:
+    name: Checkstyle Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: 17
+
+      - name: Run Checkstyle
+        uses: "fabiang/checkstyle-action@v1"
+        with:
+          config: checkstyle.xml
