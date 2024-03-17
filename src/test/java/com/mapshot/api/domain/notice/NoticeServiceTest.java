@@ -1,9 +1,5 @@
-package com.mapshot.api.notice.service;
+package com.mapshot.api.domain.notice;
 
-import com.mapshot.api.domain.notice.NoticeEntity;
-import com.mapshot.api.domain.notice.NoticeRepository;
-import com.mapshot.api.domain.notice.NoticeService;
-import com.mapshot.api.domain.notice.NoticeType;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
 import com.mapshot.api.presentation.notice.model.NoticeDetailResponse;

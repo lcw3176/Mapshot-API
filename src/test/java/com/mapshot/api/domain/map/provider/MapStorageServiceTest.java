@@ -1,6 +1,5 @@
-package com.mapshot.api.image.service;
+package com.mapshot.api.domain.map.provider;
 
-import com.mapshot.api.domain.map.provider.MapStorageService;
 import com.mapshot.api.domain.map.provider.model.StorageInner;
 import com.mapshot.api.presentation.map.provider.model.StorageRequest;
 import org.junit.jupiter.api.AfterEach;

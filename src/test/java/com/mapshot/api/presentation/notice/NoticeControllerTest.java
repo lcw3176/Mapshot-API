@@ -1,4 +1,4 @@
-package com.mapshot.api.notice.controller;
+package com.mapshot.api.presentation.notice;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

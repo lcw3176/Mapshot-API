@@ -1,4 +1,4 @@
-package com.mapshot.api.image.controller;
+package com.mapshot.api.presentation.map.builder;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;

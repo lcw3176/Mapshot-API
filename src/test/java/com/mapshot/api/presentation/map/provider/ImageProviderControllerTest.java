@@ -1,4 +1,4 @@
-package com.mapshot.api.image.controller;
+package com.mapshot.api.presentation.map.provider;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;

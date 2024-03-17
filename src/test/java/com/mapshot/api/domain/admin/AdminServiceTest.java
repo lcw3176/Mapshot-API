@@ -1,8 +1,5 @@
-package com.mapshot.api.admin.service;
+package com.mapshot.api.domain.admin;
 
-import com.mapshot.api.domain.admin.AdminEntity;
-import com.mapshot.api.domain.admin.AdminRepository;
-import com.mapshot.api.domain.admin.AdminService;
 import com.mapshot.api.infra.auth.Validation;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;

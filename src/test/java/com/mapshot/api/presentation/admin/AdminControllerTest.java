@@ -1,4 +1,4 @@
-package com.mapshot.api.admin.controller;
+package com.mapshot.api.presentation.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapshot.api.SlackMockExtension;
