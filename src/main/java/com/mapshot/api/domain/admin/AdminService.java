@@ -1,9 +1,11 @@
 package com.mapshot.api.domain.admin;
 
+import com.mapshot.api.infra.auth.Validation;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
 import com.mapshot.api.presentation.admin.model.AdminRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +17,7 @@ import java.security.NoSuchAlgorithmException;
 public class AdminService {
 
     private final AdminRepository adminRepository;
+    private final Validation adminValidation;
     private static final String ENCRYPT_ALGORITHM = "SHA-256";
 
 
@@ -25,6 +28,10 @@ public class AdminService {
 
         adminRepository.findByNicknameAndPassword(nickname, password)
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_USER));
+    }
+
+    public HttpHeaders getAuthHeader() {
+        return adminValidation.getHeader();
     }
 
 
