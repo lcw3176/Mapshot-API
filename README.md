@@ -109,6 +109,11 @@ services:
           memory: 512M
 ```
 
+### 브랜치
+
+- production: 운영중인 코드
+- feature/: 개발 기능
+
 ### 할일
 
 - 모니터링 주말 설치 (O)
