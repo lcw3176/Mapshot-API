@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 
 @Component
@@ -40,6 +42,9 @@ public class AdminValidation implements Validation {
     public HttpHeaders getHeader() {
         String token = tokenProcessor.makeToken(DEFAULT_SECONDS, JWT_SECRET);
 
-        return HttpHeaders.readOnlyHttpHeaders(tokenProcessor.getTokenHeader(ADMIN_HEADER_NAME, token));
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add(ADMIN_HEADER_NAME, token);
+
+        return HttpHeaders.readOnlyHttpHeaders(map);
     }
 }
