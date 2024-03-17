@@ -1,7 +1,7 @@
 package com.mapshot.api.notice.service;
 
-import com.mapshot.api.common.exception.ApiException;
-import com.mapshot.api.common.exception.status.ErrorCode;
+import com.mapshot.api.infra.web.exception.ApiException;
+import com.mapshot.api.infra.web.exception.status.ErrorCode;
 import com.mapshot.api.notice.entity.NoticeEntity;
 import com.mapshot.api.notice.enums.NoticeType;
 import com.mapshot.api.notice.model.NoticeDetailResponse;

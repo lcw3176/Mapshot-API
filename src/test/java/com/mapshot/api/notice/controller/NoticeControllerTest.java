@@ -3,7 +3,7 @@ package com.mapshot.api.notice.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapshot.api.SlackMockExtension;
-import com.mapshot.api.auth.validation.Validation;
+import com.mapshot.api.infra.web.auth.Validation;
 import com.mapshot.api.notice.entity.NoticeEntity;
 import com.mapshot.api.notice.enums.NoticeType;
 import com.mapshot.api.notice.model.NoticeDetailResponse;

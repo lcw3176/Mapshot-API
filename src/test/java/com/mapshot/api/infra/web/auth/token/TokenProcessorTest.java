@@ -1,6 +1,5 @@
-package com.mapshot.api.auth.validation;
+package com.mapshot.api.infra.web.auth.token;
 
-import com.mapshot.api.infra.web.auth.token.TokenProcessor;
 import com.mapshot.api.infra.web.exception.ApiException;
 import com.mapshot.api.infra.web.exception.status.ErrorCode;
 import org.junit.jupiter.api.Test;
@@ -9,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 
 @SpringBootTest
 class TokenProcessorTest {
@@ -37,5 +35,5 @@ class TokenProcessorTest {
                 .isInstanceOf(ApiException.class)
                 .hasMessage(ErrorCode.NOT_VALID_TOKEN.getMessage());
     }
-
+    
 }
