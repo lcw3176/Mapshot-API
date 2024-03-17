@@ -2,6 +2,8 @@ package com.mapshot.api.infra.client.lambda;
 
 
 import com.mapshot.api.infra.client.CommonClient;
+import com.mapshot.api.infra.client.lambda.model.LambdaRequest;
+import com.mapshot.api.infra.client.lambda.model.LambdaResponse;
 import com.mapshot.api.infra.web.auth.Validation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

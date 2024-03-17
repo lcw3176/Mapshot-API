@@ -1,4 +1,4 @@
-package com.mapshot.api.infra.client.lambda;
+package com.mapshot.api.infra.client.lambda.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

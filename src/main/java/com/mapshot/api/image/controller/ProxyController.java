@@ -1,8 +1,8 @@
 package com.mapshot.api.image.controller;
 
 import com.mapshot.api.infra.client.lambda.LambdaImageClient;
-import com.mapshot.api.infra.client.lambda.LambdaRequest;
-import com.mapshot.api.infra.client.lambda.LambdaResponse;
+import com.mapshot.api.infra.client.lambda.model.LambdaRequest;
+import com.mapshot.api.infra.client.lambda.model.LambdaResponse;
 import com.mapshot.api.infra.web.auth.annotation.PreAuth;
 import com.mapshot.api.infra.web.auth.enums.Accessible;
 import lombok.RequiredArgsConstructor;
