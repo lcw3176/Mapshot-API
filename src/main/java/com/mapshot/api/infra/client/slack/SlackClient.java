@@ -4,7 +4,7 @@ package com.mapshot.api.infra.client.slack;
 import com.mapshot.api.infra.client.CommonClient;
 import com.mapshot.api.infra.client.slack.model.SlackMessage;
 import com.mapshot.api.infra.client.slack.util.SlackMessageFormatter;
-import com.mapshot.api.infra.web.exception.ApiException;
+import com.mapshot.api.infra.exception.ApiException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
