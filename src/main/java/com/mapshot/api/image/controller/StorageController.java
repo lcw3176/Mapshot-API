@@ -1,10 +1,10 @@
 package com.mapshot.api.image.controller;
 
-import com.mapshot.api.auth.annotation.PreAuth;
-import com.mapshot.api.auth.enums.Accessible;
 import com.mapshot.api.image.model.StorageInner;
 import com.mapshot.api.image.model.StorageRequest;
 import com.mapshot.api.image.service.StorageService;
+import com.mapshot.api.infra.web.auth.annotation.PreAuth;
+import com.mapshot.api.infra.web.auth.enums.Accessible;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
