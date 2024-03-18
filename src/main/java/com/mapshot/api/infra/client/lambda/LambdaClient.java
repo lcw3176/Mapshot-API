@@ -11,8 +11,9 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class LambdaClient extends CommonClient {
+public class LambdaClient {
 
+    private final CommonClient client;
 
     public <T> List<T> sendRequest(String host, String path, MultiValueMap<String, String> queryParams, Class<T[]> clazz) {
         long timeoutMillis = 30 * 1000L;
@@ -25,6 +26,6 @@ public class LambdaClient extends CommonClient {
                 .build()
                 .toString();
 
-        return List.of(get(url, timeoutMillis, clazz));
+        return List.of(client.get(url, timeoutMillis, clazz));
     }
 }
