@@ -5,13 +5,17 @@ import com.mapshot.api.infra.client.CommonClient;
 import com.mapshot.api.infra.client.slack.model.SlackMessage;
 import com.mapshot.api.infra.client.slack.util.SlackMessageFormatter;
 import com.mapshot.api.infra.exception.ApiException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
 @Component
-public class SlackClient extends CommonClient {
+@RequiredArgsConstructor
+public class SlackClient {
+
+    private final CommonClient client;
 
     @Value("${slack.url}")
     private String slackUrl;
@@ -39,7 +43,7 @@ public class SlackClient extends CommonClient {
         int timeoutMillis = 3000;
 
         String message = SlackMessageFormatter.makeExceptionMessage(exception);
-        post(slackUrl, timeoutMillis, message, String.class);
+        client.post(slackUrl, timeoutMillis, message, String.class);
     }
 
     private String makeTransmissible(Exception e) {
