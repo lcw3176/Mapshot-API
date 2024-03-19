@@ -46,6 +46,11 @@ https://docs.kmapshot.com
 
 ### 모니터링
 
+https://monitor.kmapshot.com
+
+- id: guest
+- pw: helloiamguest
+
 #### 리눅스 (Node Exporter Full)
 
 ![스크린샷 2024-03-16 003531](https://github.com/lcw3176/Mapshot-API/assets/59993347/a07c4f90-e1bd-445c-97b1-700a3fe87965)
