@@ -9,7 +9,7 @@ on:
 
 jobs:
   depoly:
-    name: CI/CD release
+    name: deploy-develop
     runs-on: ubuntu-latest
 
     steps:
