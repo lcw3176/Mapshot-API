@@ -26,7 +26,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Native Image
-        run: ./gradlew bootBuildImage
+        run: ./gradlew bootBuildImage -x processAot
 
       - name: Login to Docker Hub
         uses: docker/login-action@v1
