@@ -37,8 +37,8 @@ jobs:
       - name: Change Tag Name And Push
         run: |
           IMAGE_ID=$(sudo docker images --filter=reference=mapshot-native --format "{{.ID}}")
-          docker tag $IMAGE_ID $MAPSHOT_EXECUTOR_DOCKERHUB_REPO_PATH/mapshot-native-dev
-          docker push $MAPSHOT_EXECUTOR_DOCKERHUB_REPO_PATH/mapshot-native-dev
+          docker tag $IMAGE_ID $MAPSHOT_EXECUTOR_DOCKERHUB_REPO_PATH/mapshot-dev
+          docker push $MAPSHOT_EXECUTOR_DOCKERHUB_REPO_PATH/mapshot-dev
 
 
       - name: Deploy
