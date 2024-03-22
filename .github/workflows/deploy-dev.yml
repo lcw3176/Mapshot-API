@@ -36,7 +36,7 @@ jobs:
 
       - name: Change Tag Name And Push
         env:
-          REPO_PATH: ${{ secrets.MAPSHOT_EXECUTOR_DOCKERHUB_REPO_PATH }}
+          REPO_PATH: ${{ secrets.MAPSHOT_DOCKERHUB_REPO_PATH }}
         run: |
           IMAGE_ID=$(sudo docker images --filter=reference=mapshot-native --format "{{.ID}}")
           docker tag $IMAGE_ID $REPO_PATH:mapshot-dev
