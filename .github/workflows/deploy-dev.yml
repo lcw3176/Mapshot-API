@@ -39,11 +39,11 @@ jobs:
           host: ${{ secrets.OCI_SSH_HOST }}
           username: ${{ secrets.OCI_SSH_USERNAME }}
           key: ${{ secrets.OCI_SSH_KEY }}
-        run: |
-          cd /home/${{ secrets.OCI_SSH_USERNAME }}/
-          IMAGE_ID=$(sudo docker images --filter=reference=mapshot-native --format "{{.ID}}")
-          docker tag $IMAGE_ID $MAPSHOT_EXECUTOR_DOCKERHUB_REPO_PATH/mapshot-native-dev
-          docker push $MAPSHOT_EXECUTOR_DOCKERHUB_REPO_PATH/mapshot-native-dev
+          script: |
+            cd /home/${{ secrets.OCI_SSH_USERNAME }}/
+            IMAGE_ID=$(sudo docker images --filter=reference=mapshot-native --format "{{.ID}}")
+            docker tag $IMAGE_ID $MAPSHOT_EXECUTOR_DOCKERHUB_REPO_PATH/mapshot-native-dev
+            docker push $MAPSHOT_EXECUTOR_DOCKERHUB_REPO_PATH/mapshot-native-dev
 
       - name: Deploy
         uses: appleboy/ssh-action@master
