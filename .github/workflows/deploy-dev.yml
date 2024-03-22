@@ -34,12 +34,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      #      - name: Mapshot Jib
-      #        env:
-      #          MAPSHOT_EXECUTOR_DOCKERHUB_REPO_PATH: ${{ secrets.MAPSHOT_DOCKERHUB_REPO_PATH }} # dev 따로 운영해야하나?
-      #        run: ./gradlew jib -x test
-      #          -Djib.to.image=$MAPSHOT_EXECUTOR_DOCKERHUB_REPO_PATH
-      #          -Djib.to.tags=mapshot-executor
+      - name: Change Tag Name And Push
+        with:
+          host: ${{ secrets.OCI_SSH_HOST }}
+          username: ${{ secrets.OCI_SSH_USERNAME }}
+          key: ${{ secrets.OCI_SSH_KEY }}
+        run: |
+          cd /home/${{ secrets.OCI_SSH_USERNAME }}/
+          IMAGE_ID=$(sudo docker images --filter=reference=mapshot-native --format "{{.ID}}")
+          docker tag $IMAGE_ID $MAPSHOT_EXECUTOR_DOCKERHUB_REPO_PATH/mapshot-native-dev
+          docker push $MAPSHOT_EXECUTOR_DOCKERHUB_REPO_PATH/mapshot-native-dev
 
       - name: Deploy
         uses: appleboy/ssh-action@master
