@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.util.Iterator;
+
 
 @Component
 @RequiredArgsConstructor
@@ -30,6 +32,11 @@ public class ServerValidation implements Validation {
 
     @Override
     public void checkValidation(HttpServletRequest request) {
+        for (Iterator<String> it = request.getHeaderNames().asIterator(); it.hasNext(); ) {
+            String i = it.next();
+            log.info("헤더 이름:{}", i);
+        }
+        
         String token = request.getHeader(SERVER_HEADER_NAME);
         log.info("토큰 : {}, 시크릿: {}, 헤더: {}", token, JWT_SECRET, SERVER_HEADER_NAME);
         tokenProcessor.isValid(JWT_SECRET, token);
@@ -37,7 +44,9 @@ public class ServerValidation implements Validation {
 
     @Override
     public String getToken() {
-        return tokenProcessor.makeToken(DEFAULT_SECONDS, JWT_SECRET);
+        String token = tokenProcessor.makeToken(DEFAULT_SECONDS, JWT_SECRET);
+        log.info("토큰 발급: {}", token);
+        return token;
     }
 
     @Override
