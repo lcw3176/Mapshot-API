@@ -29,12 +29,15 @@ public class ServerValidation implements Validation {
     @Override
     public void checkValidation(HttpServletRequest request) {
         String token = request.getHeader(SERVER_HEADER_NAME);
+
         tokenProcessor.isValid(JWT_SECRET, token);
     }
 
     @Override
     public String getToken() {
-        return tokenProcessor.makeToken(DEFAULT_SECONDS, JWT_SECRET);
+        String token = tokenProcessor.makeToken(DEFAULT_SECONDS, JWT_SECRET);
+
+        return token;
     }
 
     @Override
