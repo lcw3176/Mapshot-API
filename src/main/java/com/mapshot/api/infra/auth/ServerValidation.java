@@ -3,19 +3,15 @@ package com.mapshot.api.infra.auth;
 import com.mapshot.api.infra.auth.token.TokenProcessor;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import java.util.Iterator;
-
 
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class ServerValidation implements Validation {
 
     private final TokenProcessor tokenProcessor;
@@ -32,20 +28,15 @@ public class ServerValidation implements Validation {
 
     @Override
     public void checkValidation(HttpServletRequest request) {
-        for (Iterator<String> it = request.getHeaderNames().asIterator(); it.hasNext(); ) {
-            String i = it.next();
-            log.info("헤더 이름:{}", i);
-        }
-        
         String token = request.getHeader(SERVER_HEADER_NAME);
-        log.info("토큰 : {}, 시크릿: {}, 헤더: {}", token, JWT_SECRET, SERVER_HEADER_NAME);
+
         tokenProcessor.isValid(JWT_SECRET, token);
     }
 
     @Override
     public String getToken() {
         String token = tokenProcessor.makeToken(DEFAULT_SECONDS, JWT_SECRET);
-        log.info("토큰 발급: {}", token);
+
         return token;
     }
 
@@ -56,7 +47,6 @@ public class ServerValidation implements Validation {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add(SERVER_HEADER_NAME, token);
 
-        log.info("토큰 : {}, 시크릿: {}, 헤더: {}", token, JWT_SECRET, SERVER_HEADER_NAME);
         return HttpHeaders.readOnlyHttpHeaders(map);
     }
 }
