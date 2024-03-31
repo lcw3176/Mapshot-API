@@ -26,7 +26,7 @@ public class NoticeService {
             startId = noticeRepository.findFirstByOrderByIdDesc().getId() + 1;
         }
 
-        List<NoticeEntity> noticeEntities = noticeRepository.findTop10ByIdLessThanOrderByIdDesc(startId);
+        List<NoticeEntity> noticeEntities = noticeRepository.findTop20ByIdLessThanOrderByIdDesc(startId);
 
         return noticeEntities.stream()
                 .map(NoticeListResponse::fromEntity)
