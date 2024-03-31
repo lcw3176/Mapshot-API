@@ -66,6 +66,8 @@ class NoticeControllerTest extends SlackMockExtension {
     @Value("${jwt.admin.header}")
     private String ADMIN_HEADER_NAME;
 
+    private static final int totalSearchSize = 20;
+
     @BeforeEach
     void init() {
         for (int i = 0; i <= 20; i++) {
@@ -104,7 +106,7 @@ class NoticeControllerTest extends SlackMockExtension {
                 });
 
         assertThat(actual)
-                .hasSize(10)
+                .hasSize(totalSearchSize)
                 .isSortedAccordingTo(Comparator.comparing(NoticeListResponse::getId).reversed());
     }
 
