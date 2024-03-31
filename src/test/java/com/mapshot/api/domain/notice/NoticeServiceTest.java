@@ -26,10 +26,11 @@ class NoticeServiceTest {
     @Autowired
     private NoticeRepository noticeRepository;
     private static final int totalSearchSize = 20;
+    private static final int testDataSize = 40;
 
     @BeforeEach
     void init() {
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < testDataSize; i++) {
             noticeRepository.save(NoticeEntity.builder()
                     .noticeType(NoticeType.UPDATE)
                     .title(Integer.toString(i))
@@ -188,9 +189,8 @@ class NoticeServiceTest {
 
     @Test
     void 데이터_갯수가_모자란_여러개의_공지사항_가져오기() {
-
         int size = 3;
-        long id = noticeRepository.findFirstByOrderByIdDesc().getId() - (totalSearchSize - size - 1);
+        long id = noticeRepository.findFirstByOrderByIdDesc().getId() - (testDataSize - size - 1);
 
         List<NoticeListResponse> lst = noticeService.getNoticeList(id);
         assertThat(lst).hasSize(size)
