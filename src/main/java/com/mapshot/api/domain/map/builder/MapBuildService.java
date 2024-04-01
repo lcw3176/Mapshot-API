@@ -38,7 +38,7 @@ public class MapBuildService {
         queryParams.add("lng", Double.toString(request.getLng()));
         queryParams.add("level", Integer.toString(request.getLevel()));
         queryParams.add("layerMode", Boolean.toString(request.isLayerMode()));
-        queryParams.add(SERVER_HEADER_NAME, serverValidation.getToken());
+        queryParams.add(SERVER_HEADER_NAME, serverValidation.makeToken());
 
         return lambdaClient.sendRequest(host, path, queryParams, MapBuildResponse[].class);
     }

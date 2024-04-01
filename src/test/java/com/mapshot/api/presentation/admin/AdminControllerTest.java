@@ -148,7 +148,7 @@ class AdminControllerTest extends SlackMockExtension {
         mockMvc.perform(
                         RestDocumentationRequestBuilders.post(BASE_URL + "/auth/refresh")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.getHeader())))
+                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader())))
                 .andExpect(status().isOk())
                 .andDo(document("admin/auth/refresh",
                         preprocessRequest(prettyPrint()),

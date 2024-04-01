@@ -27,7 +27,7 @@ class ServerValidationTest {
 
     @Test
     void 토큰_헤더_생성_테스트() {
-        HttpHeaders headers = serverValidation.getHeader();
+        HttpHeaders headers = serverValidation.makeHeader();
 
         assertThatNoException()
                 .isThrownBy(() -> tokenProcessor.isValid(JWT_SECRET, headers.getFirst(SERVER_HEADER_NAME)));
@@ -36,7 +36,7 @@ class ServerValidationTest {
 
     @Test
     void 토큰_생성_테스트() {
-        String token = serverValidation.getToken();
+        String token = serverValidation.makeToken();
 
         assertThatNoException()
                 .isThrownBy(() -> tokenProcessor.isValid(JWT_SECRET, token));
