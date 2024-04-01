@@ -34,14 +34,14 @@ public class ServerValidation implements Validation {
     }
 
     @Override
-    public String getToken() {
+    public String makeToken() {
         String token = tokenProcessor.makeToken(DEFAULT_SECONDS, JWT_SECRET);
 
         return token;
     }
 
     @Override
-    public HttpHeaders getHeader() {
+    public HttpHeaders makeHeader() {
         String token = tokenProcessor.makeToken(DEFAULT_SECONDS, JWT_SECRET);
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();

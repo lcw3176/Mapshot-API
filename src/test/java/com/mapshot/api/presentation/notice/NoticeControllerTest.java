@@ -153,7 +153,7 @@ class NoticeControllerTest extends SlackMockExtension {
                         RestDocumentationRequestBuilders.post(BASE_URL + "/register")
                                 .content(mapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.getHeader())))
+                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader())))
                 .andExpect(status().isOk())
                 .andDo(document("notice/register",
                         preprocessRequest(prettyPrint()),
@@ -191,7 +191,7 @@ class NoticeControllerTest extends SlackMockExtension {
         mockMvc.perform(
                         RestDocumentationRequestBuilders.get(BASE_URL + "/delete/{noticeNumber}", mostRecentNotice.getId())
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.getHeader())))
+                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader())))
                 .andExpect(status().isOk())
                 .andDo(document("notice/delete",
                         preprocessRequest(prettyPrint()),
@@ -227,7 +227,7 @@ class NoticeControllerTest extends SlackMockExtension {
                         RestDocumentationRequestBuilders.post(BASE_URL + "/modify/{noticeNumber}", mostRecentNotice.getId())
                                 .content(mapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.getHeader())))
+                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader())))
                 .andExpect(status().isOk())
                 .andDo(document("notice/modify",
                         preprocessRequest(prettyPrint()),

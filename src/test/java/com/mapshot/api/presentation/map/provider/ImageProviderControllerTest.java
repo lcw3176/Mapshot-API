@@ -100,7 +100,7 @@ class ImageProviderControllerTest extends SlackMockExtension {
 
         String bodyContent = mapper.writeValueAsString(request);
 
-        mockMvc.perform(postRequest(BASE_URL, serverValidation.getToken(), bodyContent))
+        mockMvc.perform(postRequest(BASE_URL, serverValidation.makeToken(), bodyContent))
                 .andExpect(status().isOk())
                 .andDo(document("image/storage/post",
                         preprocessRequest(prettyPrint()),

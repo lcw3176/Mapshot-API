@@ -31,7 +31,7 @@ public class AdminService {
     }
 
     public HttpHeaders getAuthHeader() {
-        return adminValidation.getHeader();
+        return adminValidation.makeHeader();
     }
 
 

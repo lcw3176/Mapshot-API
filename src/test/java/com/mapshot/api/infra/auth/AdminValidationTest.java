@@ -27,7 +27,7 @@ class AdminValidationTest {
 
     @Test
     void 토큰_헤더_생성_테스트() {
-        HttpHeaders headers = adminValidation.getHeader();
+        HttpHeaders headers = adminValidation.makeHeader();
 
         assertThatNoException()
                 .isThrownBy(() -> tokenProcessor.isValid(JWT_SECRET, headers.getFirst(ADMIN_HEADER_NAME)));
@@ -36,7 +36,7 @@ class AdminValidationTest {
 
     @Test
     void 토큰_생성_테스트() {
-        String token = adminValidation.getToken();
+        String token = adminValidation.makeToken();
 
         assertThatNoException()
                 .isThrownBy(() -> tokenProcessor.isValid(JWT_SECRET, token));

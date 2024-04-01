@@ -8,7 +8,7 @@ public interface Validation {
 
     void checkValidation(HttpServletRequest request);
 
-    String getToken();
+    String makeToken();
 
-    HttpHeaders getHeader();
+    HttpHeaders makeHeader();
 }
