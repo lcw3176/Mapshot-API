@@ -1,9 +1,4 @@
 spring:
-  #  datasource:
-  #    url: ${databaseUrl}
-  #    driver-class-name: org.mariadb.jdbc.Driver
-  #    username: ${databaseUserName}
-  #    password: ${databasePassword}
   datasource:
     url: jdbc:h2:file:./mapshot-executor/maindb
     driverClassName: org.h2.Driver
@@ -36,7 +31,7 @@ jwt:
     secret: ${jwtImageSecret}
     header: AUTH_TOKEN
     second: 60
-    
+
 management:
   endpoints:
     web:
