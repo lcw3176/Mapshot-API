@@ -1,13 +1,38 @@
 package com.mapshot.api.domain.community.post;
 
 
+import com.mapshot.api.presentation.community.post.model.PostListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
 
     private final PostRepository postRepository;
-    
+
+    @Transactional(readOnly = true)
+    public List<PostListResponse> getPostListById(long id) {
+
+        if (id == 0) {
+            id = postRepository.findFirstByOrderByIdDesc().getId() + 1;
+        }
+
+        List<PostEntity> postEntities = postRepository.findTop10ByIdLessThanOrderByIdDesc(id);
+
+        return postEntities.stream()
+                .map(i -> PostListResponse.builder()
+                        .id(i.getId())
+                        .title(i.getTitle())
+                        .createdDate(i.getCreatedDate())
+                        .writer(i.getWriter())
+                        .commentCount(i.getCommentCount())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
 }

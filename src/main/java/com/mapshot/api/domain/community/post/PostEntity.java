@@ -21,6 +21,9 @@ public class PostEntity extends BaseTimeEntity {
     @Column
     private String writer;
 
+    @Column(length = PostConst.MAX_TITLE_LENGTH)
+    private String title;
+
     @Column(length = PostConst.MAX_CONTENT_LENGTH)
     private String content;
 
