@@ -1,5 +1,8 @@
 package com.mapshot.api.domain.admin;
 
+import com.mapshot.api.domain.community.post.PostEntity;
+import com.mapshot.api.domain.community.post.PostRepository;
+import com.mapshot.api.infra.encrypt.EncryptUtil;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
 import com.mapshot.api.presentation.admin.model.AdminRequest;
@@ -8,9 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -24,40 +24,21 @@ class AdminServiceTest {
     @Autowired
     private AdminRepository adminRepository;
 
-    private static final String ENCRYPT_ALGORITHM = "SHA-256";
+    @Autowired
+    private PostRepository postRepository;
+
 
     @BeforeEach
     void init() {
         adminRepository.save(AdminEntity.builder()
                 .nickname("test")
-                .password(encrypt("1234"))
+                .password(EncryptUtil.encrypt("1234"))
                 .build());
     }
 
     @AfterEach
     void release() {
         adminRepository.deleteAll();
-    }
-
-
-    private String encrypt(String text) {
-        try {
-            MessageDigest md = MessageDigest.getInstance(ENCRYPT_ALGORITHM);
-            md.update(text.getBytes());
-
-            return bytesToHex(md.digest());
-        } catch (NoSuchAlgorithmException e) {
-            throw new ApiException(ErrorCode.NO_SUCH_ALGORITHM);
-        }
-
-    }
-
-    private String bytesToHex(byte[] bytes) {
-        StringBuilder builder = new StringBuilder();
-        for (byte b : bytes) {
-            builder.append(String.format("%02x", b));
-        }
-        return builder.toString();
     }
 
 
@@ -81,6 +62,20 @@ class AdminServiceTest {
         assertThatThrownBy(() -> adminService.validateUser(request))
                 .isInstanceOf(ApiException.class)
                 .hasMessage(ErrorCode.NO_SUCH_USER.getMessage());
+    }
+
+
+    @Test
+    void 게시글_관리자_권한으로_삭제() {
+        long id = postRepository.save(PostEntity.builder()
+                .title("hello")
+                .writer("good")
+                .content("hello")
+                .commentCount(0)
+                .password(EncryptUtil.encrypt("1234"))
+                .build()).getId();
+
+        assertThatNoException().isThrownBy(() -> adminService.deletePost(id));
     }
 
 }

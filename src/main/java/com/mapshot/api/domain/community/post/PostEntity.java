@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @NoArgsConstructor
@@ -31,5 +32,6 @@ public class PostEntity extends BaseTimeEntity {
     private String password;
 
     @Column
+    @ColumnDefault("0")
     private Integer commentCount;
 }
