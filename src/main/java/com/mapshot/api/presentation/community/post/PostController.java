@@ -50,7 +50,7 @@ public class PostController {
         return ResponseEntity.ok().build();
     }
 
-    @PreAuth({Accessible.EVERYONE, Accessible.ADMIN})
+    @PreAuth(Accessible.EVERYONE)
     @GetMapping("/delete/{postNumber}")
     public ResponseEntity<Void> deletePost(@Positive @PathVariable(value = "postNumber") long postNumber,
                                            @RequestParam("password") String password) {

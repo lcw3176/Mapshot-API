@@ -1,5 +1,6 @@
 package com.mapshot.api.domain.admin;
 
+import com.mapshot.api.domain.community.post.PostRepository;
 import com.mapshot.api.infra.auth.Validation;
 import com.mapshot.api.infra.encrypt.EncryptUtil;
 import com.mapshot.api.infra.exception.ApiException;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdminService {
 
     private final AdminRepository adminRepository;
+    private final PostRepository postRepository;
     private final Validation adminValidation;
 
 
@@ -25,6 +27,11 @@ public class AdminService {
 
         adminRepository.findByNicknameAndPassword(nickname, password)
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_USER));
+    }
+
+    @Transactional
+    public void deletePost(long id) {
+        postRepository.deleteById(id);
     }
 
     public HttpHeaders getAuthHeader() {
