@@ -6,6 +6,7 @@ import com.mapshot.api.infra.auth.enums.Accessible;
 import com.mapshot.api.presentation.community.post.model.PostDetailResponse;
 import com.mapshot.api.presentation.community.post.model.PostListResponse;
 import com.mapshot.api.presentation.community.post.model.PostRegisterRequest;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -49,5 +50,12 @@ public class PostController {
         return ResponseEntity.ok().build();
     }
 
+    @PreAuth({Accessible.EVERYONE, Accessible.ADMIN})
+    @GetMapping("/delete/{postNumber}")
+    public ResponseEntity<Void> deletePost(@Positive @PathVariable(value = "postNumber") long postNumber,
+                                           @RequestParam("password") String password) {
+        postService.deleteIfOwner(postNumber, password);
 
+        return ResponseEntity.ok().build();
+    }
 }

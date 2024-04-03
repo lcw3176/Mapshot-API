@@ -163,4 +163,45 @@ class PostServiceTest {
 
         assertEquals(entity.getCommentCount(), 0);
     }
+
+
+    @Test
+    void 게시글_삭제() {
+        String password = "1234";
+
+        long id = postService.save(
+                PostRegisterRequest.builder()
+                        .content("hello")
+                        .password(password)
+                        .title("good")
+                        .writer("guest")
+                        .build());
+
+        assertThatNoException().isThrownBy(() -> postService.deleteIfOwner(id, password));
+    }
+
+    @Test
+    void 잘못된_비밀번호_입력시_예외_발생() {
+        String password = "1234";
+
+        long id = postService.save(
+                PostRegisterRequest.builder()
+                        .content("hello")
+                        .password(password)
+                        .title("good")
+                        .writer("guest")
+                        .build());
+
+        assertThatThrownBy(() -> postService.deleteIfOwner(id, "hello"))
+                .isInstanceOf(ApiException.class)
+                .hasMessageStartingWith(ErrorCode.NOT_VALID_PASSWORD.getMessage());
+    }
+
+
+    @Test
+    void 존재하지_않는_게시글_삭제_시도시_예외() {
+        assertThatThrownBy(() -> postService.deleteIfOwner(-100, "hello"))
+                .isInstanceOf(ApiException.class)
+                .hasMessageStartingWith(ErrorCode.NO_SUCH_POST.getMessage());
+    }
 }

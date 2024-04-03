@@ -68,4 +68,18 @@ public class PostService {
                 .getId();
     }
 
+
+    @Transactional
+    public void deleteIfOwner(long id, String password) {
+
+        PostEntity entity = postRepository.findById(id)
+                .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_POST));
+
+        if (!entity.getPassword().equals(EncryptUtil.encrypt(password))) {
+            throw new ApiException(ErrorCode.NOT_VALID_PASSWORD);
+        }
+        
+        postRepository.deleteById(id);
+    }
+
 }
