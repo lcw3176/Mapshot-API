@@ -1,6 +1,8 @@
 package com.mapshot.api.domain.community.post;
 
 
+import com.mapshot.api.infra.exception.ApiException;
+import com.mapshot.api.infra.exception.status.ErrorCode;
 import com.mapshot.api.presentation.community.post.model.PostListResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -91,5 +95,23 @@ class PostServiceTest {
             assertEquals(i.getId(), recentId);
             recentId--;
         }
+    }
+
+    @Test
+    void 단일_게시글_조회() {
+        long id = postRepository.findFirstByOrderByIdDesc().getId();
+
+        assertThatNoException()
+                .isThrownBy(() -> postService.getSinglePostById(id));
+    }
+
+    @Test
+    void 없는_단일_게시글_조회시_예외_발생() {
+        long id = -100;
+
+        assertThatThrownBy(() -> postService.getSinglePostById(id))
+                .isInstanceOf(ApiException.class)
+                .hasMessageStartingWith(ErrorCode.NO_SUCH_POST.getMessage());
+
     }
 }

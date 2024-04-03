@@ -1,6 +1,9 @@
 package com.mapshot.api.domain.community.post;
 
 
+import com.mapshot.api.infra.exception.ApiException;
+import com.mapshot.api.infra.exception.status.ErrorCode;
+import com.mapshot.api.presentation.community.post.model.PostDetailResponse;
 import com.mapshot.api.presentation.community.post.model.PostListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,6 +36,21 @@ public class PostService {
                         .commentCount(i.getCommentCount())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+
+    @Transactional(readOnly = true)
+    public PostDetailResponse getSinglePostById(long id) {
+        PostEntity postEntity = postRepository.findById(id)
+                .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_POST));
+
+        return PostDetailResponse.builder()
+                .id(postEntity.getId())
+                .title(postEntity.getTitle())
+                .writer(postEntity.getWriter())
+                .content(postEntity.getContent())
+                .createdDate(postEntity.getCreatedDate())
+                .build();
     }
 
 }
