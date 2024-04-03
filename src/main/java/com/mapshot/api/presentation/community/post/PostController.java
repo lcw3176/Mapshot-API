@@ -1,6 +1,7 @@
 package com.mapshot.api.presentation.community.post;
 
 import com.mapshot.api.domain.community.post.PostService;
+import com.mapshot.api.presentation.community.post.model.PostDetailResponse;
 import com.mapshot.api.presentation.community.post.model.PostListResponse;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +25,13 @@ public class PostController {
         List<PostListResponse> responses = postService.getPostListById(id);
 
         return ResponseEntity.ok(responses);
+    }
+
+
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<PostDetailResponse> getSinglePost(@PositiveOrZero @PathVariable(value = "id") long id) {
+        PostDetailResponse response = postService.getSinglePostById(id);
+
+        return ResponseEntity.ok(response);
     }
 }
