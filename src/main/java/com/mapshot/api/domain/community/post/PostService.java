@@ -18,7 +18,7 @@ public class PostService {
     @Transactional(readOnly = true)
     public List<PostListResponse> getPostListById(long id) {
 
-        if (id == 0) {
+        if (id <= 0) {
             id = postRepository.findFirstByOrderByIdDesc().getId() + 1;
         }
 
