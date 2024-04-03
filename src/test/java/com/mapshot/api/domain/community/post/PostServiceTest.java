@@ -4,6 +4,7 @@ package com.mapshot.api.domain.community.post;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
 import com.mapshot.api.presentation.community.post.model.PostListResponse;
+import com.mapshot.api.presentation.community.post.model.PostRegisterRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 
 @SpringBootTest
@@ -113,5 +115,52 @@ class PostServiceTest {
                 .isInstanceOf(ApiException.class)
                 .hasMessageStartingWith(ErrorCode.NO_SUCH_POST.getMessage());
 
+    }
+
+    @Test
+    void 게시글_저장() {
+        assertThatNoException()
+                .isThrownBy(() -> postService.save(
+                        PostRegisterRequest.builder()
+                                .content("hello")
+                                .password("1234")
+                                .title("good")
+                                .writer("guest")
+                                .build()));
+
+    }
+
+    @Test
+    void 저장된_게시글의_비밀번호는_암호화됨() {
+        String password = "1234";
+
+        long id = postService.save(
+                PostRegisterRequest.builder()
+                        .content("hello")
+                        .password(password)
+                        .title("good")
+                        .writer("guest")
+                        .build());
+
+        PostEntity entity = postRepository.findById(id).get();
+
+        assertNotEquals(entity.getPassword(), password);
+    }
+
+    @Test
+    void 생성된_게시글의_댓글_갯수는_0임() {
+        String password = "1234";
+
+        long id = postService.save(
+                PostRegisterRequest.builder()
+                        .content("hello")
+                        .password(password)
+                        .title("good")
+                        .writer("guest")
+                        .build());
+
+        PostEntity entity = postRepository.findById(id).get();
+
+        assertEquals(entity.getCommentCount(), 0);
     }
 }

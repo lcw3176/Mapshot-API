@@ -1,8 +1,11 @@
 package com.mapshot.api.presentation.community.post;
 
 import com.mapshot.api.domain.community.post.PostService;
+import com.mapshot.api.infra.auth.annotation.PreAuth;
+import com.mapshot.api.infra.auth.enums.Accessible;
 import com.mapshot.api.presentation.community.post.model.PostDetailResponse;
 import com.mapshot.api.presentation.community.post.model.PostListResponse;
+import com.mapshot.api.presentation.community.post.model.PostRegisterRequest;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,7 @@ public class PostController {
 
     private final PostService postService;
 
+    @PreAuth(Accessible.EVERYONE)
     @GetMapping("/{id}")
     public ResponseEntity<List<PostListResponse>> getPosts(@PositiveOrZero @PathVariable(value = "id") long id) {
         List<PostListResponse> responses = postService.getPostListById(id);
@@ -28,10 +32,22 @@ public class PostController {
     }
 
 
+    @PreAuth(Accessible.EVERYONE)
     @GetMapping("/detail/{id}")
     public ResponseEntity<PostDetailResponse> getSinglePost(@PositiveOrZero @PathVariable(value = "id") long id) {
         PostDetailResponse response = postService.getSinglePostById(id);
 
         return ResponseEntity.ok(response);
     }
+
+
+    @PreAuth(Accessible.EVERYONE)
+    @PostMapping("/register")
+    public ResponseEntity<Void> registerPost(@RequestBody PostRegisterRequest request) {
+        postService.save(request);
+
+        return ResponseEntity.ok().build();
+    }
+
+
 }

@@ -1,10 +1,12 @@
 package com.mapshot.api.domain.community.post;
 
 
+import com.mapshot.api.infra.encrypt.EncryptUtil;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
 import com.mapshot.api.presentation.community.post.model.PostDetailResponse;
 import com.mapshot.api.presentation.community.post.model.PostListResponse;
+import com.mapshot.api.presentation.community.post.model.PostRegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +53,19 @@ public class PostService {
                 .content(postEntity.getContent())
                 .createdDate(postEntity.getCreatedDate())
                 .build();
+    }
+
+    @Transactional
+    public long save(PostRegisterRequest request) {
+
+        return postRepository.save(PostEntity.builder()
+                        .writer(request.getWriter())
+                        .content(request.getContent())
+                        .title(request.getTitle())
+                        .password(EncryptUtil.encrypt(request.getPassword()))
+                        .commentCount(0)
+                        .build())
+                .getId();
     }
 
 }
