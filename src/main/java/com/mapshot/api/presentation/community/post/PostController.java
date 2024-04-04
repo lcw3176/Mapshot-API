@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/post")
-@CrossOrigin(originPatterns = {"https://*.kmapshot.com", "https://kmapshot.com", "http://localhost:8081"})
+@CrossOrigin(originPatterns = {"https://*.kmapshot.com", "https://kmapshot.com"})
 @Validated
 public class PostController {
 
