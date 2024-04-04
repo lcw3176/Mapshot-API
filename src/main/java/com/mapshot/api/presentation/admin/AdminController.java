@@ -4,6 +4,7 @@ import com.mapshot.api.domain.admin.AdminService;
 import com.mapshot.api.infra.auth.annotation.PreAuth;
 import com.mapshot.api.infra.auth.enums.Accessible;
 import com.mapshot.api.presentation.admin.model.AdminRequest;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -36,5 +37,14 @@ public class AdminController {
         return ResponseEntity.ok()
                 .headers(authHeader)
                 .build();
+    }
+
+
+    @PreAuth(Accessible.ADMIN)
+    @GetMapping("/post/delete/{postNumber}")
+    public ResponseEntity<Void> deletePost(@Positive @PathVariable(value = "postNumber") long postNumber) {
+        adminService.deletePost(postNumber);
+
+        return ResponseEntity.ok().build();
     }
 }
