@@ -6,6 +6,7 @@ import com.mapshot.api.infra.auth.enums.Accessible;
 import com.mapshot.api.presentation.community.post.model.PostDetailResponse;
 import com.mapshot.api.presentation.community.post.model.PostListResponse;
 import com.mapshot.api.presentation.community.post.model.PostRegisterRequest;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/post")
-@CrossOrigin(originPatterns = {"https://*.kmapshot.com", "https://kmapshot.com"})
+@CrossOrigin(originPatterns = {"https://*.kmapshot.com", "https://kmapshot.com", "http://localhost:8081"})
 @Validated
 public class PostController {
 
@@ -44,7 +45,7 @@ public class PostController {
 
     @PreAuth(Accessible.EVERYONE)
     @PostMapping("/register")
-    public ResponseEntity<Void> registerPost(@RequestBody PostRegisterRequest request) {
+    public ResponseEntity<Void> registerPost(@Valid @RequestBody PostRegisterRequest request) {
         postService.save(request);
 
         return ResponseEntity.ok().build();
