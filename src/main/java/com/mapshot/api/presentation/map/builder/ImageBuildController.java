@@ -21,8 +21,8 @@ public class ImageBuildController {
 
     @PreAuth(Accessible.EVERYONE)
     @GetMapping
-    public ResponseEntity<List<MapBuildResponse>> sendUserRequestToLambda(@ModelAttribute MapBuildRequest mapRequest) {
-        List<MapBuildResponse> response = mapBuildService.requestMapImage(mapRequest);
+    public ResponseEntity<List<MapBuildResponse>> sendUserRequestToLambda(@ModelAttribute MapBuildRequest request) {
+        List<MapBuildResponse> response = mapBuildService.requestMapImage(request.toQueryParams());
 
         return ResponseEntity.ok(response);
     }

@@ -46,7 +46,7 @@ public class PostController {
     @PreAuth(Accessible.EVERYONE)
     @PostMapping("/register")
     public ResponseEntity<Void> registerPost(@Valid @RequestBody PostRegisterRequest request) {
-        postService.save(request);
+        postService.save(request.getWriter(), request.getContent(), request.getTitle(), request.getPassword());
 
         return ResponseEntity.ok().build();
     }

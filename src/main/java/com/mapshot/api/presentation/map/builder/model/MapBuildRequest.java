@@ -2,6 +2,8 @@ package com.mapshot.api.presentation.map.builder.model;
 
 
 import lombok.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 @Getter
 @Setter
@@ -29,4 +31,16 @@ public class MapBuildRequest {
 
     // 지도 생성 회사
     private String companyType;
+
+    public MultiValueMap<String, String> toQueryParams() {
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("type", this.getType());
+        queryParams.add("companyType", this.getCompanyType());
+        queryParams.add("lat", Double.toString(this.getLat()));
+        queryParams.add("lng", Double.toString(this.getLng()));
+        queryParams.add("level", Integer.toString(this.getLevel()));
+        queryParams.add("layerMode", Boolean.toString(this.isLayerMode()));
+
+        return queryParams;
+    }
 }

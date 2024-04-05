@@ -4,7 +4,6 @@ package com.mapshot.api.domain.community.post;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
 import com.mapshot.api.presentation.community.post.model.PostListResponse;
-import com.mapshot.api.presentation.community.post.model.PostRegisterRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -120,13 +119,7 @@ class PostServiceTest {
     @Test
     void 게시글_저장() {
         assertThatNoException()
-                .isThrownBy(() -> postService.save(
-                        PostRegisterRequest.builder()
-                                .content("hello")
-                                .password("1234")
-                                .title("good")
-                                .writer("guest")
-                                .build()));
+                .isThrownBy(() -> postService.save("guest", "hello", "hello", "123"));
 
     }
 
@@ -134,13 +127,7 @@ class PostServiceTest {
     void 저장된_게시글의_비밀번호는_암호화됨() {
         String password = "1234";
 
-        long id = postService.save(
-                PostRegisterRequest.builder()
-                        .content("hello")
-                        .password(password)
-                        .title("good")
-                        .writer("guest")
-                        .build());
+        long id = postService.save("guest", "hello", "hello", password);
 
         PostEntity entity = postRepository.findById(id).get();
 
@@ -151,13 +138,7 @@ class PostServiceTest {
     void 생성된_게시글의_댓글_갯수는_0임() {
         String password = "1234";
 
-        long id = postService.save(
-                PostRegisterRequest.builder()
-                        .content("hello")
-                        .password(password)
-                        .title("good")
-                        .writer("guest")
-                        .build());
+        long id = postService.save("guest", "hello", "hello", password);
 
         PostEntity entity = postRepository.findById(id).get();
 
@@ -169,13 +150,7 @@ class PostServiceTest {
     void 게시글_삭제() {
         String password = "1234";
 
-        long id = postService.save(
-                PostRegisterRequest.builder()
-                        .content("hello")
-                        .password(password)
-                        .title("good")
-                        .writer("guest")
-                        .build());
+        long id = postService.save("guest", "hello", "hello", password);
 
         assertThatNoException().isThrownBy(() -> postService.deleteIfOwner(id, password));
     }
@@ -184,13 +159,7 @@ class PostServiceTest {
     void 잘못된_비밀번호_입력시_예외_발생() {
         String password = "1234";
 
-        long id = postService.save(
-                PostRegisterRequest.builder()
-                        .content("hello")
-                        .password(password)
-                        .title("good")
-                        .writer("guest")
-                        .build());
+        long id = postService.save("guest", "hello", "hello", password);
 
         assertThatThrownBy(() -> postService.deleteIfOwner(id, "hello"))
                 .isInstanceOf(ApiException.class)

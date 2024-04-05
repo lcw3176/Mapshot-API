@@ -29,7 +29,7 @@ public class ImageProviderController {
 
     @PreAuth(Accessible.FRIENDLY_SERVER)
     @PostMapping
-    public void saveCompletedImage(@RequestBody StorageRequest storageRequest) {
-        mapStorageService.add(storageRequest);
+    public void saveCompletedImage(@RequestBody StorageRequest request) {
+        mapStorageService.add(request.getUuid(), request.getBase64EncodedImage());
     }
 }

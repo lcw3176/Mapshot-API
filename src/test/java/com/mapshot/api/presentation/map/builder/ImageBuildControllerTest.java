@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.util.MultiValueMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,7 @@ class ImageBuildControllerTest extends SlackMockExtension {
 
         }
 
-        when(mapBuildService.requestMapImage(any(MapBuildRequest.class)))
+        when(mapBuildService.requestMapImage(any(MultiValueMap.class)))
                 .thenReturn(responses);
         MapBuildRequest request = MapBuildRequest.builder()
                 .companyType("kakao")

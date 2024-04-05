@@ -1,7 +1,6 @@
 package com.mapshot.api.domain.map.provider;
 
 import com.mapshot.api.domain.map.provider.model.StorageInner;
-import com.mapshot.api.presentation.map.provider.model.StorageRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,11 +28,7 @@ class MapStorageServiceTest {
         int size = 100;
 
         for (int i = 0; i < size; i++) {
-            new Thread(() -> mapStorageService.add(StorageRequest
-                    .builder()
-                    .base64EncodedImage(BASE64_IMAGE)
-                    .uuid(UUID.randomUUID().toString())
-                    .build())).start();
+            new Thread(() -> mapStorageService.add(UUID.randomUUID().toString(), BASE64_IMAGE)).start();
         }
 
         while (mapStorageService.getAll().size() < size) {
@@ -53,10 +48,7 @@ class MapStorageServiceTest {
     void 이미지는_반환과_동시에_삭제됨() {
         String uuid = UUID.randomUUID().toString();
 
-        mapStorageService.add(StorageRequest.builder()
-                .base64EncodedImage(BASE64_IMAGE)
-                .uuid(uuid)
-                .build());
+        mapStorageService.add(uuid, BASE64_IMAGE);
         byte[] image = mapStorageService.getImage(uuid);
 
         assertEquals(Arrays.toString(image), Arrays.toString(Base64.getDecoder().decode(BASE64_IMAGE)));
