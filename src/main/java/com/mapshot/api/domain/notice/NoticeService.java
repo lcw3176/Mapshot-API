@@ -5,7 +5,6 @@ import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
 import com.mapshot.api.presentation.notice.model.NoticeDetailResponse;
 import com.mapshot.api.presentation.notice.model.NoticeListResponse;
-import com.mapshot.api.presentation.notice.model.NoticeRegistrationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,32 +39,5 @@ public class NoticeService {
 
         return NoticeDetailResponse.fromEntity(noticeEntity);
     }
-
-    @Transactional
-    public long save(NoticeRegistrationRequest request) {
-
-        return noticeRepository.save(request.toEntity()).getId();
-    }
-
-    @Transactional
-    public long modify(long id, NoticeRegistrationRequest request) {
-
-        NoticeEntity noticeEntity = noticeRepository.findById(id)
-                .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_NOTICE));
-
-        noticeEntity.update(request.getTitle(), NoticeType.valueOf(request.getNoticeType()), request.getContent());
-
-        return noticeRepository.save(noticeEntity).getId();
-    }
-
-
-    @Transactional
-    public void delete(long id) {
-        NoticeEntity noticeEntity = noticeRepository.findById(id)
-                .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_NOTICE));
-
-        noticeRepository.delete(noticeEntity);
-    }
-
 
 }

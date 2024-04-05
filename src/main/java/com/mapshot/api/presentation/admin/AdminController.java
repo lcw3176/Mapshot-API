@@ -4,7 +4,9 @@ import com.mapshot.api.domain.admin.AdminService;
 import com.mapshot.api.infra.auth.annotation.PreAuth;
 import com.mapshot.api.infra.auth.enums.Accessible;
 import com.mapshot.api.presentation.admin.model.AdminRequest;
+import com.mapshot.api.presentation.notice.model.NoticeRegistrationRequest;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +39,32 @@ public class AdminController {
         return ResponseEntity.ok()
                 .headers(authHeader)
                 .build();
+    }
+
+    @PreAuth(Accessible.ADMIN)
+    @PostMapping("/notice/register")
+    public ResponseEntity<Void> registerNotice(@RequestBody NoticeRegistrationRequest noticeRegistrationRequest) {
+        adminService.saveNotice(noticeRegistrationRequest);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PreAuth(Accessible.ADMIN)
+    @GetMapping("/notice/delete/{noticeNumber}")
+    public ResponseEntity<Void> deleteNotice(@PositiveOrZero @PathVariable(value = "noticeNumber") long noticeNumber) {
+        adminService.deleteNotice(noticeNumber);
+
+        return ResponseEntity.ok().build();
+    }
+
+
+    @PreAuth(Accessible.ADMIN)
+    @PostMapping("/notice/modify/{noticeNumber}")
+    public ResponseEntity<Void> modifyNotice(@PositiveOrZero @PathVariable(value = "noticeNumber") long noticeNumber,
+                                             @RequestBody NoticeRegistrationRequest noticeRegistrationRequest) {
+        adminService.modifyNotice(noticeNumber, noticeRegistrationRequest);
+
+        return ResponseEntity.ok().build();
     }
 
 
