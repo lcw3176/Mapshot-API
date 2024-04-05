@@ -7,7 +7,6 @@ import com.mapshot.api.domain.notice.NoticeType;
 import com.mapshot.api.infra.encrypt.EncryptUtil;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
-import com.mapshot.api.presentation.admin.model.AdminRequest;
 import com.mapshot.api.presentation.notice.model.NoticeRegistrationRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,22 +50,12 @@ class AdminServiceTest {
 
     @Test
     void 로그인_테스트() {
-        AdminRequest request = AdminRequest.builder()
-                .nickname("test")
-                .password("1234")
-                .build();
-
-        assertThatNoException().isThrownBy(() -> adminService.validateUser(request));
+        assertThatNoException().isThrownBy(() -> adminService.validateUser("test", "1234"));
     }
 
     @Test
     void 존재하지_않는_유저로_로그인시_예외_발생() {
-        AdminRequest request = AdminRequest.builder()
-                .nickname("i am not exist")
-                .password("1234")
-                .build();
-
-        assertThatThrownBy(() -> adminService.validateUser(request))
+        assertThatThrownBy(() -> adminService.validateUser("i am not exist", "1234"))
                 .isInstanceOf(ApiException.class)
                 .hasMessage(ErrorCode.NO_SUCH_USER.getMessage());
     }
@@ -89,13 +78,7 @@ class AdminServiceTest {
     @Test
     void 공지사항_저장_테스트() {
 
-        NoticeRegistrationRequest request = NoticeRegistrationRequest.builder()
-                .noticeType(NoticeType.FIX.toString())
-                .title("헬로")
-                .content("방가방가")
-                .build();
-
-        long id = adminService.saveNotice(request);
+        long id = adminService.saveNotice(NoticeType.FIX, "헬로", "방가방가");
 
         long savedId = noticeService.getSinglePost(id).getId();
 
@@ -111,14 +94,8 @@ class AdminServiceTest {
                 .content("초기화")
                 .build();
 
-        long id = adminService.saveNotice(request);
-
-        long updatedId = adminService.modifyNotice(id,
-                NoticeRegistrationRequest.builder()
-                        .noticeType(NoticeType.FIX.toString())
-                        .title("헬로")
-                        .content("헬로")
-                        .build());
+        long id = adminService.saveNotice(NoticeType.UPDATE, "초기화", "초기화");
+        long updatedId = adminService.modifyNotice(id, NoticeType.FIX, "헬로", "헬로");
 
 
         assertEquals(id, updatedId);
@@ -130,21 +107,10 @@ class AdminServiceTest {
     @Test
     void 없는_데이터_수정시_예외_발생() {
 
-        NoticeRegistrationRequest request = NoticeRegistrationRequest.builder()
-                .noticeType(NoticeType.UPDATE.toString())
-                .title("초기화")
-                .content("초기화")
-                .build();
-
-        long id = adminService.saveNotice(request);
+        long id = adminService.saveNotice(NoticeType.UPDATE, "초기화", "초기화");
 
         assertThatThrownBy(() ->
-                adminService.modifyNotice(id + 1,
-                        NoticeRegistrationRequest.builder()
-                                .noticeType(NoticeType.FIX.toString())
-                                .title("헬로")
-                                .content("헬로")
-                                .build()))
+                adminService.modifyNotice(id + 1, NoticeType.FIX, "헬로", "헬로"))
                 .isInstanceOf(ApiException.class)
                 .hasMessage(ErrorCode.NO_SUCH_NOTICE.getMessage());
 
@@ -154,13 +120,7 @@ class AdminServiceTest {
     @Test
     void 삭제_테스트() {
 
-        NoticeRegistrationRequest request = NoticeRegistrationRequest.builder()
-                .noticeType(NoticeType.UPDATE.toString())
-                .title("초기화")
-                .content("초기화")
-                .build();
-
-        long id = adminService.saveNotice(request);
+        long id = adminService.saveNotice(NoticeType.UPDATE, "초기화", "초기화");
 
         assertThatNoException()
                 .isThrownBy(() -> adminService.deleteNotice(id));
@@ -171,13 +131,7 @@ class AdminServiceTest {
     @Test
     void 없는_데이터_삭제_요청시_예외_발생() {
 
-        NoticeRegistrationRequest request = NoticeRegistrationRequest.builder()
-                .noticeType(NoticeType.UPDATE.toString())
-                .title("초기화")
-                .content("초기화")
-                .build();
-
-        long id = adminService.saveNotice(request);
+        long id = adminService.saveNotice(NoticeType.UPDATE, "초기화", "초기화");
 
         assertThatThrownBy(() -> adminService.deleteNotice(id + 1))
                 .isInstanceOf(ApiException.class)
