@@ -4,9 +4,6 @@ package com.mapshot.api.domain.community.post;
 import com.mapshot.api.infra.encrypt.EncryptUtil;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
-import com.mapshot.api.presentation.community.post.model.PostDetailResponse;
-import com.mapshot.api.presentation.community.post.model.PostListResponse;
-import com.mapshot.api.presentation.community.post.model.PostRegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,13 +53,13 @@ public class PostService {
     }
 
     @Transactional
-    public long save(PostRegisterRequest request) {
+    public long save(String writer, String content, String title, String password) {
 
         return postRepository.save(PostEntity.builder()
-                        .writer(request.getWriter())
-                        .content(request.getContent())
-                        .title(request.getTitle())
-                        .password(EncryptUtil.encrypt(request.getPassword()))
+                        .writer(writer)
+                        .content(content)
+                        .title(title)
+                        .password(EncryptUtil.encrypt(password))
                         .commentCount(0)
                         .build())
                 .getId();
@@ -78,7 +75,7 @@ public class PostService {
         if (!entity.getPassword().equals(EncryptUtil.encrypt(password))) {
             throw new ApiException(ErrorCode.NOT_VALID_PASSWORD);
         }
-        
+
         postRepository.deleteById(id);
     }
 

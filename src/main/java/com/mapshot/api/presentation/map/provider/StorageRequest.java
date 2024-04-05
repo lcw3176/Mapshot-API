@@ -1,4 +1,4 @@
-package com.mapshot.api.presentation.map.provider.model;
+package com.mapshot.api.presentation.map.provider;
 
 import lombok.*;
 

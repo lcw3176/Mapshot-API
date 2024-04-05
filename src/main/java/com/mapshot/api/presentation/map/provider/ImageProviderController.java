@@ -3,7 +3,6 @@ package com.mapshot.api.presentation.map.provider;
 import com.mapshot.api.domain.map.provider.MapStorageService;
 import com.mapshot.api.infra.auth.annotation.PreAuth;
 import com.mapshot.api.infra.auth.enums.Accessible;
-import com.mapshot.api.presentation.map.provider.model.StorageRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +28,7 @@ public class ImageProviderController {
 
     @PreAuth(Accessible.FRIENDLY_SERVER)
     @PostMapping
-    public void saveCompletedImage(@RequestBody StorageRequest storageRequest) {
-        mapStorageService.add(storageRequest);
+    public void saveCompletedImage(@RequestBody StorageRequest request) {
+        mapStorageService.add(request.getUuid(), request.getBase64EncodedImage());
     }
 }

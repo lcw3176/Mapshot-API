@@ -2,7 +2,6 @@ package com.mapshot.api.domain.map.provider;
 
 
 import com.mapshot.api.domain.map.provider.model.StorageInner;
-import com.mapshot.api.presentation.map.provider.model.StorageRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +18,10 @@ public class MapStorageService {
 
     private final Map<String, StorageInner> map = new ConcurrentHashMap<>();
 
-    public void add(StorageRequest request) {
+    public void add(String uuid, String encodedImage) {
         StorageInner storageInner = StorageInner.builder()
-                .uuid(request.getUuid())
-                .imageByte(Base64.getDecoder().decode(request.getBase64EncodedImage()))
+                .uuid(uuid)
+                .imageByte(Base64.getDecoder().decode(encodedImage))
                 .createdAt(LocalDateTime.now())
                 .build();
 

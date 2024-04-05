@@ -1,10 +1,9 @@
 package com.mapshot.api.presentation.map.builder;
 
+import com.mapshot.api.domain.map.builder.MapBuildResponse;
 import com.mapshot.api.domain.map.builder.MapBuildService;
 import com.mapshot.api.infra.auth.annotation.PreAuth;
 import com.mapshot.api.infra.auth.enums.Accessible;
-import com.mapshot.api.presentation.map.builder.model.MapBuildRequest;
-import com.mapshot.api.presentation.map.builder.model.MapBuildResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +20,8 @@ public class ImageBuildController {
 
     @PreAuth(Accessible.EVERYONE)
     @GetMapping
-    public ResponseEntity<List<MapBuildResponse>> sendUserRequestToLambda(@ModelAttribute MapBuildRequest mapRequest) {
-        List<MapBuildResponse> response = mapBuildService.requestMapImage(mapRequest);
+    public ResponseEntity<List<MapBuildResponse>> sendUserRequestToLambda(@ModelAttribute MapBuildRequest request) {
+        List<MapBuildResponse> response = mapBuildService.requestMapImage(request.toQueryParams());
 
         return ResponseEntity.ok(response);
     }

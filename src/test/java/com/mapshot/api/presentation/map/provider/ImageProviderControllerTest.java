@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapshot.api.SlackMockExtension;
 import com.mapshot.api.domain.map.provider.MapStorageService;
 import com.mapshot.api.infra.auth.Validation;
-import com.mapshot.api.presentation.map.provider.model.StorageRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

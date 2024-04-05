@@ -1,7 +1,7 @@
 package com.mapshot.api.infra.client.lambda;
 
+import com.mapshot.api.domain.map.builder.MapBuildResponse;
 import com.mapshot.api.infra.client.CommonClient;
-import com.mapshot.api.presentation.map.builder.model.MapBuildResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

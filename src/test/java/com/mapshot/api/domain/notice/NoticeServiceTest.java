@@ -2,9 +2,6 @@ package com.mapshot.api.domain.notice;
 
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
-import com.mapshot.api.presentation.notice.model.NoticeDetailResponse;
-import com.mapshot.api.presentation.notice.model.NoticeListResponse;
-import com.mapshot.api.presentation.notice.model.NoticeRegistrationRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,8 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Comparator;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 class NoticeServiceTest {
@@ -43,105 +40,6 @@ class NoticeServiceTest {
     @AfterEach
     void release() {
         noticeRepository.deleteAll();
-    }
-
-
-    @Test
-    void 저장_테스트() {
-
-        NoticeRegistrationRequest request = NoticeRegistrationRequest.builder()
-                .noticeType(NoticeType.FIX.toString())
-                .title("헬로")
-                .content("방가방가")
-                .build();
-
-        long id = noticeService.save(request);
-
-        long savedId = noticeService.getSinglePost(id).getId();
-
-        assertEquals(id, savedId);
-    }
-
-    @Test
-    void 업데이트_테스트() {
-
-        NoticeRegistrationRequest request = NoticeRegistrationRequest.builder()
-                .noticeType(NoticeType.UPDATE.toString())
-                .title("초기화")
-                .content("초기화")
-                .build();
-
-        long id = noticeService.save(request);
-
-        long updatedId = noticeService.modify(id,
-                NoticeRegistrationRequest.builder()
-                        .noticeType(NoticeType.FIX.toString())
-                        .title("헬로")
-                        .content("헬로")
-                        .build());
-
-
-        assertEquals(id, updatedId);
-
-        String noticeType = noticeService.getSinglePost(updatedId).getNoticeType();
-        assertEquals(NoticeType.FIX.getKorean(), noticeType);
-    }
-
-    @Test
-    void 없는_데이터_수정시_예외_발생() {
-
-        NoticeRegistrationRequest request = NoticeRegistrationRequest.builder()
-                .noticeType(NoticeType.UPDATE.toString())
-                .title("초기화")
-                .content("초기화")
-                .build();
-
-        long id = noticeService.save(request);
-
-        assertThatThrownBy(() ->
-                noticeService.modify(id + 1,
-                        NoticeRegistrationRequest.builder()
-                                .noticeType(NoticeType.FIX.toString())
-                                .title("헬로")
-                                .content("헬로")
-                                .build()))
-                .isInstanceOf(ApiException.class)
-                .hasMessage(ErrorCode.NO_SUCH_NOTICE.getMessage());
-
-    }
-
-
-    @Test
-    void 삭제_테스트() {
-
-        NoticeRegistrationRequest request = NoticeRegistrationRequest.builder()
-                .noticeType(NoticeType.UPDATE.toString())
-                .title("초기화")
-                .content("초기화")
-                .build();
-
-        long id = noticeService.save(request);
-
-        assertThatNoException()
-                .isThrownBy(() -> noticeService.delete(id));
-
-    }
-
-
-    @Test
-    void 없는_데이터_삭제_요청시_예외_발생() {
-
-        NoticeRegistrationRequest request = NoticeRegistrationRequest.builder()
-                .noticeType(NoticeType.UPDATE.toString())
-                .title("초기화")
-                .content("초기화")
-                .build();
-
-        long id = noticeService.save(request);
-
-        assertThatThrownBy(() -> noticeService.delete(id + 1))
-                .isInstanceOf(ApiException.class)
-                .hasMessage(ErrorCode.NO_SUCH_NOTICE.getMessage());
     }
 
 

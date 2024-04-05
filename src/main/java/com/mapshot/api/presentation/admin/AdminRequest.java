@@ -1,4 +1,4 @@
-package com.mapshot.api.presentation.map.builder.model;
+package com.mapshot.api.presentation.admin;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MapBuildResponse {
-
-    private int x;
-    private int y;
-    private String uuid;
+public class AdminRequest {
+    private String nickname;
+    private String password;
 }

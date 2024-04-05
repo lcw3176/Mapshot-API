@@ -4,9 +4,8 @@ package com.mapshot.api.presentation.map.builder;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapshot.api.SlackMockExtension;
+import com.mapshot.api.domain.map.builder.MapBuildResponse;
 import com.mapshot.api.domain.map.builder.MapBuildService;
-import com.mapshot.api.presentation.map.builder.model.MapBuildRequest;
-import com.mapshot.api.presentation.map.builder.model.MapBuildResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -15,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.util.MultiValueMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +62,7 @@ class ImageBuildControllerTest extends SlackMockExtension {
 
         }
 
-        when(mapBuildService.requestMapImage(any(MapBuildRequest.class)))
+        when(mapBuildService.requestMapImage(any(MultiValueMap.class)))
                 .thenReturn(responses);
         MapBuildRequest request = MapBuildRequest.builder()
                 .companyType("kakao")
