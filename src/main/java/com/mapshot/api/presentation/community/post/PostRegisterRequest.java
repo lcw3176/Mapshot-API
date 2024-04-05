@@ -1,4 +1,4 @@
-package com.mapshot.api.presentation.community.post.model;
+package com.mapshot.api.presentation.community.post;
 
 import com.mapshot.api.domain.community.post.PostConst;
 import jakarta.validation.constraints.NotBlank;

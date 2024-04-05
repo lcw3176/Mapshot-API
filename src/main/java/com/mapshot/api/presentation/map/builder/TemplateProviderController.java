@@ -2,7 +2,6 @@ package com.mapshot.api.presentation.map.builder;
 
 import com.mapshot.api.infra.auth.annotation.PreAuth;
 import com.mapshot.api.infra.auth.enums.Accessible;
-import com.mapshot.api.presentation.map.builder.model.MapBuildRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

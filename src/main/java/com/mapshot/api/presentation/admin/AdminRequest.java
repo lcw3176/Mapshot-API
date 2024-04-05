@@ -1,4 +1,4 @@
-package com.mapshot.api.presentation.admin.model;
+package com.mapshot.api.presentation.admin;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

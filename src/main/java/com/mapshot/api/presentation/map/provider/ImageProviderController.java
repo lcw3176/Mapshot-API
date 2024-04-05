@@ -3,7 +3,6 @@ package com.mapshot.api.presentation.map.provider;
 import com.mapshot.api.domain.map.provider.MapStorageService;
 import com.mapshot.api.infra.auth.annotation.PreAuth;
 import com.mapshot.api.infra.auth.enums.Accessible;
-import com.mapshot.api.presentation.map.provider.model.StorageRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

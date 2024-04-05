@@ -1,4 +1,4 @@
-package com.mapshot.api.presentation.notice.model;
+package com.mapshot.api.presentation.notice;
 
 import com.mapshot.api.domain.notice.NoticeConst;
 import jakarta.validation.constraints.NotBlank;
@@ -24,5 +24,5 @@ public class NoticeRegistrationRequest {
     @NotBlank
     @Length(max = NoticeConst.MAX_CONTENT_LENGTH)
     private String content;
-    
+
 }

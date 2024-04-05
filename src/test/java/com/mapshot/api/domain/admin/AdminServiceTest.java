@@ -7,7 +7,7 @@ import com.mapshot.api.domain.notice.NoticeType;
 import com.mapshot.api.infra.encrypt.EncryptUtil;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
-import com.mapshot.api.presentation.notice.model.NoticeRegistrationRequest;
+import com.mapshot.api.presentation.notice.NoticeRegistrationRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
