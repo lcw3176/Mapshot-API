@@ -3,8 +3,6 @@ package com.mapshot.api.domain.notice;
 
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
-import com.mapshot.api.presentation.notice.model.NoticeDetailResponse;
-import com.mapshot.api.presentation.notice.model.NoticeListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
