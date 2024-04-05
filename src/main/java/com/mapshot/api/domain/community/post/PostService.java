@@ -4,8 +4,6 @@ package com.mapshot.api.domain.community.post;
 import com.mapshot.api.infra.encrypt.EncryptUtil;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
-import com.mapshot.api.presentation.community.post.model.PostDetailResponse;
-import com.mapshot.api.presentation.community.post.model.PostListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

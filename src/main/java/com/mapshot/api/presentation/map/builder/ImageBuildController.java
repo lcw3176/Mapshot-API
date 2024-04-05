@@ -1,10 +1,10 @@
 package com.mapshot.api.presentation.map.builder;
 
+import com.mapshot.api.domain.map.builder.MapBuildResponse;
 import com.mapshot.api.domain.map.builder.MapBuildService;
 import com.mapshot.api.infra.auth.annotation.PreAuth;
 import com.mapshot.api.infra.auth.enums.Accessible;
 import com.mapshot.api.presentation.map.builder.model.MapBuildRequest;
-import com.mapshot.api.presentation.map.builder.model.MapBuildResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

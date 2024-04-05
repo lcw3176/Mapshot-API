@@ -1,10 +1,10 @@
 package com.mapshot.api.presentation.community.post;
 
+import com.mapshot.api.domain.community.post.PostDetailResponse;
+import com.mapshot.api.domain.community.post.PostListResponse;
 import com.mapshot.api.domain.community.post.PostService;
 import com.mapshot.api.infra.auth.annotation.PreAuth;
 import com.mapshot.api.infra.auth.enums.Accessible;
-import com.mapshot.api.presentation.community.post.model.PostDetailResponse;
-import com.mapshot.api.presentation.community.post.model.PostListResponse;
 import com.mapshot.api.presentation.community.post.model.PostRegisterRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;

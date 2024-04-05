@@ -2,7 +2,6 @@ package com.mapshot.api.domain.map.builder;
 
 import com.mapshot.api.infra.auth.Validation;
 import com.mapshot.api.infra.client.lambda.LambdaClient;
-import com.mapshot.api.presentation.map.builder.model.MapBuildResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

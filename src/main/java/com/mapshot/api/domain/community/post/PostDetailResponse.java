@@ -1,4 +1,4 @@
-package com.mapshot.api.presentation.community.post.model;
+package com.mapshot.api.domain.community.post;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,12 +11,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PostListResponse {
+public class PostDetailResponse {
 
     private long id;
     private String writer;
     private String title;
-    private int commentCount;
+    private String content;
     private LocalDateTime createdDate;
-    
+
 }

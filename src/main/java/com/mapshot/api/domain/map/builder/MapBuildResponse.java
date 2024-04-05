@@ -1,4 +1,4 @@
-package com.mapshot.api.presentation.map.builder.model;
+package com.mapshot.api.domain.map.builder;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
