@@ -4,12 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapshot.api.SlackMockExtension;
 import com.mapshot.api.domain.admin.AdminEntity;
 import com.mapshot.api.domain.admin.AdminRepository;
-import com.mapshot.api.domain.notice.NoticeService;
+import com.mapshot.api.domain.notice.NoticeEntity;
+import com.mapshot.api.domain.notice.NoticeRepository;
 import com.mapshot.api.domain.notice.NoticeType;
 import com.mapshot.api.infra.auth.Validation;
 import com.mapshot.api.infra.encrypt.EncryptUtil;
 import com.mapshot.api.presentation.admin.model.AdminRequest;
-import com.mapshot.api.presentation.notice.model.NoticeListResponse;
 import com.mapshot.api.presentation.notice.model.NoticeRegistrationRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,13 +55,11 @@ class AdminControllerTest extends SlackMockExtension {
     private AdminRepository adminRepository;
 
     @Autowired
-    private NoticeService noticeService;
+    private NoticeRepository noticeRepository;
 
     @Value("${jwt.admin.header}")
     private String ADMIN_HEADER_NAME;
 
-
-    private static final String ENCRYPT_ALGORITHM = "SHA-256";
     private static final String BASE_URL = "/admin";
 
     @BeforeEach
@@ -70,6 +68,15 @@ class AdminControllerTest extends SlackMockExtension {
                 .nickname("test")
                 .password(EncryptUtil.encrypt("1234"))
                 .build());
+
+        for (int i = 0; i < 100; i++) {
+            noticeRepository.save(NoticeEntity.builder()
+                    .noticeType(NoticeType.UPDATE)
+                    .title(Integer.toString(i))
+                    .content(Integer.toString(i))
+                    .build());
+        }
+
     }
 
     @AfterEach
@@ -170,10 +177,10 @@ class AdminControllerTest extends SlackMockExtension {
 
     @Test
     void 게시글_삭제_테스트() throws Exception {
-        NoticeListResponse mostRecentNotice = noticeService.getNoticeList(0).get(0);
+        long id = noticeRepository.findFirstByOrderByIdDesc().getId();
 
         mockMvc.perform(
-                        RestDocumentationRequestBuilders.get(BASE_URL + "/notice/delete/{noticeNumber}", mostRecentNotice.getId())
+                        RestDocumentationRequestBuilders.get(BASE_URL + "/notice/delete/{noticeNumber}", id)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader())))
                 .andExpect(status().isOk())
@@ -190,16 +197,16 @@ class AdminControllerTest extends SlackMockExtension {
 
     @Test
     void 관리자가_아닌_사람이_삭제_요청시_예외() throws Exception {
-        NoticeListResponse mostRecentNotice = noticeService.getNoticeList(0).get(0);
+        long id = noticeRepository.findFirstByOrderByIdDesc().getId();
 
-        mockMvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/notice/delete/{noticeNumber}", mostRecentNotice.getId())
+        mockMvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/notice/delete/{noticeNumber}", id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError());
     }
 
     @Test
     void 게시글_수정_테스트() throws Exception {
-        NoticeListResponse mostRecentNotice = noticeService.getNoticeList(0).get(0);
+        long id = noticeRepository.findFirstByOrderByIdDesc().getId();
 
         NoticeRegistrationRequest request = NoticeRegistrationRequest.builder()
                 .noticeType(NoticeType.RESERVED_CHECK.toString())
@@ -208,7 +215,7 @@ class AdminControllerTest extends SlackMockExtension {
                 .build();
 
         mockMvc.perform(
-                        RestDocumentationRequestBuilders.post(BASE_URL + "/notice/modify/{noticeNumber}", mostRecentNotice.getId())
+                        RestDocumentationRequestBuilders.post(BASE_URL + "/notice/modify/{noticeNumber}", id)
                                 .content(mapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader())))
@@ -229,7 +236,7 @@ class AdminControllerTest extends SlackMockExtension {
 
     @Test
     void 관리자가_아닌_사람이_수정_요청시_예외() throws Exception {
-        NoticeListResponse mostRecentNotice = noticeService.getNoticeList(0).get(0);
+        long id = noticeRepository.findFirstByOrderByIdDesc().getId();
 
         NoticeRegistrationRequest request = NoticeRegistrationRequest.builder()
                 .noticeType(NoticeType.RESERVED_CHECK.toString())
@@ -237,7 +244,7 @@ class AdminControllerTest extends SlackMockExtension {
                 .content("수정된 컨텐츠")
                 .build();
 
-        mockMvc.perform(post(BASE_URL + "/notice/modify/{noticeNumber}", mostRecentNotice.getId())
+        mockMvc.perform(post(BASE_URL + "/notice/modify/{noticeNumber}", id)
                         .content(mapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError());
