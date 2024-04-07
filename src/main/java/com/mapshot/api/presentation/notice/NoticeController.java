@@ -13,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/notice")
@@ -25,17 +23,17 @@ public class NoticeController {
     private final NoticeService noticeService;
 
     @PreAuth(Accessible.EVERYONE)
-    @GetMapping("/list/{postNumber}")
-    public ResponseEntity<List<NoticeListResponse>> showNoticeList(
-            @PositiveOrZero @PathVariable(value = "postNumber") long postNumber) {
+    @GetMapping
+    public ResponseEntity<NoticeListResponse> showNoticeList(
+            @PositiveOrZero @RequestParam(value = "page", defaultValue = "0") int page) {
 
-        List<NoticeListResponse> noticeListResponses = noticeService.getNoticeList(postNumber);
+        NoticeListResponse noticeListResponses = noticeService.getNoticeByPageNumber(page);
 
         return ResponseEntity.ok(noticeListResponses);
     }
 
     @PreAuth(Accessible.EVERYONE)
-    @GetMapping("/detail/{postNumber}")
+    @GetMapping("/{postNumber}")
     public ResponseEntity<NoticeDetailResponse> showNotice(
             @Positive @PathVariable(value = "postNumber") long postNumber) {
 

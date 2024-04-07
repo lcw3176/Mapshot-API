@@ -6,10 +6,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Comparator;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -22,7 +22,9 @@ class NoticeServiceTest {
 
     @Autowired
     private NoticeRepository noticeRepository;
-    private static final int totalSearchSize = 20;
+
+    @Value("${notice.post.page_size}")
+    private int totalSearchSize;
     private static final int testDataSize = 40;
 
     @BeforeEach
@@ -44,12 +46,22 @@ class NoticeServiceTest {
 
 
     @Test
-    void 시작_id를_0으로_전송_시_가장_최근_게시글부터_10개_반환() {
-        int id = 0;
+    void 시작_page를_0으로_전송_시_가장_최근_게시글부터_10개_반환() {
+        int page = 0;
 
-        List<NoticeListResponse> lst = noticeService.getNoticeList(id);
-        assertThat(lst).hasSize(totalSearchSize)
-                .isSortedAccordingTo(Comparator.comparing(NoticeListResponse::getId).reversed());
+        NoticeListResponse lst = noticeService.getNoticeByPageNumber(page);
+        assertThat(lst.getNotices()).hasSize(totalSearchSize)
+                .isSortedAccordingTo(Comparator.comparing(NoticeDto::getId).reversed());
+
+    }
+
+    @Test
+    void 시작_page를_1으로_전송_시_가장_최근_게시글부터_10개_반환() {
+        int page = 1;
+
+        NoticeListResponse lst = noticeService.getNoticeByPageNumber(page);
+        assertThat(lst.getNotices()).hasSize(totalSearchSize)
+                .isSortedAccordingTo(Comparator.comparing(NoticeDto::getId).reversed());
 
     }
 
@@ -76,23 +88,12 @@ class NoticeServiceTest {
 
 
     @Test
-    void 데이터_갯수가_충분한_여러개의_공지사항_가져오기() {
-        long id = noticeRepository.findFirstByOrderByIdDesc().getId() + 1;
+    void _0미만의_페이지값_전송_시_가장_최근_게시글부터_10개_반환() {
+        int page = -100;
 
-        List<NoticeListResponse> lst = noticeService.getNoticeList(id);
-        assertThat(lst).hasSize(totalSearchSize)
-                .isSortedAccordingTo(Comparator.comparing(NoticeListResponse::getId).reversed());
-
-    }
-
-    @Test
-    void 데이터_갯수가_모자란_여러개의_공지사항_가져오기() {
-        int size = 3;
-        long id = noticeRepository.findFirstByOrderByIdDesc().getId() - (testDataSize - size - 1);
-
-        List<NoticeListResponse> lst = noticeService.getNoticeList(id);
-        assertThat(lst).hasSize(size)
-                .isSortedAccordingTo(Comparator.comparing(NoticeListResponse::getId).reversed());
+        NoticeListResponse lst = noticeService.getNoticeByPageNumber(page);
+        assertThat(lst.getNotices()).hasSize(10)
+                .isSortedAccordingTo(Comparator.comparing(NoticeDto::getId).reversed());
 
     }
 

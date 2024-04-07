@@ -4,11 +4,15 @@ package com.mapshot.api.domain.notice;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -16,18 +20,27 @@ public class NoticeService {
 
     private final NoticeRepository noticeRepository;
 
-    @Transactional(readOnly = true)
-    public List<NoticeListResponse> getNoticeList(long startId) {
+    @Value("${notice.post.page_size}")
+    private int PAGE_SIZE;
 
-        if (startId == 0) {
-            startId = noticeRepository.findFirstByOrderByIdDesc().getId() + 1;
+    @Transactional(readOnly = true)
+    public NoticeListResponse getNoticeByPageNumber(int page) {
+
+        if (page <= 0) {
+            page = 1;
         }
 
-        List<NoticeEntity> noticeEntities = noticeRepository.findTop20ByIdLessThanOrderByIdDesc(startId);
+        Pageable pageable = PageRequest.of(--page, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "id"));
+        Page<NoticeEntity> pages = noticeRepository.findAll(pageable);
 
-        return noticeEntities.stream()
-                .map(NoticeListResponse::fromEntity)
-                .collect(Collectors.toList());
+        List<NoticeDto> noticeDtos = pages.stream()
+                .map(NoticeDto::fromEntity)
+                .toList();
+
+        return NoticeListResponse.builder()
+                .notices(noticeDtos)
+                .totalPage(pages.getTotalPages())
+                .build();
     }
 
     @Transactional(readOnly = true)
