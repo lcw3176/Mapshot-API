@@ -5,7 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -13,10 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 public class PostListResponse {
 
-    private long id;
-    private String writer;
-    private String title;
-    private int commentCount;
-    private LocalDateTime createdDate;
+    private List<PostDto> posts = new ArrayList<>();
+    private int totalPage;
 
 }

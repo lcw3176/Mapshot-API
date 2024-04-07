@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ErrorCode implements StatusCode {
 
+    NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 페이지입니다"),
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
     NO_AUTH_TOKEN(HttpStatus.UNAUTHORIZED, "허용되지 않는 접근입니다."),
     NOT_VALID_TOKEN(HttpStatus.FORBIDDEN, "잘못된 인증 토큰입니다."),

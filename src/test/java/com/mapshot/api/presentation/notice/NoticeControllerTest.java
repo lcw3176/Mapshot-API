@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapshot.api.SlackMockExtension;
 import com.mapshot.api.domain.notice.*;
-import com.mapshot.api.infra.auth.Validation;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,15 +17,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Comparator;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -43,19 +40,12 @@ class NoticeControllerTest extends SlackMockExtension {
 
     private static final String BASE_URL = "/notice";
 
-    @Autowired
-    private NoticeService noticeService;
 
     @Autowired
     private NoticeRepository noticeRepository;
 
-    @Autowired
-    private Validation adminValidation;
-
-    @Value("${jwt.admin.header}")
-    private String ADMIN_HEADER_NAME;
-
-    private static final int totalSearchSize = 20;
+    @Value("${notice.post.page_size}")
+    private int totalSearchSize;
 
     @BeforeEach
     void init() {
@@ -77,26 +67,25 @@ class NoticeControllerTest extends SlackMockExtension {
     @Test
     void 게시글_목록_조회_테스트() throws Exception {
         MvcResult result = mockMvc.perform(
-                        RestDocumentationRequestBuilders.get(BASE_URL + "/list/{startPostNumber}",
-                                noticeRepository.findFirstByOrderByIdDesc().getId()))
+                        RestDocumentationRequestBuilders.get(BASE_URL).queryParam("page", "1"))
                 .andExpect(status().isOk())
                 .andDo(document("notice/list",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        pathParameters(
-                                parameterWithName("startPostNumber")
+                        queryParameters(
+                                parameterWithName("page")
                                         .description(
-                                                "게시글 번호, 요청한 번호 미만으로 10개의 게시글 정보를 최신글부터 반환함")
+                                                "페이지 번호, 10개의 게시글 정보를 최신글부터 반환함")
                         )))
                 .andReturn();
 
-        List<NoticeListResponse> actual = mapper.readValue(result.getResponse().getContentAsString(),
-                new TypeReference<List<NoticeListResponse>>() {
+        NoticeListResponse actual = mapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<NoticeListResponse>() {
                 });
 
-        assertThat(actual)
+        assertThat(actual.getNotices())
                 .hasSize(totalSearchSize)
-                .isSortedAccordingTo(Comparator.comparing(NoticeListResponse::getId).reversed());
+                .isSortedAccordingTo(Comparator.comparing(NoticeDto::getId).reversed());
     }
 
     @Test
@@ -104,7 +93,7 @@ class NoticeControllerTest extends SlackMockExtension {
         long requestId = noticeRepository.findFirstByOrderByIdDesc().getId();
 
         MvcResult result = mockMvc.perform(
-                        RestDocumentationRequestBuilders.get(BASE_URL + "/detail/{postNumber}", requestId))
+                        RestDocumentationRequestBuilders.get(BASE_URL + "/{postNumber}", requestId))
                 .andExpect(status().isOk())
                 .andDo(document("notice/detail",
                         preprocessRequest(prettyPrint()),

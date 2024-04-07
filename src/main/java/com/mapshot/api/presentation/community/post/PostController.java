@@ -13,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/post")
@@ -25,17 +23,17 @@ public class PostController {
     private final PostService postService;
 
     @PreAuth(Accessible.EVERYONE)
-    @GetMapping("/{id}")
-    public ResponseEntity<List<PostListResponse>> getPosts(@PositiveOrZero @PathVariable(value = "id") long id) {
-        List<PostListResponse> responses = postService.getPostListById(id);
+    @GetMapping
+    public ResponseEntity<PostListResponse> getPosts(@PositiveOrZero @RequestParam(value = "page", defaultValue = "0", required = false) int page) {
+        PostListResponse responses = postService.getPostListByPageNumber(page);
 
         return ResponseEntity.ok(responses);
     }
 
 
     @PreAuth(Accessible.EVERYONE)
-    @GetMapping("/detail/{id}")
-    public ResponseEntity<PostDetailResponse> getSinglePost(@PositiveOrZero @PathVariable(value = "id") long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<PostDetailResponse> getSinglePost(@Positive @PathVariable(value = "id") long id) {
         PostDetailResponse response = postService.getSinglePostById(id);
 
         return ResponseEntity.ok(response);

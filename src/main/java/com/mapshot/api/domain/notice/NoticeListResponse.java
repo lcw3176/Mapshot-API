@@ -5,7 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -13,17 +14,6 @@ import java.time.LocalDateTime;
 @Builder
 public class NoticeListResponse {
 
-    private long id;
-    private String noticeType;
-    private String title;
-    private LocalDateTime createdDate;
-
-    public static NoticeListResponse fromEntity(NoticeEntity noticeEntity) {
-        return NoticeListResponse.builder()
-                .id(noticeEntity.getId())
-                .noticeType(noticeEntity.getNoticeType().getKorean())
-                .title(noticeEntity.getTitle())
-                .createdDate(noticeEntity.getCreatedDate())
-                .build();
-    }
+    private List<NoticeDto> notices = new ArrayList<>();
+    private int totalPage;
 }

@@ -29,7 +29,14 @@ public class AuthInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        HandlerMethod method = (HandlerMethod) handler;
+        HandlerMethod method = null;
+
+        try {
+            method = (HandlerMethod) handler;
+        } catch (Exception e) {
+            throw new ApiException(ErrorCode.NOT_FOUND);
+        }
+
         PreAuth preAuth = method.getMethodAnnotation(PreAuth.class);
 
         if (preAuth == null) {

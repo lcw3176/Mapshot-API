@@ -14,6 +14,17 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
 
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+      
+server:
+  error:
+    whitelabel:
+      enabled: false
+
 lambda:
   host: ${lambdaHost}
   path: ${lambdaPath}
@@ -31,6 +42,14 @@ jwt:
     secret: ${jwtImageSecret}
     header: AUTH_TOKEN
     second: 60
+
+community:
+  post:
+    page_size: 10
+
+notice:
+  post:
+    page_size: 10
 
 management:
   endpoints:
