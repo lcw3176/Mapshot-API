@@ -16,7 +16,7 @@
     <appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>./mapshot-executor/app.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${file.basedir}/${file.name}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <fileNamePattern>./mapshot-executor/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
             <maxHistory>10</maxHistory>
             <maxFileSize>100MB</maxFileSize>
             <totalSizeCap>1GB</totalSizeCap>
