@@ -24,7 +24,7 @@ public class PostController {
 
     @PreAuth(Accessible.EVERYONE)
     @GetMapping
-    public ResponseEntity<PostListResponse> getPosts(@PositiveOrZero @RequestParam(value = "page", defaultValue = "0") int page) {
+    public ResponseEntity<PostListResponse> getPosts(@PositiveOrZero @RequestParam(value = "page", defaultValue = "0", required = false) int page) {
         PostListResponse responses = postService.getPostListByPageNumber(page);
 
         return ResponseEntity.ok(responses);
