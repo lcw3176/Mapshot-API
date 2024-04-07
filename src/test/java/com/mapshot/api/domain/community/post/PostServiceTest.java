@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -48,16 +46,34 @@ class PostServiceTest {
     }
 
     @Test
-    void id값_0으로_목록_조회시_가장_최신_게시글_10개_반환() {
-        long id = 0;
+    void page값_0으로_목록_조회시_가장_최신_게시글_10개_반환() {
+        int id = 0;
 
-        List<PostListResponse> responses = postService.getPostListById(id);
+        PostListResponse responses = postService.getPostListByPageNumber(id);
 
-        assertEquals(responses.size(), 10);
+        assertEquals(responses.getPosts().size(), 10);
 
         long recentId = postRepository.findFirstByOrderByIdDesc().getId();
 
-        for (PostListResponse i : responses) {
+        System.out.println(responses.getPosts());
+        for (PostDto i : responses.getPosts()) {
+            assertEquals(i.getId(), recentId);
+            recentId--;
+        }
+    }
+
+    @Test
+    void page값_1으로_목록_조회시_가장_최신_게시글_10개_반환() {
+        int id = 1;
+
+        PostListResponse responses = postService.getPostListByPageNumber(id);
+
+        assertEquals(responses.getPosts().size(), 10);
+
+        long recentId = postRepository.findFirstByOrderByIdDesc().getId();
+
+        System.out.println(responses.getPosts());
+        for (PostDto i : responses.getPosts()) {
             assertEquals(i.getId(), recentId);
             recentId--;
         }
@@ -65,33 +81,27 @@ class PostServiceTest {
 
 
     @Test
-    void 게시글_전체_목록_갯수보다_큰_id값으로_목록을_조회해도_가장_최신_게시글_10개_반환() {
-        long id = postRepository.findFirstByOrderByIdDesc().getId() + 100;
+    void 게시글_전체_목록_갯수보다_큰_page값으로_목록을_조회하면_아무것도_반환하지_않음() {
+        long page = postRepository.findFirstByOrderByIdDesc().getId() + 100;
 
-        List<PostListResponse> responses = postService.getPostListById(id);
+        PostListResponse responses = postService.getPostListByPageNumber((int) page);
 
-        assertEquals(responses.size(), 10);
+        assertEquals(responses.getPosts().size(), 0);
 
-        long recentId = postRepository.findFirstByOrderByIdDesc().getId();
-
-        for (PostListResponse i : responses) {
-            assertEquals(i.getId(), recentId);
-            recentId--;
-        }
     }
 
 
     @Test
-    void _0미만의_id값으로_목록을_조회해도_가장_최신_게시글_10개_반환() {
-        long id = -100;
+    void _0미만의_pag값으로_목록을_조회해도_가장_최신_게시글_10개_반환() {
+        int page = -100;
 
-        List<PostListResponse> responses = postService.getPostListById(id);
+        PostListResponse responses = postService.getPostListByPageNumber(page);
 
-        assertEquals(responses.size(), 10);
+        assertEquals(responses.getPosts().size(), 10);
 
         long recentId = postRepository.findFirstByOrderByIdDesc().getId();
 
-        for (PostListResponse i : responses) {
+        for (PostDto i : responses.getPosts()) {
             assertEquals(i.getId(), recentId);
             recentId--;
         }

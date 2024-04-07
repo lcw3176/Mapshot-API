@@ -31,3 +31,7 @@ jwt:
     secret: hello
     header: AUTH_TOKEN
     second: 60
+    
+community:
+  post:
+    page_size: 10

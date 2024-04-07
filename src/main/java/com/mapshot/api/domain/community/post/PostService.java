@@ -5,11 +5,15 @@ import com.mapshot.api.infra.encrypt.EncryptUtil;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,24 +21,35 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    @Transactional(readOnly = true)
-    public List<PostListResponse> getPostListById(long id) {
+    @Value("${community.post.page_size}")
+    private int PAGE_SIZE;
 
-        if (id <= 0) {
-            id = postRepository.findFirstByOrderByIdDesc().getId() + 1;
+    @Transactional(readOnly = true)
+    public PostListResponse getPostListByPageNumber(int pageNumber) {
+
+        if (pageNumber <= 0) {
+            pageNumber = 1;
         }
 
-        List<PostEntity> postEntities = postRepository.findTop10ByIdLessThanOrderByIdDesc(id);
+        Pageable pageable = PageRequest.of(--pageNumber, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "id"));
+        Page<PostEntity> pages = postRepository.findAll(pageable);
 
-        return postEntities.stream()
-                .map(i -> PostListResponse.builder()
+        List<PostEntity> postEntities = pages.getContent();
+
+        List<PostDto> postDtos = postEntities.stream()
+                .map(i -> PostDto.builder()
                         .id(i.getId())
                         .title(i.getTitle())
                         .createdDate(i.getCreatedDate())
                         .writer(i.getWriter())
                         .commentCount(i.getCommentCount())
                         .build())
-                .collect(Collectors.toList());
+                .toList();
+
+        return PostListResponse.builder()
+                .posts(postDtos)
+                .totalPage(pages.getTotalPages())
+                .build();
     }
 
 

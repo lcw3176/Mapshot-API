@@ -32,6 +32,10 @@ jwt:
     header: AUTH_TOKEN
     second: 60
 
+community:
+  post:
+    page_size: 10
+
 management:
   endpoints:
     web:
