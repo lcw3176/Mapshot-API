@@ -1,6 +1,8 @@
 package com.mapshot.api.domain.community.comment;
 
 
+import com.mapshot.api.domain.community.post.PostEntity;
+import com.mapshot.api.domain.community.post.PostRepository;
 import com.mapshot.api.infra.encrypt.EncryptUtil;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
@@ -20,6 +22,7 @@ import java.util.List;
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final PostRepository postRepository;
 
     @Value("${community.comment.page_size}")
     private int PAGE_SIZE;
@@ -55,7 +58,11 @@ public class CommentService {
     @Transactional
     public long save(String writer, String content, long postId, String password) {
 
-        return commentRepository.save(CommentEntity.builder()
+
+        PostEntity post = postRepository.findById(postId)
+                .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_POST));
+
+        long commentId = commentRepository.save(CommentEntity.builder()
                         .writer(writer)
                         .content(content)
                         .password(EncryptUtil.encrypt(password))
@@ -63,6 +70,11 @@ public class CommentService {
                         .postId(postId)
                         .build())
                 .getId();
+
+        post.increaseCommentCount();
+        postRepository.save(post);
+
+        return commentId;
     }
 
 
