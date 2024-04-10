@@ -19,7 +19,7 @@ spring:
   web:
     resources:
       add-mappings: false
-      
+
 server:
   error:
     whitelabel:
@@ -46,6 +46,8 @@ jwt:
 community:
   post:
     page_size: 10
+  comment:
+    page_size: 20
 
 notice:
   post:
