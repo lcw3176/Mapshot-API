@@ -34,7 +34,7 @@ public class CommentService {
             pageNumber = 1;
         }
 
-        Pageable pageable = PageRequest.of(--pageNumber, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "id"));
+        Pageable pageable = PageRequest.of(--pageNumber, PAGE_SIZE, Sort.by(Sort.Direction.ASC, "id"));
         Page<CommentEntity> pages = commentRepository.findAllByPostIdAndDeletedFalse(pageable, postId);
 
         List<CommentEntity> commentEntities = pages.getContent();
