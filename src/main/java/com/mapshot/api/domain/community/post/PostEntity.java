@@ -34,4 +34,8 @@ public class PostEntity extends BaseTimeEntity {
     @Column
     @ColumnDefault("0")
     private Integer commentCount;
+
+    public void increaseCommentCount() {
+        this.commentCount++;
+    }
 }
