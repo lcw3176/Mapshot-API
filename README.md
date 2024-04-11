@@ -4,7 +4,7 @@
 <p align="center">
 <img src="https://img.shields.io/badge/Made%20with-SpringBoot-blue">
 <img src="https://img.shields.io/badge/Service%20begun%20in-2021.01-brigntgreen">
-<img src="https://hits.seeyoufarm.com/api/count/keep/badge.svg?url=https%3A%2F%2Fkmapshot.com&count_bg=%23E16B3F&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visitors since 23.02+&edge_flat=false">
+<img src="https://hits.seeyoufarm.com/api/count/keep/badge.svg?url=https%3A%2F%2Fkmapshot.com&count_bg=%23E16B3F&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visitors since 23.02&edge_flat=false">
 <img src="https://github.com/lcw3176/Mapshot-API/actions/workflows/pr.yml/badge.svg"/>
 <img src="https://github.com/lcw3176/Mapshot-API/actions/workflows/deploy-dev.yml/badge.svg"/>
 </p>
