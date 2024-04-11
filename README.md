@@ -4,7 +4,9 @@
 <p align="center">
 <img src="https://img.shields.io/badge/Made%20with-SpringBoot-blue">
 <img src="https://img.shields.io/badge/Service%20begun%20in-2021.01-brigntgreen">
-<img src="https://hits.seeyoufarm.com/api/count/keep/badge.svg?url=https%3A%2F%2Fkmapshot.com&count_bg=%23E16B3F&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=23.02+%7E&edge_flat=false">
+<img src="https://hits.seeyoufarm.com/api/count/keep/badge.svg?url=https%3A%2F%2Fkmapshot.com&count_bg=%23E16B3F&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visitors since 23.02+&edge_flat=false">
+<img src="https://github.com/lcw3176/Mapshot-API/actions/workflows/pr.yml/badge.svg"/>
+<img src="https://github.com/lcw3176/Mapshot-API/actions/workflows/deploy-dev.yml/badge.svg"/>
 </p>
 
 <p align="center">
@@ -19,16 +21,16 @@
 지도를 한 구역씩 캡쳐해서 포토샵으로 합치던 기존의 프로세스를 자동화해서
 효율적인 업무가 가능합니다.
 
-### 이용 추천 대상
+### 이용 대상
 
 <div style="text-align: center">
 <img width="200" style="margin:10px;" src="https://user-images.githubusercontent.com/59993347/164415956-f8a6a057-8943-4656-bd94-e8a5ffdec329.jpg">
 <img width="200" style="margin:10px;" src="https://user-images.githubusercontent.com/59993347/164415966-d33b7751-cdfe-4a65-8b72-03b1a6b4cae9.jpg">
 </div>
 
-1. 위와 같은 도시 계획도의 배경 위성 이미지가 필요하신 분
-2. 연속 지적도, 토지이용 계획도 등 도시 계획 레이어 지도 이미지가 필요하신 분
-3. 고화질의 넓은 지도 이미지가 필요하신 분
+- 위와 같은 도시 계획도의 배경 위성 이미지가 필요하신 분
+- 연속 지적도, 토지이용 계획도 등 도시 계획 레이어 지도 이미지가 필요하신 분
+- 고화질의 넓은 지도 이미지가 필요하신 분
 
 ### 작동 방식
 
