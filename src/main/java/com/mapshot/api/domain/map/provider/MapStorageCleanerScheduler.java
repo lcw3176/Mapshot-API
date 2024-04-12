@@ -14,12 +14,12 @@ public class MapStorageCleanerScheduler {
 
     private final MapStorageService mapStorageService;
 
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0/30 * * * * *")
     public void clean() {
         LocalDateTime nowTime = LocalDateTime.now();
 
         for (StorageInner i : mapStorageService.getAll()) {
-            if (i.getCreatedAt().plusMinutes(5).isBefore(nowTime)) {
+            if (i.getCreatedAt().plusSeconds(30).isBefore(nowTime)) {
                 mapStorageService.remove(i.getUuid());
             }
         }
