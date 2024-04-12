@@ -16,7 +16,7 @@ public class LambdaClient {
     private final CommonClient client;
 
     public <T> List<T> sendRequest(String host, String path, MultiValueMap<String, String> queryParams, Class<T[]> clazz) {
-        long timeoutMillis = 30 * 1000L;
+        long timeoutMillis = 60 * 1000L;
 
         String url = UriComponentsBuilder.newInstance()
                 .scheme("https")
