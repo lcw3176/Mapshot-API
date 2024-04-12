@@ -20,9 +20,6 @@ public class MapBuildService {
     @Value("${lambda.host}")
     private String host;
 
-    @Value("${lambda.path}")
-    private String path;
-
     @Value("${jwt.image.header}")
     private String SERVER_HEADER_NAME;
 
@@ -30,7 +27,7 @@ public class MapBuildService {
     public List<MapBuildResponse> requestMapImage(MultiValueMap<String, String> queryParams) {
         queryParams.add(SERVER_HEADER_NAME, serverValidation.makeToken());
 
-        return lambdaClient.sendRequest(host, path, queryParams, MapBuildResponse[].class);
+        return lambdaClient.sendRequest(host, "", queryParams, MapBuildResponse[].class);
     }
 
 }
