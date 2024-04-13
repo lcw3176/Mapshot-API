@@ -29,9 +29,6 @@ class LambdaClientTest {
     @Value("${lambda.host}")
     private String host;
 
-    @Value("${lambda.path}")
-    private String path;
-
 
     @Test
     void 응답_형변환_테스트() {
@@ -49,7 +46,7 @@ class LambdaClientTest {
         when(commonClient.get(any(String.class), any(long.class), any(Class.class))).
                 thenReturn(lst.toArray());
 
-        List<MapBuildResponse> responses = lambdaClient.sendRequest(host, path, new LinkedMultiValueMap<>(), MapBuildResponse[].class);
+        List<MapBuildResponse> responses = lambdaClient.sendRequest(host, "", new LinkedMultiValueMap<>(), MapBuildResponse[].class);
 
         assertArrayEquals(responses.toArray(), lst.toArray());
     }

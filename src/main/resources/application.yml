@@ -27,7 +27,7 @@ server:
 
 lambda:
   host: ${lambdaHost}
-  path: ${lambdaPath}
+  timeout: ${lambdaTimeout}
 
 slack:
   url: ${slackUrl}
