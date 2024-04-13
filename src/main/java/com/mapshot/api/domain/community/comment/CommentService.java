@@ -88,7 +88,13 @@ public class CommentService {
             throw new ApiException(ErrorCode.NOT_VALID_PASSWORD);
         }
 
+        PostEntity post = postRepository.findById(entity.getPostId())
+                .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_POST));
+
         commentRepository.deleteById(id);
+
+        post.decreaseCommentCount();
+        postRepository.save(post);
     }
 
 }
