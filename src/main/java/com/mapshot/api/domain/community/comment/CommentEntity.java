@@ -31,6 +31,9 @@ public class CommentEntity extends BaseTimeEntity {
     private String password;
 
     @Column
-    private Boolean deleted;
+    private boolean deleted;
 
+    public void softDelete() {
+        this.deleted = true;
+    }
 }

@@ -57,8 +57,7 @@ public class CommentService {
 
     @Transactional
     public long save(String writer, String content, long postId, String password) {
-
-
+        
         PostEntity post = postRepository.findById(postId)
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_POST));
 
@@ -81,19 +80,20 @@ public class CommentService {
     @Transactional
     public void deleteIfOwner(long id, String password) {
 
-        CommentEntity entity = commentRepository.findById(id)
+        CommentEntity comment = commentRepository.findById(id)
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_POST));
 
-        if (!entity.getPassword().equals(EncryptUtil.encrypt(password))) {
+        if (!comment.getPassword().equals(EncryptUtil.encrypt(password))) {
             throw new ApiException(ErrorCode.NOT_VALID_PASSWORD);
         }
 
-        PostEntity post = postRepository.findById(entity.getPostId())
+        PostEntity post = postRepository.findById(comment.getPostId())
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_POST));
 
-        commentRepository.deleteById(id);
-
+        comment.softDelete();
         post.decreaseCommentCount();
+
+        commentRepository.save(comment);
         postRepository.save(post);
     }
 

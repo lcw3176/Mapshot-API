@@ -35,11 +35,18 @@ public class PostEntity extends BaseTimeEntity {
     @ColumnDefault("0")
     private Integer commentCount;
 
+    @Column
+    private boolean deleted;
+
     public void increaseCommentCount() {
         this.commentCount++;
     }
 
     public void decreaseCommentCount() {
         this.commentCount--;
+    }
+
+    public void softDelete() {
+        this.deleted = true;
     }
 }

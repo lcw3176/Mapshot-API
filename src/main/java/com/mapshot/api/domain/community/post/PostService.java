@@ -1,6 +1,8 @@
 package com.mapshot.api.domain.community.post;
 
 
+import com.mapshot.api.domain.community.comment.CommentEntity;
+import com.mapshot.api.domain.community.comment.CommentRepository;
 import com.mapshot.api.infra.encrypt.EncryptUtil;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
@@ -20,6 +22,7 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
 
     @Value("${community.post.page_size}")
     private int PAGE_SIZE;
@@ -32,7 +35,7 @@ public class PostService {
         }
 
         Pageable pageable = PageRequest.of(--pageNumber, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "id"));
-        Page<PostEntity> pages = postRepository.findAll(pageable);
+        Page<PostEntity> pages = postRepository.findAllByDeletedIsFalse(pageable);
 
         List<PostEntity> postEntities = pages.getContent();
 
@@ -58,6 +61,10 @@ public class PostService {
         PostEntity postEntity = postRepository.findById(id)
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_POST));
 
+        if (postEntity.isDeleted()) {
+            throw new ApiException(ErrorCode.NO_SUCH_POST);
+        }
+
         return PostDetailResponse.builder()
                 .id(postEntity.getId())
                 .title(postEntity.getTitle())
@@ -76,6 +83,7 @@ public class PostService {
                         .title(title)
                         .password(EncryptUtil.encrypt(password))
                         .commentCount(0)
+                        .deleted(false)
                         .build())
                 .getId();
     }
@@ -84,14 +92,22 @@ public class PostService {
     @Transactional
     public void deleteIfOwner(long id, String password) {
 
-        PostEntity entity = postRepository.findById(id)
+        PostEntity post = postRepository.findById(id)
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_POST));
 
-        if (!entity.getPassword().equals(EncryptUtil.encrypt(password))) {
+        if (!post.getPassword().equals(EncryptUtil.encrypt(password))) {
             throw new ApiException(ErrorCode.NOT_VALID_PASSWORD);
         }
 
-        postRepository.deleteById(id);
+        post.softDelete();
+        postRepository.save(post);
+
+        List<CommentEntity> comments = commentRepository.findAllByPostIdAndDeletedFalse(post.getId());
+
+        for (CommentEntity i : comments) {
+            i.softDelete();
+        }
+
     }
 
 }
