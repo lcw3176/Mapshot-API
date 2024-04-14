@@ -45,11 +45,36 @@ public class LoggingFilter extends OncePerRequestFilter {
 
     private static void logRequest(RequestWrapper request) throws IOException {
         String queryString = request.getQueryString();
-        log.info("Request : {} [{}]",
+        log.info("Ip: {} Request : {} [{}]",
+                getClientIP(request),
                 request.getMethod(),
                 queryString == null ? request.getRequestURI() : request.getRequestURI() + queryString);
 
 //        logPayload("Request", request.getContentType(), request.getInputStream());
+    }
+
+    private static String getClientIP(RequestWrapper request) {
+        String ip = request.getHeader("X-Forwarded-For");
+
+        if (ip == null) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null) {
+            ip = request.getHeader("HTTP_CLIENT_IP");
+        }
+
+        if (ip == null) {
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+
+        if (ip == null) {
+            ip = request.getRemoteAddr();
+        }
+
+        return ip;
     }
 
     private static void logResponse(ContentCachingResponseWrapper response) {
