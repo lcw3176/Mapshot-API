@@ -117,7 +117,6 @@ services:
 
 ### 브랜치
 
-- production: 운영중인 코드(임시, 제거 예정)
 - feature/*: 개발 기능, 티켓
 - dev: 개발 브랜치, 테스트 거친 후 자동 배포
 - master: 운영 브랜치
