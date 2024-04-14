@@ -17,7 +17,7 @@
         <file>./mapshot-executor/app.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>./mapshot-executor/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
-            <maxHistory>10</maxHistory>
+            <maxHistory>30</maxHistory>
             <maxFileSize>100MB</maxFileSize>
             <totalSizeCap>1GB</totalSizeCap>
         </rollingPolicy>
