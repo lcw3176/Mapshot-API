@@ -2,8 +2,8 @@ package com.mapshot.api.presentation.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapshot.api.SlackMockExtension;
-import com.mapshot.api.domain.admin.AdminEntity;
-import com.mapshot.api.domain.admin.AdminRepository;
+import com.mapshot.api.domain.admin.user.AdminUserEntity;
+import com.mapshot.api.domain.admin.user.AdminUserRepository;
 import com.mapshot.api.domain.notice.NoticeEntity;
 import com.mapshot.api.domain.notice.NoticeRepository;
 import com.mapshot.api.domain.notice.NoticeType;
@@ -51,7 +51,7 @@ class AdminControllerTest extends SlackMockExtension {
     private Validation adminValidation;
 
     @Autowired
-    private AdminRepository adminRepository;
+    private AdminUserRepository adminUserRepository;
 
     @Autowired
     private NoticeRepository noticeRepository;
@@ -63,7 +63,7 @@ class AdminControllerTest extends SlackMockExtension {
 
     @BeforeEach
     void init() {
-        adminRepository.save(AdminEntity.builder()
+        adminUserRepository.save(AdminUserEntity.builder()
                 .nickname("test")
                 .password(EncryptUtil.encrypt("1234"))
                 .build());
@@ -80,7 +80,7 @@ class AdminControllerTest extends SlackMockExtension {
 
     @AfterEach
     void release() {
-        adminRepository.deleteAll();
+        adminUserRepository.deleteAll();
     }
 
 

@@ -1,4 +1,4 @@
-package com.mapshot.api.domain.admin;
+package com.mapshot.api.domain.admin.user;
 
 import com.mapshot.api.domain.community.post.PostRepository;
 import com.mapshot.api.domain.notice.NoticeEntity;
@@ -15,9 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class AdminService {
+public class AdminUserService {
 
-    private final AdminRepository adminRepository;
+    private final AdminUserRepository adminUserRepository;
     private final PostRepository postRepository;
     private final Validation adminValidation;
     private final NoticeRepository noticeRepository;
@@ -26,7 +26,7 @@ public class AdminService {
     public void validateUser(String nickname, String password) {
         password = EncryptUtil.encrypt(password);
 
-        adminRepository.findByNicknameAndPassword(nickname, password)
+        adminUserRepository.findByNicknameAndPassword(nickname, password)
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_USER));
     }
 
