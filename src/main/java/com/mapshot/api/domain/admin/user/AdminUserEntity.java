@@ -1,4 +1,4 @@
-package com.mapshot.api.domain.admin;
+package com.mapshot.api.domain.admin.user;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity(name = "admin")
-public class AdminEntity {
+public class AdminUserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
