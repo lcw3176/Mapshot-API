@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AdminRequest {
+public class AdminUserRequest {
     private String nickname;
     private String password;
 }

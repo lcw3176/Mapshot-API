@@ -1,4 +1,4 @@
-package com.mapshot.api.presentation.notice;
+package com.mapshot.api.presentation.admin;
 
 import com.mapshot.api.domain.notice.NoticeConst;
 import jakarta.validation.constraints.NotBlank;
@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.Length;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class NoticeRegistrationRequest {
+public class AdminNoticeRequest {
 
     @NotBlank
     private String noticeType;

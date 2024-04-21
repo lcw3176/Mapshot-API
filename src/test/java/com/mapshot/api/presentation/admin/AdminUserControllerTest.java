@@ -9,7 +9,6 @@ import com.mapshot.api.domain.notice.NoticeRepository;
 import com.mapshot.api.domain.notice.NoticeType;
 import com.mapshot.api.infra.auth.Validation;
 import com.mapshot.api.infra.encrypt.EncryptUtil;
-import com.mapshot.api.presentation.notice.NoticeRegistrationRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
-class AdminControllerTest extends SlackMockExtension {
+class AdminUserControllerTest extends SlackMockExtension {
 
 
     @Autowired
@@ -86,7 +85,7 @@ class AdminControllerTest extends SlackMockExtension {
 
     @Test
     void 관리자_로그인_테스트() throws Exception {
-        AdminRequest request = AdminRequest
+        AdminUserRequest request = AdminUserRequest
                 .builder()
                 .nickname("test")
                 .password("1234")
@@ -132,7 +131,7 @@ class AdminControllerTest extends SlackMockExtension {
 
     @Test
     void 게시글_등록_테스트() throws Exception {
-        NoticeRegistrationRequest request = NoticeRegistrationRequest
+        AdminNoticeRequest request = AdminNoticeRequest
                 .builder()
                 .title("헬로")
                 .content("방가방가")
@@ -160,7 +159,7 @@ class AdminControllerTest extends SlackMockExtension {
 
     @Test
     void 관리자가_아닌_사람이_등록_요청시_예외() throws Exception {
-        NoticeRegistrationRequest request = NoticeRegistrationRequest
+        AdminNoticeRequest request = AdminNoticeRequest
                 .builder()
                 .title("헬로")
                 .content("방가방가")
@@ -207,7 +206,7 @@ class AdminControllerTest extends SlackMockExtension {
     void 게시글_수정_테스트() throws Exception {
         long id = noticeRepository.findFirstByOrderByIdDesc().getId();
 
-        NoticeRegistrationRequest request = NoticeRegistrationRequest.builder()
+        AdminNoticeRequest request = AdminNoticeRequest.builder()
                 .noticeType(NoticeType.RESERVED_CHECK.toString())
                 .title("수정된 타이틀")
                 .content("수정된 컨텐츠")
@@ -237,7 +236,7 @@ class AdminControllerTest extends SlackMockExtension {
     void 관리자가_아닌_사람이_수정_요청시_예외() throws Exception {
         long id = noticeRepository.findFirstByOrderByIdDesc().getId();
 
-        NoticeRegistrationRequest request = NoticeRegistrationRequest.builder()
+        AdminNoticeRequest request = AdminNoticeRequest.builder()
                 .noticeType(NoticeType.RESERVED_CHECK.toString())
                 .title("수정된 타이틀")
                 .content("수정된 컨텐츠")
