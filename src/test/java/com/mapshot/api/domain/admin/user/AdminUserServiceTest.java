@@ -1,6 +1,5 @@
 package com.mapshot.api.domain.admin.user;
 
-import com.mapshot.api.domain.community.post.PostRepository;
 import com.mapshot.api.infra.encrypt.EncryptUtil;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
@@ -21,11 +20,7 @@ class AdminUserServiceTest {
 
     @Autowired
     private AdminUserRepository adminUserRepository;
-
-    @Autowired
-    private PostRepository postRepository;
-
-
+    
     @BeforeEach
     void init() {
         adminUserRepository.save(AdminUserEntity.builder()

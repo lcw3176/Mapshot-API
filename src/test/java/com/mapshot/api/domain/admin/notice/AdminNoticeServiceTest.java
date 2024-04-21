@@ -4,7 +4,6 @@ import com.mapshot.api.domain.notice.NoticeService;
 import com.mapshot.api.domain.notice.NoticeType;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
-import com.mapshot.api.presentation.admin.AdminNoticeRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,12 +34,7 @@ class AdminNoticeServiceTest {
 
     @Test
     void 업데이트_테스트() {
-
-        AdminNoticeRequest request = AdminNoticeRequest.builder()
-                .noticeType(NoticeType.UPDATE.toString())
-                .title("초기화")
-                .content("초기화")
-                .build();
+        
 
         long id = adminNoticeService.saveNotice(NoticeType.UPDATE, "초기화", "초기화");
         long updatedId = adminNoticeService.modifyNotice(id, NoticeType.FIX, "헬로", "헬로");
