@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin")
+@RequestMapping("/admin/post")
 @CrossOrigin(originPatterns = {"https://*.kmapshot.com", "https://kmapshot.com"})
 @Validated
 public class AdminPostController {
@@ -20,7 +20,7 @@ public class AdminPostController {
 
 
     @PreAuth(Accessible.ADMIN)
-    @GetMapping("/post/delete/{postNumber}")
+    @GetMapping("/delete/{postNumber}")
     public ResponseEntity<Void> deletePost(@Positive @PathVariable(value = "postNumber") long postNumber) {
         adminPostService.deletePost(postNumber);
 

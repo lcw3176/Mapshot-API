@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin")
+@RequestMapping("/admin/notice")
 @CrossOrigin(originPatterns = {"https://*.kmapshot.com", "https://kmapshot.com"})
 @Validated
 public class AdminNoticeController {
@@ -20,7 +20,7 @@ public class AdminNoticeController {
     private final AdminNoticeService adminNoticeService;
 
     @PreAuth(Accessible.ADMIN)
-    @PostMapping("/notice/register")
+    @PostMapping("/register")
     public ResponseEntity<Void> registerNotice(@RequestBody AdminNoticeRequest request) {
         adminNoticeService.saveNotice(NoticeType.valueOf(request.getNoticeType()), request.getTitle(), request.getContent());
 
@@ -28,7 +28,7 @@ public class AdminNoticeController {
     }
 
     @PreAuth(Accessible.ADMIN)
-    @GetMapping("/notice/delete/{noticeNumber}")
+    @GetMapping("/delete/{noticeNumber}")
     public ResponseEntity<Void> deleteNotice(@PositiveOrZero @PathVariable(value = "noticeNumber") long noticeNumber) {
         adminNoticeService.deleteNotice(noticeNumber);
 
@@ -37,7 +37,7 @@ public class AdminNoticeController {
 
 
     @PreAuth(Accessible.ADMIN)
-    @PostMapping("/notice/modify/{noticeNumber}")
+    @PostMapping("/modify/{noticeNumber}")
     public ResponseEntity<Void> modifyNotice(@PositiveOrZero @PathVariable(value = "noticeNumber") long noticeNumber,
                                              @RequestBody AdminNoticeRequest request) {
         adminNoticeService.modifyNotice(noticeNumber, NoticeType.valueOf(request.getNoticeType()), request.getTitle(), request.getContent());
