@@ -92,7 +92,7 @@ class AdminUserControllerTest extends SlackMockExtension {
                 .build();
 
         mockMvc.perform(
-                        RestDocumentationRequestBuilders.post(BASE_URL + "/login")
+                        RestDocumentationRequestBuilders.post(BASE_URL + "/user/login")
                                 .content(mapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -108,7 +108,7 @@ class AdminUserControllerTest extends SlackMockExtension {
     @Test
     void 관리자_로그인_연장_테스트() throws Exception {
         mockMvc.perform(
-                        RestDocumentationRequestBuilders.post(BASE_URL + "/auth/refresh")
+                        RestDocumentationRequestBuilders.post(BASE_URL + "/user/auth/refresh")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader())))
                 .andExpect(status().isOk())
