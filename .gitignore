@@ -48,3 +48,4 @@ docker-compose.yml
 /logs
 /was-logs
 *.log
+build-script.sh
