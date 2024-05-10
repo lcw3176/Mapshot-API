@@ -6,6 +6,7 @@ import com.mapshot.api.domain.admin.user.AdminUserEntity;
 import com.mapshot.api.domain.admin.user.AdminUserRepository;
 import com.mapshot.api.infra.auth.Validation;
 import com.mapshot.api.infra.encrypt.EncryptUtil;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,11 @@ class AdminUserControllerTest extends SlackMockExtension {
                 .nickname("test")
                 .password(EncryptUtil.encrypt("1234"))
                 .build());
+    }
+
+    @AfterEach
+    void release() {
+        adminUserRepository.deleteAll();
     }
 
 
