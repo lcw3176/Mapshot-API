@@ -1,6 +1,7 @@
 package com.mapshot.api.presentation.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mapshot.api.SlackMockExtension;
 import com.mapshot.api.domain.admin.user.AdminUserEntity;
 import com.mapshot.api.domain.admin.user.AdminUserRepository;
 import com.mapshot.api.domain.notice.NoticeEntity;
@@ -13,6 +14,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -32,7 +35,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-class AdminNoticeControllerTest {
+@AutoConfigureMockMvc
+@AutoConfigureRestDocs
+class AdminNoticeControllerTest extends SlackMockExtension {
 
 
     @Autowired
@@ -76,7 +81,7 @@ class AdminNoticeControllerTest {
     void release() {
         adminUserRepository.deleteAll();
     }
-    
+
 
     @Test
     void 게시글_등록_테스트() throws Exception {
