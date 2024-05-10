@@ -11,7 +11,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,8 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,9 +36,6 @@ class CommentControllerTest extends SlackMockExtension {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Value("${jwt.admin.header}")
-    private String ADMIN_HEADER_NAME;
 
     @Autowired
     private CommentRepository commentRepository;
@@ -82,6 +77,27 @@ class CommentControllerTest extends SlackMockExtension {
     @AfterEach
     void release() {
         commentRepository.deleteAll();
+    }
+
+    @Test
+    void 댓글_조회_테스트() throws Exception {
+        long postId = postRepository.findFirstByOrderByIdDesc().getId();
+
+        mockMvc.perform(
+                        RestDocumentationRequestBuilders.get(BASE_URL)
+                                .queryParam("page", "0")
+                                .queryParam("postId", Long.toString(postId)))
+                .andExpect(status().isOk())
+                .andDo(document("comment/list",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("totalPage").description("페이지 수"),
+                                fieldWithPath("comments[].id").description("댓글 아이디"),
+                                fieldWithPath("comments[].writer").description("댓글 작성자"),
+                                fieldWithPath("comments[].content").description("댓글 내용"),
+                                fieldWithPath("comments[].createdDate").description("댓글 작성 시각")
+                        )));
     }
 
 
