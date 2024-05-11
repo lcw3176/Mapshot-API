@@ -78,7 +78,7 @@ class PostControllerTest extends SlackMockExtension {
                                 .content(mapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("comment/register",
+                .andDo(document("post/register",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
@@ -137,6 +137,9 @@ class PostControllerTest extends SlackMockExtension {
                 .andDo(document("post/list",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        queryParameters(
+                                parameterWithName("page").description("페이지 번호")
+                        ),
                         responseFields(
                                 fieldWithPath("totalPage").description("페이지 수"),
                                 fieldWithPath("posts[].id").description("게시글 아이디"),
@@ -158,6 +161,9 @@ class PostControllerTest extends SlackMockExtension {
                 .andDo(document("post/detail",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("id").description("게시글 아이디")
+                        ),
                         responseFields(
                                 fieldWithPath("id").description("게시글 아이디"),
                                 fieldWithPath("writer").description("게시글 작성자"),

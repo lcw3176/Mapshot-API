@@ -91,6 +91,10 @@ class CommentControllerTest extends SlackMockExtension {
                 .andDo(document("comment/list",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        queryParameters(
+                                parameterWithName("page").description("페이지 번호"),
+                                parameterWithName("postId").description("게시글 id")
+                        ),
                         responseFields(
                                 fieldWithPath("totalPage").description("페이지 수"),
                                 fieldWithPath("comments[].id").description("댓글 아이디"),
