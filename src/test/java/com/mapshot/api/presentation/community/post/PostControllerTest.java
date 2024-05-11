@@ -78,7 +78,7 @@ class PostControllerTest extends SlackMockExtension {
                                 .content(mapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("comment/register",
+                .andDo(document("post/register",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
