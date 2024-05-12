@@ -49,8 +49,7 @@ https://docs.kmapshot.com
 
 https://monitor.kmapshot.com
 
-- id: guest
-- pw: helloiamguest
+- 그라파나
 
 #### 리눅스 (Node Exporter Full)
 
