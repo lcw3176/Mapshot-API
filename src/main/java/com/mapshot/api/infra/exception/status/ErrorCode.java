@@ -16,6 +16,7 @@ public enum ErrorCode implements StatusCode {
     NO_SUCH_USER(HttpStatus.NOT_FOUND, "존재하지 않는 유저입니다."),
     NO_SUCH_ALGORITHM(HttpStatus.NOT_FOUND, "암호화 알고리즘 탐색 불가"),
     NO_PRE_AUTH(HttpStatus.INTERNAL_SERVER_ERROR, "PreAuth 탐색 불가"),
+    SERVER_TO_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 간 통신 에러"),
     ;
 
     private final HttpStatus httpStatus;

@@ -1,6 +1,7 @@
 package com.mapshot.api.infra.client;
 
 import com.mapshot.api.infra.exception.ApiException;
+import com.mapshot.api.infra.exception.status.ErrorCode;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
@@ -49,7 +50,7 @@ public class CommonClient {
                     .block(Duration.ofMillis(timeoutMillis));
 
         } catch (Exception e) {
-            throw new ApiException(e.getMessage(), e);
+            throw new ApiException(ErrorCode.SERVER_TO_SERVER_ERROR);
         }
     }
 
@@ -67,7 +68,7 @@ public class CommonClient {
                     .block(Duration.ofMillis(timeoutMillis));
 
         } catch (Exception e) {
-            throw new ApiException(e.getMessage(), e);
+            throw new ApiException(ErrorCode.SERVER_TO_SERVER_ERROR);
         }
     }
 }
