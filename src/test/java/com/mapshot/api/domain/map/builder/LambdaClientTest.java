@@ -1,10 +1,8 @@
-package com.mapshot.api.infra.client.lambda;
+package com.mapshot.api.domain.map.builder;
 
-import com.mapshot.api.domain.map.builder.MapBuildResponse;
 import com.mapshot.api.infra.client.CommonClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.util.LinkedMultiValueMap;
@@ -12,6 +10,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -26,10 +25,6 @@ class LambdaClientTest {
     @MockBean
     private CommonClient commonClient;
 
-    @Value("${lambda.host}")
-    private String host;
-
-
     @Test
     void 응답_형변환_테스트() {
         List<MapBuildResponse> lst = new ArrayList<>();
@@ -43,11 +38,11 @@ class LambdaClientTest {
         }
 
 
-        when(commonClient.get(any(String.class), any(long.class), any(Class.class))).
-                thenReturn(lst.toArray());
+        when(commonClient.get(any(String.class), any(long.class), any(Class.class), any(Consumer.class))).
+                thenReturn(lst.toArray(MapBuildResponse[]::new));
 
-        List<MapBuildResponse> responses = lambdaClient.sendRequest(host, "", new LinkedMultiValueMap<>(), MapBuildResponse[].class);
-
+        List<MapBuildResponse> responses = lambdaClient.sendRequest(new LinkedMultiValueMap<>());
+        
         assertArrayEquals(responses.toArray(), lst.toArray());
     }
 }
