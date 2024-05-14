@@ -55,7 +55,7 @@ public class CommonClient {
     }
 
 
-    public <T> T[] get(String path, long timeoutMillis, Class<T[]> clazz) {
+    public <T> T get(String path, long timeoutMillis, Class<T> clazz) {
 
         try {
             return getClient(path, timeoutMillis).get()
