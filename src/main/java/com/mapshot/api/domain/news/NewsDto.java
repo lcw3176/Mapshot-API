@@ -6,16 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class NewsResponse {
-    private LocalDateTime lastBuildDate;
-    private Integer total;
-    private Integer start;
-    private Integer display;
-    private List<NewsDto> items;
+public class NewsDto {
+    private String title;
+    private String originalLink;
+    private String link;
+    private String description;
+    private LocalDateTime pubDate;
 }
