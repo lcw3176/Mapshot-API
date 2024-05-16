@@ -1,4 +1,4 @@
-package com.mapshot.api.infra.client.lambda;
+package com.mapshot.api.domain.map.builder;
 
 
 import com.mapshot.api.infra.client.CommonClient;
@@ -16,10 +16,15 @@ public class LambdaClient {
 
     private final CommonClient client;
 
-    @Value("${lambda.timeout}")
+    @Value("${client.lambda.timeout}")
     private Long timeoutMillis;
 
-    public <T> List<T> sendRequest(String host, String path, MultiValueMap<String, String> queryParams, Class<T[]> clazz) {
+    @Value("${client.lambda.host}")
+    private String host;
+
+    private String path = "";
+
+    public List<MapBuildResponse> sendRequest(MultiValueMap<String, String> queryParams) {
 
         String url = UriComponentsBuilder.newInstance()
                 .scheme("https")
@@ -29,6 +34,8 @@ public class LambdaClient {
                 .build()
                 .toString();
 
-        return List.of(client.get(url, timeoutMillis, clazz));
+        return List.of(client.get(url, timeoutMillis, MapBuildResponse[].class, httpHeaders -> {
+
+        }));
     }
 }

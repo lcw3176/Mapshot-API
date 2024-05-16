@@ -17,7 +17,7 @@ public class SlackClient {
 
     private final CommonClient client;
 
-    @Value("${slack.url}")
+    @Value("${client.slack.url}")
     private String slackUrl;
 
 

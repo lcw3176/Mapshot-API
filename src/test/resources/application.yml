@@ -13,13 +13,19 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
 
-lambda:
-  host: hello
-  timeout: 60000
+client:
+  lambda:
+    host: hello
+    timeout: 10000
 
-slack:
-  url: hello
+  slack:
+    url: hello
 
+  naver:
+    host: hello
+    path: hello
+    id: hello
+    secret: hello
 
 jwt:
   admin:

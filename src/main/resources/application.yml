@@ -25,12 +25,19 @@ server:
     whitelabel:
       enabled: false
 
-lambda:
-  host: ${lambdaHost}
-  timeout: ${lambdaTimeout}
+client:
+  lambda:
+    host: ${lambdaHost}
+    timeout: ${lambdaTimeout}
 
-slack:
-  url: ${slackUrl}
+  slack:
+    url: ${slackUrl}
+
+  naver:
+    host: ${naverHost}
+    path: ${naverPath}
+    id: ${naverClientId}
+    secret: ${naverClientSecret}
 
 jwt:
   admin:

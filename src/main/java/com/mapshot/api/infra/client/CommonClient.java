@@ -5,6 +5,7 @@ import com.mapshot.api.infra.exception.status.ErrorCode;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
@@ -16,6 +17,7 @@ import reactor.netty.http.client.HttpClient;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 @Component
 public class CommonClient {
@@ -55,12 +57,13 @@ public class CommonClient {
     }
 
 
-    public <T> T[] get(String path, long timeoutMillis, Class<T[]> clazz) {
+    public <T> T get(String path, long timeoutMillis, Class<T> clazz, Consumer<HttpHeaders> headers) {
 
         try {
             return getClient(path, timeoutMillis).get()
                     .accept(MediaType.APPLICATION_JSON)
                     .acceptCharset(StandardCharsets.UTF_8)
+                    .headers(headers)
                     .retrieve()
                     .onStatus(HttpStatusCode::isError, response -> response.bodyToMono(String.class)
                             .flatMap(errorBody -> Mono.error(new RuntimeException(errorBody))))
