@@ -17,6 +17,7 @@ public enum ErrorCode implements StatusCode {
     NO_SUCH_ALGORITHM(HttpStatus.NOT_FOUND, "암호화 알고리즘 탐색 불가"),
     NO_PRE_AUTH(HttpStatus.INTERNAL_SERVER_ERROR, "PreAuth 탐색 불가"),
     SERVER_TO_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 간 통신 에러"),
+    GOV_CRAWLING_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "국토교통부 데이터 크롤링 실패"),
     ;
 
     private final HttpStatus httpStatus;
