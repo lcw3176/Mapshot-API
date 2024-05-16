@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class NewsDto {
+public class NaverNewsDto {
     private String title;
     private String originalLink;
     private String link;

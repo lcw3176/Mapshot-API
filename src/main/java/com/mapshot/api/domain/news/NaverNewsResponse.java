@@ -12,10 +12,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class NewsResponse {
+public class NaverNewsResponse {
     private LocalDateTime lastBuildDate;
     private Integer total;
     private Integer start;
     private Integer display;
-    private List<NewsDto> items;
+    private List<NaverNewsDto> items;
 }
