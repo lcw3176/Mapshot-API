@@ -4,7 +4,6 @@ import com.mapshot.api.infra.client.CommonClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -38,11 +37,10 @@ public class NaverClient {
                 .build()
                 .toString();
 
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("X-Naver-Client-Id", headerId);
-        map.add("X-Naver-Client-Id", headerSecret);
-
-        return client.get(url, timeoutMillis, NewsResponse.class, httpHeaders -> httpHeaders.addAll(map));
+        return client.get(url, timeoutMillis, NewsResponse.class, httpHeaders -> {
+            httpHeaders.add("X-Naver-Client-Id", headerId);
+            httpHeaders.add("X-Naver-Client-Secret", headerSecret);
+        });
     }
 
 }
