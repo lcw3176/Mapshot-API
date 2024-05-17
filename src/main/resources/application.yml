@@ -39,6 +39,9 @@ client:
     id: ${naverClientId}
     secret: ${naverClientSecret}
 
+  gov:
+    path: ${govPath}
+
 jwt:
   admin:
     secret: ${jwtAdminSecret}

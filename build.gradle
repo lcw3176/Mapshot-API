@@ -82,6 +82,9 @@ dependencies {
     // grafana
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
+
+    // 국토교통부 데이터 수집
+    implementation 'org.jsoup:jsoup:1.17.2'
 }
 
 tasks.named('test') {

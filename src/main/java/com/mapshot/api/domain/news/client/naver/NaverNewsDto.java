@@ -1,4 +1,4 @@
-package com.mapshot.api.domain.news;
+package com.mapshot.api.domain.news.client.naver;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

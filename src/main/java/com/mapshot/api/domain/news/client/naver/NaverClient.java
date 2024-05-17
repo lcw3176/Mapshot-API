@@ -1,4 +1,4 @@
-package com.mapshot.api.domain.news;
+package com.mapshot.api.domain.news.client.naver;
 
 import com.mapshot.api.infra.client.CommonClient;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class NaverClient {
     @Value("${client.naver.secret}")
     private String headerSecret;
 
-    public NaverNewsResponse sendRequest(String query) {
+    public NaverNewsResponse searchNews(String query) {
         long timeoutMillis = 3000;
 
         String url = UriComponentsBuilder.newInstance()
