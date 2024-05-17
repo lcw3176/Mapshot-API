@@ -25,7 +25,7 @@ public class NaverClient {
     @Value("${client.naver.secret}")
     private String headerSecret;
 
-    public NaverNewsResponse sendRequest(String query) {
+    public NaverNewsResponse searchNews(String query) {
         long timeoutMillis = 3000;
 
         String url = UriComponentsBuilder.newInstance()
