@@ -15,14 +15,14 @@ spring:
 
 client:
   lambda:
-    host: hello
+    host: https://hello.com
     timeout: 10000
 
   slack:
-    url: hello
+    url: https://hello.com
 
   naver:
-    host: hello
+    host: https://hello.com
     path: hello
     id: hello
     secret: hello
