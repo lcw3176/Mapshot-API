@@ -1,25 +1,24 @@
 package com.mapshot.api.infra.client.slack;
 
 
-import com.mapshot.api.infra.client.CommonClient;
 import com.mapshot.api.infra.client.slack.model.SlackMessage;
 import com.mapshot.api.infra.client.slack.util.SlackMessageFormatter;
 import com.mapshot.api.infra.exception.ApiException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 @Component
 @RequiredArgsConstructor
 public class SlackClient {
 
-    private final CommonClient client;
-
-    @Value("${client.slack.url}")
-    private String slackUrl;
-
+    private final WebClient slackRestClient;
 
     public void sendMessage(ApiException e) {
         SlackMessage slackMessage = SlackMessage.builder()
@@ -39,17 +38,26 @@ public class SlackClient {
         sendSlackMessage(slackMessage);
     }
 
-    private void sendSlackMessage(SlackMessage exception) {
-        int timeoutMillis = 3000;
-
-        String message = SlackMessageFormatter.makeExceptionMessage(exception);
-        client.post(slackUrl, timeoutMillis, message, String.class);
-    }
-
     private String makeTransmissible(Exception e) {
         String stackTrace = Arrays.toString(e.getStackTrace());
         int len = Math.min(stackTrace.length(), 1700);
 
         return stackTrace.substring(0, len);
     }
+
+    private void sendSlackMessage(SlackMessage exception) {
+        String message = SlackMessageFormatter.makeExceptionMessage(exception);
+
+        slackRestClient.post()
+                .accept(MediaType.APPLICATION_JSON)
+                .acceptCharset(StandardCharsets.UTF_8)
+                .bodyValue(message)
+                .retrieve()
+                .onStatus(HttpStatusCode::isError, response -> response.bodyToMono(String.class)
+                        .flatMap(errorBody -> Mono.error(new RuntimeException(errorBody))))
+                .bodyToMono(String.class)
+                .block();
+    }
+
+
 }

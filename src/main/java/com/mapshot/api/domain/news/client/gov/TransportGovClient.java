@@ -1,7 +1,6 @@
 package com.mapshot.api.domain.news.client.gov;
 
-import com.mapshot.api.infra.exception.ApiException;
-import com.mapshot.api.infra.exception.status.ErrorCode;
+import com.mapshot.api.infra.client.ApiHandler;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -10,6 +9,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +22,16 @@ public class TransportGovClient {
     private String path;
 
     public List<TransportGovResponse> getKeywords() {
-        try {
+        return ApiHandler.handle(() -> {
             List<TransportGovResponse> keywords = new ArrayList<>();
 
-            Document doc = Jsoup.connect(path).get();
+            Document doc = null;
+            
+            try {
+                doc = Jsoup.connect(path).get();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
             Element table = doc.getElementsByClass("table line_no bd_tbl bd_tbl_ul").get(0);
             Element tbody = table.getElementsByTag("tbody").get(0);
@@ -48,10 +54,6 @@ public class TransportGovClient {
             }
 
             return keywords;
-
-        } catch (Exception e) {
-            throw new ApiException(ErrorCode.GOV_CRAWLING_FAILED);
-        }
-
+        });
     }
 }
