@@ -3,7 +3,7 @@ plugins {
     id 'org.springframework.boot' version '3.0.3'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
-//    id 'com.google.cloud.tools.jib' version '3.1.2'
+    id 'com.google.cloud.tools.jib' version '3.1.2'
 //    id 'org.graalvm.buildtools.native' version '0.9.17'
 }
 
@@ -92,23 +92,19 @@ tasks.named('test') {
 }
 
 
-//jib {
-//    from {
-//        image = "eclipse-temurin:17-jre"
-//    }
-//
-//    to {
-//
-//    }
-//
-//    container {
-//        jvmFlags = ["-Duser.timezone=Asia/Seoul"]
-//    }
-//}
+jib {
+    from {
+        image = "eclipse-temurin:17-jre"
+    }
 
-bootBuildImage {
-    imageName = 'mapshot-native'
+    container {
+        creationTime = "USE_CURRENT_TIMESTAMP"
+    }
 }
+
+//bootBuildImage {
+//    imageName = 'mapshot-native'
+//}
 
 
 
