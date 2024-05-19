@@ -46,7 +46,7 @@ public class NewsService {
 
             String title = wrapHtmlTag(detailNews.getTitle(), "h3");
             String description = wrapHtmlTag(detailNews.getDescription(), "p");
-            String link = wrapHtmlTag(detailNews.getOriginalLink(), "a");
+            String link = wrapHtmlTag(detailNews.getOriginallink(), "a");
 
             contents.append(title);
             contents.append(description);
