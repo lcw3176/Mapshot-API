@@ -14,13 +14,13 @@ public class LambdaWebClientConfig {
 
     @Value("${client.lambda.timeout}")
     private Long timeoutMillis;
-    
-    @Value("${client.lambda.host}")
-    private String host;
+
+    @Value("${client.lambda.url}")
+    private String url;
 
 
     @Bean
     public WebClient lambdaRestClient() {
-        return ExternalApiClient.getClient(host, timeoutMillis);
+        return ExternalApiClient.getClient(url, timeoutMillis);
     }
 }

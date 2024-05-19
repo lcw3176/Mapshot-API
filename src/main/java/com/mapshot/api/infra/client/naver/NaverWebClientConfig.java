@@ -12,13 +12,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class NaverWebClientConfig {
 
 
-    @Value("${client.naver.host}")
-    private String host;
+    @Value("${client.naver.url}")
+    private String url;
 
     private static final long TIMEOUT_MILLIS = 3000;
 
     @Bean
     public WebClient naverRestClient() {
-        return ExternalApiClient.getClient(host, TIMEOUT_MILLIS);
+        return ExternalApiClient.getClient(url, TIMEOUT_MILLIS);
     }
 }

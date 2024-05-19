@@ -17,10 +17,7 @@ public class NaverClient {
 
 
     private final WebClient naverRestClient;
-
-    @Value("${client.naver.path}")
-    private String path;
-
+    
     @Value("${client.naver.id}")
     private String headerId;
 
@@ -31,7 +28,6 @@ public class NaverClient {
 
         return ApiHandler.handle(() -> naverRestClient.get()
                 .uri(uriBuilder -> uriBuilder
-                        .path(path)
                         .queryParam("query", query)
                         .build())
                 .accept(MediaType.APPLICATION_JSON)
