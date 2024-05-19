@@ -27,7 +27,7 @@ client:
     secret: hello
 
   gov:
-    path: https://www.molit.go.kr/USR/NEWS/m_71/lst.jsp
+    url: https://www.molit.go.kr/USR/NEWS/m_71/lst.jsp
 
 jwt:
   admin:
