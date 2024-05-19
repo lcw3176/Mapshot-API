@@ -36,6 +36,7 @@ public class NewsService {
         }
 
         StringBuilder contents = new StringBuilder();
+        int index = 1;
 
         for (NaverNewsResponse i : newsResponses) {
             if (i.getItems().isEmpty()) {
@@ -44,13 +45,18 @@ public class NewsService {
 
             NaverNewsDto detailNews = i.getItems().get(0);
 
-            String title = wrapHtmlTag(detailNews.getTitle(), "h3");
+            String lineSpace = wrapHtmlTag("", "p");
+            String title = wrapHtmlTag(index++ + ". " + detailNews.getTitle(), "h3");
             String description = wrapHtmlTag(detailNews.getDescription(), "p");
             String link = wrapHtmlTag(detailNews.getOriginallink(), "a");
 
+            contents.append(lineSpace);
             contents.append(title);
+            contents.append(lineSpace);
             contents.append(description);
+            contents.append(lineSpace);
             contents.append(link);
+            contents.append(lineSpace);
         }
 
         postService.save("뉴스봇", contents.toString(), LocalDate.now().toString() + " 소식 요약", UUID.randomUUID().toString());
