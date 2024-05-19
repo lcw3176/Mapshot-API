@@ -15,20 +15,19 @@ spring:
 
 client:
   lambda:
-    host: hello
+    url: https://hello.com
     timeout: 10000
 
   slack:
-    url: hello
+    url: https://hello.com
 
   naver:
-    host: hello
-    path: hello
+    url: https://hello.com
     id: hello
     secret: hello
 
   gov:
-    path: https://www.molit.go.kr/USR/NEWS/m_71/lst.jsp
+    url: https://www.molit.go.kr/USR/NEWS/m_71/lst.jsp
 
 jwt:
   admin:

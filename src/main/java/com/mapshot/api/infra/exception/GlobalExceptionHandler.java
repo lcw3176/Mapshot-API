@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({NoHandlerFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<String> notFoundExceptionHandler(NoHandlerFoundException e) {
-        StatusCode code = ErrorCode.NOT_FOUND;
+        StatusCode code = ErrorCode.HANDLER_NOT_FOUND;
         log.error(e.getMessage(), e);
 
         return ResponseEntity.status(code.getHttpStatus())

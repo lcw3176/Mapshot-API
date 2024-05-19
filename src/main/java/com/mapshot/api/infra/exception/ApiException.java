@@ -12,4 +12,9 @@ public class ApiException extends RuntimeException {
         super(code.getMessage());
         this.code = code;
     }
+
+    public ApiException(StatusCode code, Throwable cause) {
+        super(cause);
+        this.code = code;
+    }
 }

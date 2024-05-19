@@ -27,20 +27,19 @@ server:
 
 client:
   lambda:
-    host: ${lambdaHost}
+    url: ${lambdaUrl}
     timeout: ${lambdaTimeout}
 
   slack:
     url: ${slackUrl}
 
   naver:
-    host: ${naverHost}
-    path: ${naverPath}
+    url: ${naverUrl}
     id: ${naverClientId}
     secret: ${naverClientSecret}
 
   gov:
-    path: ${govPath}
+    url: ${govUrl}
 
 jwt:
   admin:

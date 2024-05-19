@@ -34,7 +34,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         try {
             method = (HandlerMethod) handler;
         } catch (Exception e) {
-            throw new ApiException(ErrorCode.NOT_FOUND);
+            throw new ApiException(ErrorCode.HANDLER_NOT_FOUND);
         }
 
         PreAuth preAuth = method.getMethodAnnotation(PreAuth.class);
