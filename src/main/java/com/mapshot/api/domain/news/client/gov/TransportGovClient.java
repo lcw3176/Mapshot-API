@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TransportGovClient {
 
-    @Value("${client.gov.path}")
+    @Value("${client.gov.url}")
     private String path;
 
     public List<TransportGovResponse> getKeywords() {
@@ -26,7 +26,7 @@ public class TransportGovClient {
             List<TransportGovResponse> keywords = new ArrayList<>();
 
             Document doc = null;
-            
+
             try {
                 doc = Jsoup.connect(path).get();
             } catch (IOException e) {

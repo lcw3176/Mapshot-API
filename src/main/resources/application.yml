@@ -39,7 +39,7 @@ client:
     secret: ${naverClientSecret}
 
   gov:
-    path: ${govPath}
+    url: ${govUrl}
 
 jwt:
   admin:
