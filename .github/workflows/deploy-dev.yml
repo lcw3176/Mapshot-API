@@ -34,14 +34,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Change Tag Name And Push
+      - name: Jib
         env:
-          REPO_PATH: ${{ secrets.MAPSHOT_DOCKERHUB_REPO_PATH }}
-        run: |
-          IMAGE_ID=$(sudo docker images --filter=reference=mapshot-native --format "{{.ID}}")
-          docker tag $IMAGE_ID $REPO_PATH:mapshot-dev
-          docker push $REPO_PATH:mapshot-dev
-
+          DOCKERHUB_REPOSITORY_PATH: ${{ secrets.MAPSHOT_DOCKERHUB_REPO_PATH }}
+        run: ./gradlew jib -x test
+          -Djib.to.image=$MAPSHOT_DOCKERHUB_REPO_PATH
+          -Djib.to.tags=mapshot-dev
+          -Djib.container.creationTime=USE_CURRENT_TIMESTAMP
 
       - name: Deploy
         uses: appleboy/ssh-action@master
