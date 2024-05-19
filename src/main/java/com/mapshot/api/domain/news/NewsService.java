@@ -32,7 +32,7 @@ public class NewsService {
         if (govResponses.isEmpty()) {
             return;
         }
-        
+
         List<NaverNewsResponse> newsResponses = new ArrayList<>();
 
         for (TransportGovResponse i : govResponses) {
@@ -64,7 +64,7 @@ public class NewsService {
             contents.append(lineSpace);
         }
 
-        postService.save("뉴스봇", contents.toString(), LocalDate.now().toString() + " 소식 요약", UUID.randomUUID().toString());
+        postService.save("헤드샷", contents.toString(), "[" + LocalDate.now().toString() + "] 오늘의 헤드라인", UUID.randomUUID().toString());
     }
 
 
