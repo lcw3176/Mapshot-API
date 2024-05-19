@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 @Builder
 public class NaverNewsDto {
     private String title;
-    private String originalLink;
+    private String originallink;
     private String link;
     private String description;
     private String pubDate;
