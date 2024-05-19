@@ -7,6 +7,7 @@ import com.mapshot.api.domain.news.client.naver.NaverClient;
 import com.mapshot.api.domain.news.client.naver.NaverNewsDto;
 import com.mapshot.api.domain.news.client.naver.NaverNewsResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,7 @@ public class NewsService {
     private final TransportGovClient govClient;
 
     @Transactional
+    @RegisterReflectionForBinding(NaverNewsDto.class)
     public void updateNewsLetter() {
         List<TransportGovResponse> govResponses = govClient.getKeywords();
         List<NaverNewsResponse> newsResponses = new ArrayList<>();
