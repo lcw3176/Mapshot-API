@@ -64,7 +64,7 @@ public class NewsService {
             contents.append(lineSpace);
         }
 
-        postService.save("헤드샷", contents.toString(), "[" + LocalDate.now().toString() + "] 오늘의 헤드라인", UUID.randomUUID().toString());
+        postService.save("헤드샷", contents.toString(), "[" + LocalDate.now() + "] 오늘의 헤드라인", UUID.randomUUID().toString());
     }
 
 
