@@ -28,6 +28,11 @@ public class NewsService {
     @RegisterReflectionForBinding(NaverNewsDto.class)
     public void updateNewsLetter() {
         List<TransportGovResponse> govResponses = govClient.getKeywords();
+
+        if (govResponses.isEmpty()) {
+            return;
+        }
+        
         List<NaverNewsResponse> newsResponses = new ArrayList<>();
 
         for (TransportGovResponse i : govResponses) {
