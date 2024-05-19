@@ -35,10 +35,8 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Jib
-        env:
-          DOCKERHUB_REPOSITORY_PATH: ${{ secrets.MAPSHOT_DOCKERHUB_REPO_PATH }}
         run: ./gradlew jib -x test
-          -Djib.to.image=$MAPSHOT_DOCKERHUB_REPO_PATH
+          -Djib.to.image=${{ secrets.MAPSHOT_DOCKERHUB_REPO_PATH }}
           -Djib.to.tags=mapshot-dev
           -Djib.container.creationTime=USE_CURRENT_TIMESTAMP
 
