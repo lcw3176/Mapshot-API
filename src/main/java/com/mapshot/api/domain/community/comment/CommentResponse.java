@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -14,7 +13,7 @@ import java.util.List;
 @Builder
 public class CommentResponse {
 
-    private List<CommentDto> comments = new ArrayList<>();
+    private List<CommentDto> comments;
     private int totalPage;
 
 }

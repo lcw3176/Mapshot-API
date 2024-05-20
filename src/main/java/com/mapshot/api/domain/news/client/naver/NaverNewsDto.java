@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @NoArgsConstructor
@@ -13,8 +14,12 @@ import java.time.LocalDateTime;
 @Builder
 public class NaverNewsDto {
     private String title;
-    private String originalLink;
+    private String originallink;
     private String link;
     private String description;
-    private LocalDateTime pubDate;
+    private String pubDate;
+
+    public LocalDateTime getPubDateTime() {
+        return LocalDateTime.parse(pubDate, DateTimeFormatter.RFC_1123_DATE_TIME);
+    }
 }
