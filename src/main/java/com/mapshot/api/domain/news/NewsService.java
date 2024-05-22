@@ -78,8 +78,22 @@ public class NewsService {
         postService.save("헤드샷", contents.toString(), "[" + LocalDate.now() + "] 오늘의 헤드라인", UUID.randomUUID().toString());
     }
 
+    public String removeBigBracket(String str) {
+        if (str.contains("[")) {
+            StringBuilder sb = new StringBuilder(str);
+            int startIndex = sb.indexOf("[");
+            int endIndex = sb.indexOf("]");
 
-    private String wrapHtmlTag(String content, String tag) {
+            sb.delete(startIndex, endIndex + 1);
+            
+            return sb.toString();
+        }
+
+        return str;
+    }
+
+
+    public String wrapHtmlTag(String content, String tag) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("<");
@@ -95,7 +109,7 @@ public class NewsService {
     }
 
 
-    private String wrapHtmlTag(String content, String tag, Map<String, String> attr) {
+    public String wrapHtmlTag(String content, String tag, Map<String, String> attr) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("<");
@@ -119,7 +133,7 @@ public class NewsService {
     }
 
 
-    private String getMetaImage(String url) {
+    public String getMetaImage(String url) {
         Document document = null;
 
         try {
