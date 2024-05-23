@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 @Builder
 public class NaverNewsDto {
     private String title;
-    private String originallink;
+    private String originallink; // 오타 아님, 변경시 파싱 에러남
     private String link;
     private String description;
     private String pubDate;
