@@ -29,7 +29,7 @@ public class SlackClient {
         sendSlackMessage(slackMessage);
     }
 
-    public void sendMessage(Exception e) {
+    public void sendMessage(Throwable e) {
         SlackMessage slackMessage = SlackMessage.builder()
                 .title(e.getClass().getName())
                 .message(makeTransmissible(e))
@@ -38,7 +38,7 @@ public class SlackClient {
         sendSlackMessage(slackMessage);
     }
 
-    private String makeTransmissible(Exception e) {
+    private String makeTransmissible(Throwable e) {
         String stackTrace = Arrays.toString(e.getStackTrace());
         int len = Math.min(stackTrace.length(), 1700);
 
