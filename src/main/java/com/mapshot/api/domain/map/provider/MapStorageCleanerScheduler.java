@@ -19,7 +19,7 @@ public class MapStorageCleanerScheduler {
         LocalDateTime nowTime = LocalDateTime.now();
 
         for (StorageInner i : mapStorageService.getAll()) {
-            if (i.getCreatedAt().plusSeconds(30).isBefore(nowTime)) {
+            if (i.getCreatedAt().plusSeconds(60).isBefore(nowTime)) {
                 mapStorageService.remove(i.getUuid());
             }
         }
