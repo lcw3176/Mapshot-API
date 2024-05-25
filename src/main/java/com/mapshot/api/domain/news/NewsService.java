@@ -42,7 +42,8 @@ public class NewsService {
         List<NaverNewsResponse> newsResponses = new ArrayList<>();
 
         for (TransportGovResponse i : govResponses) {
-            NaverNewsResponse news = naverClient.searchNews(i.getKeyword());
+            String filteredKeyword = removeBigBracket(i.getKeyword());
+            NaverNewsResponse news = naverClient.searchNews(filteredKeyword);
             newsResponses.add(news);
         }
 
@@ -85,7 +86,7 @@ public class NewsService {
             int endIndex = sb.indexOf("]");
 
             sb.delete(startIndex, endIndex + 1);
-            
+
             return sb.toString();
         }
 
