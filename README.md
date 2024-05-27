@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-<img src="https://github.com/lcw3176/Mapshot-API/assets/59993347/fdf85354-2c3d-4f77-90cb-44ee7080c2db">
+<img src="https://github.com/lcw3176/Mapshot-API/assets/59993347/ab56afd5-915b-4670-a86c-7b185359c941">
 </p>
 
 
