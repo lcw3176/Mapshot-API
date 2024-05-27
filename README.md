@@ -7,9 +7,6 @@
 <img src="https://github.com/lcw3176/Mapshot-API/actions/workflows/deploy-dev.yml/badge.svg"/>
 </p>
 
-<p align="center">
-  <a href="https://kmapshot.com">https://kmapshot.com</a>
-</p>  
 
 ## 소개
 
