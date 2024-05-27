@@ -2,8 +2,7 @@
   <img src="https://user-images.githubusercontent.com/59993347/166405369-0d610a83-68d5-4d31-8215-6eba806fba06.png" height="250">
 </p>
 <p align="center">
-<img src="https://img.shields.io/badge/Service%20begun%20in-2021.01-brigntgreen">
-<img src="https://hits.seeyoufarm.com/api/count/keep/badge.svg?url=https%3A%2F%2Fkmapshot.com&count_bg=%234C63B4&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visitors+since+23.02&edge_flat=true">
+<img src="https://github.com/lcw3176/Mapshot-API/actions/workflows/deploy.yml/badge.svg">
 <img src="https://github.com/lcw3176/Mapshot-API/actions/workflows/pr.yml/badge.svg"/>
 <img src="https://github.com/lcw3176/Mapshot-API/actions/workflows/deploy-dev.yml/badge.svg"/>
 </p>
