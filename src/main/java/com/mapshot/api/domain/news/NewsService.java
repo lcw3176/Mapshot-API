@@ -6,17 +6,12 @@ import com.mapshot.api.domain.news.client.gov.TransportGovResponse;
 import com.mapshot.api.domain.news.client.naver.NaverClient;
 import com.mapshot.api.domain.news.client.naver.NaverNewsDto;
 import com.mapshot.api.domain.news.client.naver.NaverNewsResponse;
-import com.mapshot.api.infra.util.HtmlWrapper;
+import com.mapshot.api.infra.util.HtmlTagUtil;
 import lombok.RequiredArgsConstructor;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,13 +63,13 @@ public class NewsService {
     public String makeNewsContentForm(int index, NaverNewsDto news) {
         StringBuilder contents = new StringBuilder();
 
-        String lineSpace = HtmlWrapper.wrapHtmlTag("", "p");
-        String title = HtmlWrapper.wrapHtmlTag(index + ". " + news.getTitle(), "h3");
-        String description = HtmlWrapper.wrapHtmlTag(news.getDescription(), "p");
-        String link = HtmlWrapper.wrapHtmlTag(news.getOriginallink(), "a", Map.of("href", news.getOriginallink()));
+        String lineSpace = HtmlTagUtil.wrapHtmlTag("", "p");
+        String title = HtmlTagUtil.wrapHtmlTag(index + ". " + news.getTitle(), "h3");
+        String description = HtmlTagUtil.wrapHtmlTag(news.getDescription(), "p");
+        String link = HtmlTagUtil.wrapHtmlTag(news.getOriginallink(), "a", Map.of("href", news.getOriginallink()));
 
-        String imageLink = getMetaImage(news.getOriginallink());
-        imageLink = HtmlWrapper.wrapHtmlTag("", "img", Map.of("src", imageLink));
+        String imageLink = HtmlTagUtil.getMetaTagImage(news.getOriginallink());
+        imageLink = HtmlTagUtil.wrapHtmlTag("", "img", Map.of("src", imageLink));
 
 
         contents.append(lineSpace);
@@ -104,27 +99,5 @@ public class NewsService {
         return str;
     }
 
-
-    public String getMetaImage(String url) {
-        Document document = null;
-
-        try {
-            document = Jsoup.connect(url).get();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        Elements meta = document.getElementsByTag("meta");
-
-        for (Element i : meta) {
-            String prop = i.attr("property");
-
-            if (prop.equals("og:image")) {
-                return i.attr("content");
-            }
-        }
-
-        return "";
-    }
 
 }
