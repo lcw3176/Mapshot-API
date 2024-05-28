@@ -47,8 +47,9 @@ public class NewsService {
             newsResponses.add(news);
         }
 
-        StringBuilder contents = new StringBuilder();
+
         int index = 1;
+        StringBuilder contents = new StringBuilder();
 
         for (NaverNewsResponse i : newsResponses) {
             if (i.getItems().isEmpty()) {
@@ -56,27 +57,36 @@ public class NewsService {
             }
 
             NaverNewsDto detailNews = i.getItems().get(0);
-
-            String lineSpace = wrapHtmlTag("", "p");
-            String title = wrapHtmlTag(index++ + ". " + detailNews.getTitle(), "h3");
-            String description = wrapHtmlTag(detailNews.getDescription(), "p");
-            String link = wrapHtmlTag(detailNews.getOriginallink(), "a", Map.of("href", detailNews.getOriginallink()));
-
-            String imageLink = getMetaImage(detailNews.getOriginallink());
-            imageLink = wrapHtmlTag("", "img", Map.of("src", imageLink));
-
-            contents.append(lineSpace);
-            contents.append(title);
-            contents.append(lineSpace);
-            contents.append(imageLink);
-            contents.append(lineSpace);
-            contents.append(description);
-            contents.append(lineSpace);
-            contents.append(link);
-            contents.append(lineSpace);
+            contents.append(makeNewsContentForm(index++, detailNews));
         }
 
         postService.save("헤드샷", contents.toString(), "[" + LocalDate.now() + "] 오늘의 헤드라인", UUID.randomUUID().toString());
+    }
+
+
+    public String makeNewsContentForm(int index, NaverNewsDto news) {
+        StringBuilder contents = new StringBuilder();
+
+        String lineSpace = wrapHtmlTag("", "p");
+        String title = wrapHtmlTag(index + ". " + news.getTitle(), "h3");
+        String description = wrapHtmlTag(news.getDescription(), "p");
+        String link = wrapHtmlTag(news.getOriginallink(), "a", Map.of("href", news.getOriginallink()));
+
+        String imageLink = getMetaImage(news.getOriginallink());
+        imageLink = wrapHtmlTag("", "img", Map.of("src", imageLink));
+
+
+        contents.append(lineSpace);
+        contents.append(title);
+        contents.append(lineSpace);
+        contents.append(imageLink);
+        contents.append(lineSpace);
+        contents.append(description);
+        contents.append(lineSpace);
+        contents.append(link);
+        contents.append(lineSpace);
+
+        return contents.toString();
     }
 
     public String removeBigBracket(String str) {
