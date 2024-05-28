@@ -1,9 +1,15 @@
 package com.mapshot.api.infra.util;
 
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
 import java.util.Map;
 
-public class HtmlWrapper {
+public class HtmlTagUtil {
 
     public static String wrapHtmlTag(String content, String tag) {
         StringBuilder sb = new StringBuilder();
@@ -42,6 +48,29 @@ public class HtmlWrapper {
         sb.append(">");
 
         return sb.toString();
+    }
+
+
+    public static String getMetaTagImage(String url) {
+        Document document = null;
+
+        try {
+            document = Jsoup.connect(url).get();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Elements meta = document.getElementsByTag("meta");
+
+        for (Element i : meta) {
+            String prop = i.attr("property");
+
+            if (prop.equals("og:image")) {
+                return i.attr("content");
+            }
+        }
+
+        return "";
     }
 
 }
