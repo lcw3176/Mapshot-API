@@ -6,6 +6,7 @@ import com.mapshot.api.domain.news.client.gov.TransportGovResponse;
 import com.mapshot.api.domain.news.client.naver.NaverClient;
 import com.mapshot.api.domain.news.client.naver.NaverNewsDto;
 import com.mapshot.api.domain.news.client.naver.NaverNewsResponse;
+import com.mapshot.api.infra.util.HtmlWrapper;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -67,13 +68,13 @@ public class NewsService {
     public String makeNewsContentForm(int index, NaverNewsDto news) {
         StringBuilder contents = new StringBuilder();
 
-        String lineSpace = wrapHtmlTag("", "p");
-        String title = wrapHtmlTag(index + ". " + news.getTitle(), "h3");
-        String description = wrapHtmlTag(news.getDescription(), "p");
-        String link = wrapHtmlTag(news.getOriginallink(), "a", Map.of("href", news.getOriginallink()));
+        String lineSpace = HtmlWrapper.wrapHtmlTag("", "p");
+        String title = HtmlWrapper.wrapHtmlTag(index + ". " + news.getTitle(), "h3");
+        String description = HtmlWrapper.wrapHtmlTag(news.getDescription(), "p");
+        String link = HtmlWrapper.wrapHtmlTag(news.getOriginallink(), "a", Map.of("href", news.getOriginallink()));
 
         String imageLink = getMetaImage(news.getOriginallink());
-        imageLink = wrapHtmlTag("", "img", Map.of("src", imageLink));
+        imageLink = HtmlWrapper.wrapHtmlTag("", "img", Map.of("src", imageLink));
 
 
         contents.append(lineSpace);
@@ -101,46 +102,6 @@ public class NewsService {
         }
 
         return str;
-    }
-
-
-    public String wrapHtmlTag(String content, String tag) {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("<");
-        sb.append(tag);
-        sb.append(">");
-        sb.append(content);
-
-        sb.append("</");
-        sb.append(tag);
-        sb.append(">");
-
-        return sb.toString();
-    }
-
-
-    public String wrapHtmlTag(String content, String tag, Map<String, String> attr) {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("<");
-        sb.append(tag);
-
-        for (String key : attr.keySet()) {
-            sb.append(" ");
-            sb.append(key);
-            sb.append("=");
-            sb.append(attr.get(key));
-        }
-
-        sb.append(">");
-        sb.append(content);
-
-        sb.append("</");
-        sb.append(tag);
-        sb.append(">");
-
-        return sb.toString();
     }
 
 
