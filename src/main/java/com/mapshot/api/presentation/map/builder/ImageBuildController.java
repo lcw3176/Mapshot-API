@@ -1,7 +1,7 @@
 package com.mapshot.api.presentation.map.builder;
 
+import com.mapshot.api.application.map.MapBuilderUseCase;
 import com.mapshot.api.domain.map.builder.MapBuildResponse;
-import com.mapshot.api.domain.map.builder.MapBuildService;
 import com.mapshot.api.infra.auth.annotation.PreAuth;
 import com.mapshot.api.infra.auth.enums.Accessible;
 import lombok.RequiredArgsConstructor;
@@ -16,12 +16,12 @@ import java.util.List;
 @CrossOrigin(originPatterns = {"https://*.kmapshot.com", "https://kmapshot.com"})
 public class ImageBuildController {
 
-    private final MapBuildService mapBuildService;
+    private final MapBuilderUseCase mapBuilderUseCase;
 
     @PreAuth(Accessible.EVERYONE)
     @GetMapping
     public ResponseEntity<List<MapBuildResponse>> sendUserRequestToLambda(@ModelAttribute MapBuildRequest request) {
-        List<MapBuildResponse> response = mapBuildService.requestMapImage(request.toQueryParams());
+        List<MapBuildResponse> response = mapBuilderUseCase.makeOrderToMapImage(request.toQueryParams());
 
         return ResponseEntity.ok(response);
     }

@@ -16,9 +16,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class MapStorageService {
 
-    private final Map<String, StorageInner> map = new ConcurrentHashMap<>();
+    private static final Map<String, StorageInner> map = new ConcurrentHashMap<>();
 
-    public void add(String uuid, String encodedImage) {
+    public void saveWhileOneMinute(String uuid, String encodedImage) {
         StorageInner storageInner = StorageInner.builder()
                 .uuid(uuid)
                 .imageByte(Base64.getDecoder().decode(encodedImage))
@@ -28,7 +28,7 @@ public class MapStorageService {
         map.put(storageInner.getUuid(), storageInner);
     }
 
-    public byte[] getImage(String uuid) {
+    public byte[] pop(String uuid) {
         byte[] image = map.get(uuid).getImageByte();
         map.remove(uuid);
 

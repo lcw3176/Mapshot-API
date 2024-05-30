@@ -1,6 +1,6 @@
 package com.mapshot.api.presentation.map.provider;
 
-import com.mapshot.api.domain.map.provider.MapStorageService;
+import com.mapshot.api.application.map.MapProviderUseCase;
 import com.mapshot.api.infra.auth.annotation.PreAuth;
 import com.mapshot.api.infra.auth.enums.Accessible;
 import lombok.RequiredArgsConstructor;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(originPatterns = {"https://*.kmapshot.com", "https://kmapshot.com"})
 public class ImageProviderController {
 
-    private final MapStorageService mapStorageService;
+    private final MapProviderUseCase mapProviderUseCase;
 
     @PreAuth(Accessible.EVERYONE)
     @GetMapping("/{uuid}")
     public ResponseEntity<byte[]> returnCompletedImageToUser(@PathVariable String uuid) {
-        byte[] imageResource = mapStorageService.getImage(uuid);
+        byte[] imageResource = mapProviderUseCase.getImage(uuid);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG)
@@ -29,6 +29,6 @@ public class ImageProviderController {
     @PreAuth(Accessible.FRIENDLY_SERVER)
     @PostMapping
     public void saveCompletedImage(@RequestBody StorageRequest request) {
-        mapStorageService.add(request.getUuid(), request.getBase64EncodedImage());
+        mapProviderUseCase.save(request.getUuid(), request.getBase64EncodedImage());
     }
 }

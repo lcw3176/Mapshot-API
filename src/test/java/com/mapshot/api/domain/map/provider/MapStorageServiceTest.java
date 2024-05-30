@@ -40,7 +40,7 @@ class MapStorageServiceTest {
 
     @Test
     void 없는_데이터에_접근_시도시_예외() {
-        assertThatThrownBy(() -> mapStorageService.getImage("hello"))
+        assertThatThrownBy(() -> mapStorageService.pop("hello"))
                 .isInstanceOf(NullPointerException.class);
     }
 
@@ -49,10 +49,10 @@ class MapStorageServiceTest {
         String uuid = UUID.randomUUID().toString();
 
         mapStorageService.add(uuid, BASE64_IMAGE);
-        byte[] image = mapStorageService.getImage(uuid);
+        byte[] image = mapStorageService.pop(uuid);
 
         assertEquals(Arrays.toString(image), Arrays.toString(Base64.getDecoder().decode(BASE64_IMAGE)));
-        assertThatThrownBy(() -> mapStorageService.getImage(uuid))
+        assertThatThrownBy(() -> mapStorageService.pop(uuid))
                 .isInstanceOf(NullPointerException.class);
     }
 

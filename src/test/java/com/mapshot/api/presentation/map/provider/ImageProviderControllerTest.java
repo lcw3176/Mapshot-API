@@ -74,7 +74,7 @@ class ImageProviderControllerTest extends SlackMockExtension {
     @Test
     void 이미지_발급_테스트() throws Exception {
         String content = "I am Virtual Image";
-        when(mapStorageService.getImage(any(String.class)))
+        when(mapStorageService.pop(any(String.class)))
                 .thenReturn(content.getBytes());
 
         mockMvc.perform(getRequest(BASE_URL + "/{uuid}", UUID.randomUUID().toString()))
