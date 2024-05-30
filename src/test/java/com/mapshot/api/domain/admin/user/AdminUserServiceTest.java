@@ -20,7 +20,7 @@ class AdminUserServiceTest {
 
     @Autowired
     private AdminUserRepository adminUserRepository;
-    
+
     @BeforeEach
     void init() {
         adminUserRepository.save(AdminUserEntity.builder()
@@ -37,12 +37,12 @@ class AdminUserServiceTest {
 
     @Test
     void 로그인_테스트() {
-        assertThatNoException().isThrownBy(() -> adminUserService.validateUser("test", "1234"));
+        assertThatNoException().isThrownBy(() -> adminUserService.validationCheck("test", "1234"));
     }
 
     @Test
     void 존재하지_않는_유저로_로그인시_예외_발생() {
-        assertThatThrownBy(() -> adminUserService.validateUser("i am not exist", "1234"))
+        assertThatThrownBy(() -> adminUserService.validationCheck("i am not exist", "1234"))
                 .isInstanceOf(ApiException.class)
                 .hasMessage(ErrorCode.NO_SUCH_USER.getMessage());
     }

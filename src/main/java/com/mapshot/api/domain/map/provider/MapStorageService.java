@@ -1,7 +1,6 @@
 package com.mapshot.api.domain.map.provider;
 
 
-import com.mapshot.api.domain.map.provider.model.StorageInner;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,27 +15,27 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class MapStorageService {
 
-    private final Map<String, StorageInner> map = new ConcurrentHashMap<>();
+    private static final Map<String, MapImage> map = new ConcurrentHashMap<>();
 
-    public void add(String uuid, String encodedImage) {
-        StorageInner storageInner = StorageInner.builder()
+    public void saveWhileOneMinute(String uuid, String encodedImage) {
+        MapImage mapImage = MapImage.builder()
                 .uuid(uuid)
                 .imageByte(Base64.getDecoder().decode(encodedImage))
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        map.put(storageInner.getUuid(), storageInner);
+        map.put(mapImage.getUuid(), mapImage);
     }
 
-    public byte[] getImage(String uuid) {
+    public byte[] pop(String uuid) {
         byte[] image = map.get(uuid).getImageByte();
         map.remove(uuid);
 
         return image;
     }
 
-    public List<StorageInner> getAll() {
-        List<StorageInner> temp = new LinkedList<>();
+    public List<MapImage> getAll() {
+        List<MapImage> temp = new LinkedList<>();
 
         for (String i : map.keySet()) {
             temp.add(map.get(i));

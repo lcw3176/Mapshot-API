@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapshot.api.SlackMockExtension;
 import com.mapshot.api.domain.admin.user.AdminUserEntity;
 import com.mapshot.api.domain.admin.user.AdminUserRepository;
+import com.mapshot.api.domain.community.post.PostEntity;
+import com.mapshot.api.domain.community.post.PostRepository;
 import com.mapshot.api.domain.notice.NoticeEntity;
 import com.mapshot.api.domain.notice.NoticeRepository;
 import com.mapshot.api.domain.notice.NoticeType;
@@ -37,11 +39,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
-class AdminNoticeControllerTest extends SlackMockExtension {
+class AdminControllerTest extends SlackMockExtension {
 
-
-    @Autowired
-    private ObjectMapper mapper;
 
     @Autowired
     private MockMvc mockMvc;
@@ -53,7 +52,13 @@ class AdminNoticeControllerTest extends SlackMockExtension {
     private AdminUserRepository adminUserRepository;
 
     @Autowired
+    private PostRepository postRepository;
+
+    @Autowired
     private NoticeRepository noticeRepository;
+
+    @Autowired
+    private ObjectMapper mapper;
 
     @Value("${jwt.admin.header}")
     private String ADMIN_HEADER_NAME;
@@ -68,6 +73,18 @@ class AdminNoticeControllerTest extends SlackMockExtension {
                 .build());
 
         for (int i = 0; i < 100; i++) {
+            String temp = Integer.toString(i);
+            postRepository.save(PostEntity.builder()
+                    .title(temp)
+                    .writer(temp)
+                    .content(temp)
+                    .commentCount(0)
+                    .password(temp)
+                    .deleted(false)
+                    .build());
+        }
+
+        for (int i = 0; i < 100; i++) {
             noticeRepository.save(NoticeEntity.builder()
                     .noticeType(NoticeType.UPDATE)
                     .title(Integer.toString(i))
@@ -80,6 +97,38 @@ class AdminNoticeControllerTest extends SlackMockExtension {
     @AfterEach
     void release() {
         adminUserRepository.deleteAll();
+        postRepository.deleteAll();
+        noticeRepository.deleteAll();
+    }
+
+
+    @Test
+    void 게시글_삭제_테스트() throws Exception {
+        long id = postRepository.findFirstByOrderByIdDesc().getId();
+
+        mockMvc.perform(
+                        RestDocumentationRequestBuilders.get(BASE_URL + "/post/delete/{postNumber}", id)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader())))
+                .andExpect(status().isOk())
+                .andDo(document("post/delete",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName(ADMIN_HEADER_NAME).description("관리자 인증 토큰")
+                        ),
+                        pathParameters(
+                                parameterWithName("postNumber").description("게시글 번호")
+                        )));
+    }
+
+    @Test
+    void 관리자가_아닌_사람이_삭제_요청시_예외() throws Exception {
+        long id = postRepository.findFirstByOrderByIdDesc().getId();
+
+        mockMvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/post/delete/{postNumber}", id)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError());
     }
 
 
@@ -128,7 +177,7 @@ class AdminNoticeControllerTest extends SlackMockExtension {
     }
 
     @Test
-    void 게시글_삭제_테스트() throws Exception {
+    void 공시자항_삭제_테스트() throws Exception {
         long id = noticeRepository.findFirstByOrderByIdDesc().getId();
 
         mockMvc.perform(
@@ -148,7 +197,7 @@ class AdminNoticeControllerTest extends SlackMockExtension {
     }
 
     @Test
-    void 관리자가_아닌_사람이_삭제_요청시_예외() throws Exception {
+    void 관리자가_아닌_사람이_공지사항_삭제_요청시_예외() throws Exception {
         long id = noticeRepository.findFirstByOrderByIdDesc().getId();
 
         mockMvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/notice/delete/{noticeNumber}", id)
@@ -157,7 +206,7 @@ class AdminNoticeControllerTest extends SlackMockExtension {
     }
 
     @Test
-    void 게시글_수정_테스트() throws Exception {
+    void 공지사항_수정_테스트() throws Exception {
         long id = noticeRepository.findFirstByOrderByIdDesc().getId();
 
         AdminNoticeRequest request = AdminNoticeRequest.builder()
@@ -187,7 +236,7 @@ class AdminNoticeControllerTest extends SlackMockExtension {
 
 
     @Test
-    void 관리자가_아닌_사람이_수정_요청시_예외() throws Exception {
+    void 관리자가_아닌_사람이_공지사항_수정_요청시_예외() throws Exception {
         long id = noticeRepository.findFirstByOrderByIdDesc().getId();
 
         AdminNoticeRequest request = AdminNoticeRequest.builder()
@@ -199,6 +248,52 @@ class AdminNoticeControllerTest extends SlackMockExtension {
         mockMvc.perform(post(BASE_URL + "/notice/modify/{noticeNumber}", id)
                         .content(mapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError());
+    }
+
+
+    @Test
+    void 관리자_로그인_테스트() throws Exception {
+        AdminUserRequest request = AdminUserRequest
+                .builder()
+                .nickname("test")
+                .password("1234")
+                .build();
+
+        mockMvc.perform(
+                        RestDocumentationRequestBuilders.post(BASE_URL + "/user/login")
+                                .content(mapper.writeValueAsString(request))
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("admin/login",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("nickname").description("관리자 아이디"),
+                                fieldWithPath("password").description("관리자 비밀번호")
+                        )));
+    }
+
+    @Test
+    void 관리자_로그인_연장_테스트() throws Exception {
+        mockMvc.perform(
+                        RestDocumentationRequestBuilders.post(BASE_URL + "/user/auth/refresh")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader())))
+                .andExpect(status().isOk())
+                .andDo(document("admin/auth/refresh",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName(ADMIN_HEADER_NAME).description("관리자 인증 토큰")
+                        )));
+    }
+
+    @Test
+    void 토큰_없이_관리자_로그인_연장_요청시_예외() throws Exception {
+        mockMvc.perform(
+                        post(BASE_URL + "/auth/refresh")
+                                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError());
     }
 

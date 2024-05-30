@@ -1,6 +1,5 @@
 package com.mapshot.api.domain.map.provider;
 
-import com.mapshot.api.domain.map.provider.model.StorageInner;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +17,7 @@ class MapStorageServiceTest {
 
     @AfterEach
     void reset() {
-        for (StorageInner i : mapStorageService.getAll()) {
+        for (MapImage i : mapStorageService.getAll()) {
             mapStorageService.remove(i.getUuid());
         }
     }
@@ -28,7 +27,7 @@ class MapStorageServiceTest {
         int size = 100;
 
         for (int i = 0; i < size; i++) {
-            new Thread(() -> mapStorageService.add(UUID.randomUUID().toString(), BASE64_IMAGE)).start();
+            new Thread(() -> mapStorageService.saveWhileOneMinute(UUID.randomUUID().toString(), BASE64_IMAGE)).start();
         }
 
         while (mapStorageService.getAll().size() < size) {
@@ -40,7 +39,7 @@ class MapStorageServiceTest {
 
     @Test
     void 없는_데이터에_접근_시도시_예외() {
-        assertThatThrownBy(() -> mapStorageService.getImage("hello"))
+        assertThatThrownBy(() -> mapStorageService.pop("hello"))
                 .isInstanceOf(NullPointerException.class);
     }
 
@@ -48,11 +47,11 @@ class MapStorageServiceTest {
     void 이미지는_반환과_동시에_삭제됨() {
         String uuid = UUID.randomUUID().toString();
 
-        mapStorageService.add(uuid, BASE64_IMAGE);
-        byte[] image = mapStorageService.getImage(uuid);
+        mapStorageService.saveWhileOneMinute(uuid, BASE64_IMAGE);
+        byte[] image = mapStorageService.pop(uuid);
 
         assertEquals(Arrays.toString(image), Arrays.toString(Base64.getDecoder().decode(BASE64_IMAGE)));
-        assertThatThrownBy(() -> mapStorageService.getImage(uuid))
+        assertThatThrownBy(() -> mapStorageService.pop(uuid))
                 .isInstanceOf(NullPointerException.class);
     }
 

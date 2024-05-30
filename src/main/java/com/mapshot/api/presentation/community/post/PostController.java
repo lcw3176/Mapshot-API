@@ -1,8 +1,8 @@
 package com.mapshot.api.presentation.community.post;
 
-import com.mapshot.api.domain.community.post.PostDetailResponse;
-import com.mapshot.api.domain.community.post.PostListResponse;
-import com.mapshot.api.domain.community.post.PostService;
+import com.mapshot.api.application.community.post.PostDetailResponse;
+import com.mapshot.api.application.community.post.PostListResponse;
+import com.mapshot.api.application.community.post.PostUseCase;
 import com.mapshot.api.infra.auth.annotation.PreAuth;
 import com.mapshot.api.infra.auth.enums.Accessible;
 import jakarta.validation.Valid;
@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class PostController {
 
-    private final PostService postService;
+    private final PostUseCase postUseCase;
 
     @PreAuth(Accessible.EVERYONE)
     @GetMapping
     public ResponseEntity<PostListResponse> getPosts(@PositiveOrZero @RequestParam(value = "page", defaultValue = "0", required = false) int page) {
-        PostListResponse responses = postService.getPostListByPageNumber(page);
+        PostListResponse responses = postUseCase.getPostList(page);
 
         return ResponseEntity.ok(responses);
     }
@@ -34,7 +34,7 @@ public class PostController {
     @PreAuth(Accessible.EVERYONE)
     @GetMapping("/{id}")
     public ResponseEntity<PostDetailResponse> getSinglePost(@Positive @PathVariable(value = "id") long id) {
-        PostDetailResponse response = postService.getSinglePostById(id);
+        PostDetailResponse response = postUseCase.getPost(id);
 
         return ResponseEntity.ok(response);
     }
@@ -43,7 +43,7 @@ public class PostController {
     @PreAuth(Accessible.EVERYONE)
     @PostMapping("/register")
     public ResponseEntity<Void> registerPost(@Valid @RequestBody PostRegisterRequest request) {
-        postService.save(request.getWriter(), request.getContent(), request.getTitle(), request.getPassword());
+        postUseCase.save(request.getWriter(), request.getContent(), request.getTitle(), request.getPassword());
 
         return ResponseEntity.ok().build();
     }
@@ -52,7 +52,7 @@ public class PostController {
     @GetMapping("/delete/{postNumber}")
     public ResponseEntity<Void> deletePost(@Positive @PathVariable(value = "postNumber") long postNumber,
                                            @RequestParam("password") String password) {
-        postService.deleteIfOwner(postNumber, password);
+        postUseCase.deleteIfOwner(postNumber, password);
 
         return ResponseEntity.ok().build();
     }
