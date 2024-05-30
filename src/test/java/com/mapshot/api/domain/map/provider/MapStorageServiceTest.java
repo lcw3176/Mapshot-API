@@ -28,7 +28,7 @@ class MapStorageServiceTest {
         int size = 100;
 
         for (int i = 0; i < size; i++) {
-            new Thread(() -> mapStorageService.add(UUID.randomUUID().toString(), BASE64_IMAGE)).start();
+            new Thread(() -> mapStorageService.saveWhileOneMinute(UUID.randomUUID().toString(), BASE64_IMAGE)).start();
         }
 
         while (mapStorageService.getAll().size() < size) {
@@ -48,7 +48,7 @@ class MapStorageServiceTest {
     void 이미지는_반환과_동시에_삭제됨() {
         String uuid = UUID.randomUUID().toString();
 
-        mapStorageService.add(uuid, BASE64_IMAGE);
+        mapStorageService.saveWhileOneMinute(uuid, BASE64_IMAGE);
         byte[] image = mapStorageService.pop(uuid);
 
         assertEquals(Arrays.toString(image), Arrays.toString(Base64.getDecoder().decode(BASE64_IMAGE)));
