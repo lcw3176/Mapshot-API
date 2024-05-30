@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -49,14 +50,13 @@ class PostServiceTest {
     void page값_0으로_목록_조회시_가장_최신_게시글_10개_반환() {
         int id = 0;
 
-        PostListResponse responses = postService.getPostListByPageNumber(id);
+        Page<PostEntity> responses = postService.getPostsByPageNumber(id);
 
-        assertEquals(responses.getPosts().size(), 10);
+        assertEquals(responses.getContent().size(), 10);
 
         long recentId = postRepository.findFirstByOrderByIdDesc().getId();
 
-        System.out.println(responses.getPosts());
-        for (PostDto i : responses.getPosts()) {
+        for (PostEntity i : responses.getContent()) {
             assertEquals(i.getId(), recentId);
             recentId--;
         }
@@ -66,14 +66,13 @@ class PostServiceTest {
     void page값_1으로_목록_조회시_가장_최신_게시글_10개_반환() {
         int id = 1;
 
-        PostListResponse responses = postService.getPostListByPageNumber(id);
+        Page<PostEntity> responses = postService.getPostsByPageNumber(id);
 
-        assertEquals(responses.getPosts().size(), 10);
+        assertEquals(responses.getContent().size(), 10);
 
         long recentId = postRepository.findFirstByOrderByIdDesc().getId();
 
-        System.out.println(responses.getPosts());
-        for (PostDto i : responses.getPosts()) {
+        for (PostEntity i : responses.getContent()) {
             assertEquals(i.getId(), recentId);
             recentId--;
         }
@@ -84,9 +83,9 @@ class PostServiceTest {
     void 게시글_전체_목록_갯수보다_큰_page값으로_목록을_조회하면_아무것도_반환하지_않음() {
         long page = postRepository.findFirstByOrderByIdDesc().getId() + 100;
 
-        PostListResponse responses = postService.getPostListByPageNumber((int) page);
+        Page<PostEntity> responses = postService.getPostsByPageNumber((int) page);
 
-        assertEquals(responses.getPosts().size(), 0);
+        assertEquals(responses.getContent().size(), 0);
 
     }
 
@@ -95,13 +94,13 @@ class PostServiceTest {
     void _0미만의_pag값으로_목록을_조회해도_가장_최신_게시글_10개_반환() {
         int page = -100;
 
-        PostListResponse responses = postService.getPostListByPageNumber(page);
+        Page<PostEntity> responses = postService.getPostsByPageNumber(page);
 
-        assertEquals(responses.getPosts().size(), 10);
+        assertEquals(responses.getContent().size(), 10);
 
         long recentId = postRepository.findFirstByOrderByIdDesc().getId();
 
-        for (PostDto i : responses.getPosts()) {
+        for (PostEntity i : responses.getContent()) {
             assertEquals(i.getId(), recentId);
             recentId--;
         }
@@ -112,14 +111,14 @@ class PostServiceTest {
         long id = postRepository.findFirstByOrderByIdDesc().getId();
 
         assertThatNoException()
-                .isThrownBy(() -> postService.getSinglePostById(id));
+                .isThrownBy(() -> postService.getPostById(id));
     }
 
     @Test
     void 없는_단일_게시글_조회시_예외_발생() {
         long id = -100;
 
-        assertThatThrownBy(() -> postService.getSinglePostById(id))
+        assertThatThrownBy(() -> postService.getPostById(id))
                 .isInstanceOf(ApiException.class)
                 .hasMessageStartingWith(ErrorCode.NO_SUCH_POST.getMessage());
 

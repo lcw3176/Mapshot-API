@@ -13,6 +13,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -68,5 +70,15 @@ public class CommentService {
         comment.softDelete();
         commentRepository.save(comment);
     }
+
+    @Transactional
+    public void deleteByPostId(long postId) {
+        List<CommentEntity> comments = commentRepository.findAllByPostIdAndDeletedFalse(postId);
+
+        for (CommentEntity i : comments) {
+            i.softDelete();
+        }
+    }
+
 
 }

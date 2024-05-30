@@ -1,4 +1,4 @@
-package com.mapshot.api.domain.community.post;
+package com.mapshot.api.application.community.post;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
