@@ -1,4 +1,4 @@
-package com.mapshot.api.domain.notice;
+package com.mapshot.api.application.notice;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

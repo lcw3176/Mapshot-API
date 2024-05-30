@@ -27,14 +27,14 @@ class AdminNoticeServiceTest {
 
         long id = adminNoticeService.saveNotice(NoticeType.FIX, "헬로", "방가방가");
 
-        long savedId = noticeService.getSinglePost(id).getId();
+        long savedId = noticeService.findById(id).getId();
 
         assertEquals(id, savedId);
     }
 
     @Test
     void 업데이트_테스트() {
-        
+
 
         long id = adminNoticeService.saveNotice(NoticeType.UPDATE, "초기화", "초기화");
         long updatedId = adminNoticeService.modifyNotice(id, NoticeType.FIX, "헬로", "헬로");
@@ -42,8 +42,8 @@ class AdminNoticeServiceTest {
 
         assertEquals(id, updatedId);
 
-        String noticeType = noticeService.getSinglePost(updatedId).getNoticeType();
-        assertEquals(NoticeType.FIX.getKorean(), noticeType);
+        NoticeType noticeType = noticeService.findById(updatedId).getNoticeType();
+        assertEquals(NoticeType.FIX.getKorean(), noticeType.getKorean());
     }
 
     @Test

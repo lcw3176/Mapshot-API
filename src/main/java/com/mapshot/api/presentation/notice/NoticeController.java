@@ -1,9 +1,9 @@
 package com.mapshot.api.presentation.notice;
 
 
-import com.mapshot.api.domain.notice.NoticeDetailResponse;
-import com.mapshot.api.domain.notice.NoticeListResponse;
-import com.mapshot.api.domain.notice.NoticeService;
+import com.mapshot.api.application.notice.NoticeDetailResponse;
+import com.mapshot.api.application.notice.NoticeListResponse;
+import com.mapshot.api.application.notice.NoticeUseCase;
 import com.mapshot.api.infra.auth.annotation.PreAuth;
 import com.mapshot.api.infra.auth.enums.Accessible;
 import jakarta.validation.constraints.Positive;
@@ -20,14 +20,14 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class NoticeController {
 
-    private final NoticeService noticeService;
+    private final NoticeUseCase noticeUseCase;
 
     @PreAuth(Accessible.EVERYONE)
     @GetMapping
     public ResponseEntity<NoticeListResponse> showNoticeList(
             @PositiveOrZero @RequestParam(value = "page", defaultValue = "0", required = false) int page) {
 
-        NoticeListResponse noticeListResponses = noticeService.getNoticeByPageNumber(page);
+        NoticeListResponse noticeListResponses = noticeUseCase.getNoticeList(page);
 
         return ResponseEntity.ok(noticeListResponses);
     }
@@ -37,7 +37,7 @@ public class NoticeController {
     public ResponseEntity<NoticeDetailResponse> showNotice(
             @Positive @PathVariable(value = "postNumber") long postNumber) {
 
-        NoticeDetailResponse noticeDetailResponse = noticeService.getSinglePost(postNumber);
+        NoticeDetailResponse noticeDetailResponse = noticeUseCase.getNotice(postNumber);
 
         return ResponseEntity.ok(noticeDetailResponse);
     }
