@@ -1,7 +1,6 @@
 package com.mapshot.api.domain.community.post;
 
 
-import com.mapshot.api.domain.community.comment.CommentRepository;
 import com.mapshot.api.infra.encrypt.EncryptUtil;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostService {
 
     private final PostRepository postRepository;
-    private final CommentRepository commentRepository;
 
     @Value("${community.post.page_size}")
     private int PAGE_SIZE;
