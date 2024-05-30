@@ -1,6 +1,5 @@
 package com.mapshot.api.domain.map.provider;
 
-import com.mapshot.api.domain.map.provider.model.StorageInner;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +17,7 @@ class MapStorageServiceTest {
 
     @AfterEach
     void reset() {
-        for (StorageInner i : mapStorageService.getAll()) {
+        for (MapImage i : mapStorageService.getAll()) {
             mapStorageService.remove(i.getUuid());
         }
     }

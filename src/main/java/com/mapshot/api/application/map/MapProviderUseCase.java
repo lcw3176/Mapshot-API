@@ -1,7 +1,7 @@
 package com.mapshot.api.application.map;
 
+import com.mapshot.api.domain.map.provider.MapImage;
 import com.mapshot.api.domain.map.provider.MapStorageService;
-import com.mapshot.api.domain.map.provider.model.StorageInner;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,7 @@ public class MapProviderUseCase {
     public void clean() {
         LocalDateTime nowTime = LocalDateTime.now();
 
-        for (StorageInner i : mapStorageService.getAll()) {
+        for (MapImage i : mapStorageService.getAll()) {
             if (i.getCreatedAt().plusSeconds(60).isBefore(nowTime)) {
                 mapStorageService.remove(i.getUuid());
             }
