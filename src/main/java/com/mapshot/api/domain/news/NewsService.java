@@ -1,6 +1,5 @@
 package com.mapshot.api.domain.news;
 
-import com.mapshot.api.domain.community.post.PostService;
 import com.mapshot.api.domain.news.client.gov.TransportGovClient;
 import com.mapshot.api.domain.news.client.gov.TransportGovResponse;
 import com.mapshot.api.domain.news.client.naver.NaverClient;
@@ -8,31 +7,25 @@ import com.mapshot.api.domain.news.client.naver.NaverNewsDto;
 import com.mapshot.api.domain.news.client.naver.NaverNewsResponse;
 import com.mapshot.api.infra.util.HtmlTagUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class NewsService {
 
-    private final PostService postService;
     private final NaverClient naverClient;
     private final TransportGovClient govClient;
 
-    @Transactional
-    @RegisterReflectionForBinding(NaverNewsDto.class)
-    public void updateNewsLetter() {
+
+    public String getNewsContent() {
         List<TransportGovResponse> govResponses = govClient.getKeywords();
 
         if (govResponses.isEmpty()) {
-            return;
+            return "";
         }
 
         List<NaverNewsResponse> newsResponses = new ArrayList<>();
@@ -56,7 +49,7 @@ public class NewsService {
             contents.append(makeNewsContentForm(index++, detailNews));
         }
 
-        postService.save("헤드샷", contents.toString(), "[" + LocalDate.now() + "] 오늘의 헤드라인", UUID.randomUUID().toString());
+        return contents.toString();
     }
 
 

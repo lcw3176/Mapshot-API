@@ -1,6 +1,6 @@
 package com.mapshot.api.presentation.admin;
 
-import com.mapshot.api.domain.news.NewsService;
+import com.mapshot.api.application.news.NewsUseCase;
 import com.mapshot.api.infra.auth.annotation.PreAuth;
 import com.mapshot.api.infra.auth.enums.Accessible;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(originPatterns = {"https://*.kmapshot.com", "https://kmapshot.com"})
 public class AdminNewsController {
 
-    private final NewsService newsService;
+    private final NewsUseCase newsUseCase;
 
 
     @PreAuth(Accessible.ADMIN)
     @GetMapping("/update")
     public ResponseEntity<Void> updateNewsLetter() {
-        newsService.updateNewsLetter();
+        newsUseCase.updateNewsLetter();
 
         return ResponseEntity.ok().build();
     }
