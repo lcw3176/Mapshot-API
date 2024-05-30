@@ -1,6 +1,6 @@
 package com.mapshot.api.presentation.admin;
 
-import com.mapshot.api.domain.admin.community.post.AdminPostService;
+import com.mapshot.api.application.admin.AdminPostUseCase;
 import com.mapshot.api.infra.auth.annotation.PreAuth;
 import com.mapshot.api.infra.auth.enums.Accessible;
 import jakarta.validation.constraints.Positive;
@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class AdminPostController {
 
-    private final AdminPostService adminPostService;
+    private final AdminPostUseCase adminPostUseCase;
 
 
     @PreAuth(Accessible.ADMIN)
     @GetMapping("/delete/{postNumber}")
     public ResponseEntity<Void> deletePost(@Positive @PathVariable(value = "postNumber") long postNumber) {
-        adminPostService.deletePost(postNumber);
+        adminPostUseCase.deletePost(postNumber);
 
         return ResponseEntity.ok().build();
     }

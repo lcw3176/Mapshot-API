@@ -1,6 +1,7 @@
 package com.mapshot.api.domain.community.post;
 
 
+import com.mapshot.api.infra.encrypt.EncryptUtil;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
 import org.junit.jupiter.api.AfterEach;
@@ -181,4 +182,18 @@ class PostServiceTest {
                 .isInstanceOf(ApiException.class)
                 .hasMessageStartingWith(ErrorCode.NO_SUCH_POST.getMessage());
     }
+
+    @Test
+    void 게시글_관리자_권한_삭제() {
+        long id = postRepository.save(PostEntity.builder()
+                .title("hello")
+                .writer("good")
+                .content("hello")
+                .commentCount(0)
+                .password(EncryptUtil.encrypt("1234"))
+                .build()).getId();
+
+        assertThatNoException().isThrownBy(() -> postService.deleteById(id));
+    }
+
 }

@@ -103,4 +103,10 @@ public class PostService {
 
     }
 
+    @Transactional
+    public void deleteById(long id) {
+        postRepository.deleteById(id);
+    }
+
+
 }
