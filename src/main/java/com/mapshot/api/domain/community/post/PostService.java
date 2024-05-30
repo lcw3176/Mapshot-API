@@ -55,6 +55,32 @@ public class PostService {
                 .build();
     }
 
+    @Transactional
+    public void increaseCommentCount(long id) {
+        PostEntity postEntity = postRepository.findById(id)
+                .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_POST));
+
+        if (postEntity.isDeleted()) {
+            throw new ApiException(ErrorCode.NO_SUCH_POST);
+        }
+
+        postEntity.increaseCommentCount();
+        postRepository.save(postEntity);
+    }
+
+    @Transactional
+    public void decreaseCommentCount(long id) {
+        PostEntity post = postRepository.findById(id)
+                .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_POST));
+
+        if (post.isDeleted()) {
+            throw new ApiException(ErrorCode.NO_SUCH_POST);
+        }
+
+        post.decreaseCommentCount();
+        postRepository.save(post);
+    }
+
 
     @Transactional(readOnly = true)
     public PostDetailResponse getSinglePostById(long id) {

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -69,9 +70,9 @@ class CommentServiceTest {
     void page값_0으로_목록_조회시_가장_최신_댓글_20개_반환() {
         long id = postRepository.findFirstByOrderByIdDesc().getId();
 
-        CommentResponse responses = commentService.getComments(0, id);
+        Page<CommentEntity> responses = commentService.findAllByPostId(0, id);
 
-        assertEquals(responses.getComments().size(), size);
+        assertEquals(responses.getContent().size(), size);
     }
 
     @Test
@@ -79,9 +80,9 @@ class CommentServiceTest {
         long id = postRepository.findFirstByOrderByIdDesc().getId();
         int pageNumber = 1;
 
-        CommentResponse responses = commentService.getComments(pageNumber, id);
+        Page<CommentEntity> responses = commentService.findAllByPostId(pageNumber, id);
 
-        assertEquals(responses.getComments().size(), size);
+        assertEquals(responses.getContent().size(), size);
     }
 
 
@@ -90,9 +91,9 @@ class CommentServiceTest {
         int page = 1000000;
         long postId = postRepository.findFirstByOrderByIdDesc().getId();
 
-        CommentResponse responses = commentService.getComments(page, postId);
+        Page<CommentEntity> responses = commentService.findAllByPostId(page, postId);
 
-        assertEquals(responses.getComments().size(), 0);
+        assertEquals(responses.getContent().size(), 0);
 
     }
 
@@ -102,9 +103,9 @@ class CommentServiceTest {
         int page = -100;
         long postId = postRepository.findFirstByOrderByIdDesc().getId();
 
-        CommentResponse responses = commentService.getComments(page, postId);
+        Page<CommentEntity> responses = commentService.findAllByPostId(page, postId);
 
-        assertEquals(responses.getComments().size(), size);
+        assertEquals(responses.getContent().size(), size);
     }
 
     @Test
@@ -112,7 +113,7 @@ class CommentServiceTest {
         long id = postRepository.findFirstByOrderByIdDesc().getId();
 
         assertThatNoException()
-                .isThrownBy(() -> commentService.getComments(0, id));
+                .isThrownBy(() -> commentService.findAllByPostId(0, id));
     }
 
 
