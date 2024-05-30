@@ -1,0 +1,58 @@
+package com.mapshot.api.application.admin;
+
+import com.mapshot.api.domain.admin.user.AdminUserService;
+import com.mapshot.api.domain.community.post.PostService;
+import com.mapshot.api.domain.news.NewsService;
+import com.mapshot.api.domain.notice.NoticeService;
+import com.mapshot.api.domain.notice.NoticeType;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
+import java.util.UUID;
+
+@Component
+@RequiredArgsConstructor
+public class AdminUseCase {
+
+    private final AdminUserService adminUserService;
+    private final NoticeService noticeService;
+    private final PostService postService;
+    private final NewsService newsService;
+
+
+    public void deletePost(long postId) {
+        postService.deleteById(postId);
+    }
+
+    public HttpHeaders login(String nickname, String password) {
+        adminUserService.validationCheck(nickname, password);
+        return adminUserService.getAuthHeader();
+    }
+
+    public HttpHeaders getAuth() {
+        return adminUserService.getAuthHeader();
+    }
+
+    public void saveNotice(NoticeType type, String title, String content) {
+        noticeService.save(type, title, content);
+    }
+
+    public void deleteNotice(long noticeId) {
+        noticeService.delete(noticeId);
+    }
+
+    public void modifyNotice(long id, NoticeType type, String title, String content) {
+        noticeService.update(id, type, title, content);
+    }
+    
+    public void forceNewsUpdate() {
+        String content = newsService.getNewsContent();
+        String writer = "헤드샷";
+        String title = "[" + LocalDate.now() + "] 오늘의 헤드라인";
+        String password = UUID.randomUUID().toString();
+
+        postService.save(writer, content, title, password);
+    }
+}

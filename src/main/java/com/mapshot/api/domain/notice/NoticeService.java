@@ -34,9 +34,41 @@ public class NoticeService {
 
     @Transactional(readOnly = true)
     public NoticeEntity findById(long id) {
-        
+
         return noticeRepository.findById(id)
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_NOTICE));
+    }
+
+
+    @Transactional
+    public long save(NoticeType type, String title, String content) {
+
+        return noticeRepository.save(NoticeEntity.builder()
+                        .noticeType(type)
+                        .title(title)
+                        .content(content)
+                        .build())
+                .getId();
+    }
+
+    @Transactional
+    public long update(long id, NoticeType type, String title, String content) {
+
+        NoticeEntity noticeEntity = noticeRepository.findById(id)
+                .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_NOTICE));
+
+        noticeEntity.update(title, type, content);
+
+        return noticeRepository.save(noticeEntity).getId();
+    }
+
+
+    @Transactional
+    public void delete(long id) {
+        NoticeEntity noticeEntity = noticeRepository.findById(id)
+                .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_NOTICE));
+
+        noticeRepository.delete(noticeEntity);
     }
 
 }

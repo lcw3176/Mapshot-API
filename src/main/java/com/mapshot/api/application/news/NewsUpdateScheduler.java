@@ -11,12 +11,14 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class NewsUseCase {
+public class NewsUpdateScheduler {
 
     private final NewsService newsService;
     private final PostService postService;
 
-    public void updateNewsLetter() {
+    // 매일 오후 9시에 당일 국토교통부 보도자료 업데이트
+    @Scheduled(cron = "0 0 21 * * *")
+    public void update() {
         String content = newsService.getNewsContent();
         String writer = "헤드샷";
         String title = "[" + LocalDate.now() + "] 오늘의 헤드라인";
@@ -24,13 +26,5 @@ public class NewsUseCase {
 
         postService.save(writer, content, title, password);
     }
-
-
-    // 매일 오후 9시에 당일 국토교통부 보도자료 업데이트
-    @Scheduled(cron = "0 0 21 * * *")
-    public void update() {
-        updateNewsLetter();
-    }
-
 
 }
