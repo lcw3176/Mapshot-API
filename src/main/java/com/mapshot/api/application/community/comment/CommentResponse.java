@@ -1,6 +1,5 @@
 package com.mapshot.api.application.community.comment;
 
-import com.mapshot.api.domain.community.comment.CommentDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
