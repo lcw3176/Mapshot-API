@@ -1,8 +1,6 @@
 package com.mapshot.api.domain.community.post;
 
 
-import com.mapshot.api.domain.community.comment.CommentEntity;
-import com.mapshot.api.domain.community.comment.CommentRepository;
 import com.mapshot.api.infra.encrypt.EncryptUtil;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
@@ -15,49 +13,29 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class PostService {
 
     private final PostRepository postRepository;
-    private final CommentRepository commentRepository;
 
     @Value("${community.post.page_size}")
     private int PAGE_SIZE;
 
     @Transactional(readOnly = true)
-    public PostListResponse getPostListByPageNumber(int pageNumber) {
+    public Page<PostEntity> getPostsByPageNumber(int pageNumber) {
 
         if (pageNumber <= 0) {
             pageNumber = 1;
         }
 
         Pageable pageable = PageRequest.of(--pageNumber, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "id"));
-        Page<PostEntity> pages = postRepository.findAllByDeletedIsFalse(pageable);
 
-        List<PostEntity> postEntities = pages.getContent();
-
-        List<PostDto> postDtos = postEntities.stream()
-                .map(i -> PostDto.builder()
-                        .id(i.getId())
-                        .title(i.getTitle())
-                        .createdDate(i.getCreatedDate())
-                        .writer(i.getWriter())
-                        .commentCount(i.getCommentCount())
-                        .build())
-                .toList();
-
-        return PostListResponse.builder()
-                .posts(postDtos)
-                .totalPage(pages.getTotalPages())
-                .build();
+        return postRepository.findAllByDeletedIsFalse(pageable);
     }
 
-
-    @Transactional(readOnly = true)
-    public PostDetailResponse getSinglePostById(long id) {
+    @Transactional
+    public void increaseCommentCount(long id) {
         PostEntity postEntity = postRepository.findById(id)
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_POST));
 
@@ -65,13 +43,34 @@ public class PostService {
             throw new ApiException(ErrorCode.NO_SUCH_POST);
         }
 
-        return PostDetailResponse.builder()
-                .id(postEntity.getId())
-                .title(postEntity.getTitle())
-                .writer(postEntity.getWriter())
-                .content(postEntity.getContent())
-                .createdDate(postEntity.getCreatedDate())
-                .build();
+        postEntity.increaseCommentCount();
+        postRepository.save(postEntity);
+    }
+
+    @Transactional
+    public void decreaseCommentCount(long id) {
+        PostEntity post = postRepository.findById(id)
+                .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_POST));
+
+        if (post.isDeleted()) {
+            throw new ApiException(ErrorCode.NO_SUCH_POST);
+        }
+
+        post.decreaseCommentCount();
+        postRepository.save(post);
+    }
+
+
+    @Transactional(readOnly = true)
+    public PostEntity getPostById(long id) {
+        PostEntity postEntity = postRepository.findById(id)
+                .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_POST));
+
+        if (postEntity.isDeleted()) {
+            throw new ApiException(ErrorCode.NO_SUCH_POST);
+        }
+
+        return postEntity;
     }
 
     @Transactional
@@ -102,12 +101,12 @@ public class PostService {
         post.softDelete();
         postRepository.save(post);
 
-        List<CommentEntity> comments = commentRepository.findAllByPostIdAndDeletedFalse(post.getId());
-
-        for (CommentEntity i : comments) {
-            i.softDelete();
-        }
-
     }
+
+    @Transactional
+    public void deleteById(long id) {
+        postRepository.deleteById(id);
+    }
+
 
 }

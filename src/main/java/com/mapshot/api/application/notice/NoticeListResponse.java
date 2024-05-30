@@ -1,4 +1,4 @@
-package com.mapshot.api.domain.community.post;
+package com.mapshot.api.application.notice;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,9 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PostListResponse {
+public class NoticeListResponse {
 
-    private List<PostDto> posts;
+    private List<NoticeDto> notices;
     private int totalPage;
-
 }

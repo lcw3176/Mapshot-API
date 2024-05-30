@@ -1,4 +1,4 @@
-package com.mapshot.api.domain.map.provider.model;
+package com.mapshot.api.domain.map.provider;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class StorageInner {
+public class MapImage {
 
     private String uuid;
     private byte[] imageByte;

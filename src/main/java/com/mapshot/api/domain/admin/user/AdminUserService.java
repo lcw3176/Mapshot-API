@@ -17,7 +17,7 @@ public class AdminUserService {
     private final Validation adminValidation;
 
     @Transactional(readOnly = true)
-    public void validateUser(String nickname, String password) {
+    public void validationCheck(String nickname, String password) {
         password = EncryptUtil.encrypt(password);
 
         adminUserRepository.findByNicknameAndPassword(nickname, password)

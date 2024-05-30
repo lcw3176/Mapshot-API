@@ -1,4 +1,4 @@
-package com.mapshot.api.domain.community.post;
+package com.mapshot.api.application.notice;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,12 +11,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PostDetailResponse {
+public class NoticeDetailResponse {
 
     private long id;
-    private String writer;
+    private String noticeType;
     private String title;
     private String content;
     private LocalDateTime createdDate;
 
+    
 }
