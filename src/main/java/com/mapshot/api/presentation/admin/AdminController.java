@@ -4,7 +4,6 @@ import com.mapshot.api.application.admin.AdminUseCase;
 import com.mapshot.api.domain.notice.NoticeType;
 import com.mapshot.api.infra.auth.annotation.PreAuth;
 import com.mapshot.api.infra.auth.enums.Accessible;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     private final AdminUseCase adminUseCase;
-    
+
     @PreAuth(Accessible.EVERYONE)
     @PostMapping("/user/login")
     public ResponseEntity<Void> login(@RequestBody AdminUserRequest request) {
@@ -39,14 +38,6 @@ public class AdminController {
         return ResponseEntity.ok()
                 .headers(authHeader)
                 .build();
-    }
-
-    @PreAuth(Accessible.ADMIN)
-    @GetMapping("/post/delete/{postNumber}")
-    public ResponseEntity<Void> deletePost(@Positive @PathVariable(value = "postNumber") long postNumber) {
-        adminUseCase.deletePost(postNumber);
-
-        return ResponseEntity.ok().build();
     }
 
 
@@ -81,6 +72,15 @@ public class AdminController {
     @GetMapping("/news/update")
     public ResponseEntity<Void> updateNewsLetter() {
         adminUseCase.forceNewsUpdate();
+
+        return ResponseEntity.ok().build();
+    }
+
+
+    @PreAuth(Accessible.ADMIN)
+    @GetMapping("/post/delete/{postId}")
+    public ResponseEntity<Void> deletePost(@PositiveOrZero @PathVariable(value = "postId") long postId) {
+        adminUseCase.deletePost(postId);
 
         return ResponseEntity.ok().build();
     }
