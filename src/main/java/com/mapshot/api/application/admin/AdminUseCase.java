@@ -1,6 +1,7 @@
 package com.mapshot.api.application.admin;
 
 import com.mapshot.api.domain.admin.user.AdminUserService;
+import com.mapshot.api.domain.community.comment.CommentService;
 import com.mapshot.api.domain.community.post.PostService;
 import com.mapshot.api.domain.news.NewsService;
 import com.mapshot.api.domain.notice.NoticeService;
@@ -18,6 +19,7 @@ public class AdminUseCase {
 
     private final AdminUserService adminUserService;
     private final NoticeService noticeService;
+    private final CommentService commentService;
     private final PostService postService;
     private final NewsService newsService;
 
@@ -46,7 +48,7 @@ public class AdminUseCase {
     public void modifyNotice(long id, NoticeType type, String title, String content) {
         noticeService.update(id, type, title, content);
     }
-    
+
     public void forceNewsUpdate() {
         String content = newsService.getNewsContent();
         String writer = "헤드샷";
@@ -54,5 +56,10 @@ public class AdminUseCase {
         String password = UUID.randomUUID().toString();
 
         postService.save(writer, content, title, password);
+    }
+
+    public void forcePostDelete(long postId) {
+        postService.deleteById(postId);
+        commentService.deleteByPostId(postId);
     }
 }
