@@ -24,10 +24,6 @@ public class AdminUseCase {
     private final NewsService newsService;
 
 
-    public void deletePost(long postId) {
-        postService.deleteById(postId);
-    }
-
     public HttpHeaders login(String nickname, String password) {
         adminUserService.validationCheck(nickname, password);
         return adminUserService.getAuthHeader();
@@ -58,7 +54,7 @@ public class AdminUseCase {
         postService.save(writer, content, title, password);
     }
 
-    public void forcePostDelete(long postId) {
+    public void deletePost(long postId) {
         postService.deleteById(postId);
         commentService.deleteByPostId(postId);
     }
