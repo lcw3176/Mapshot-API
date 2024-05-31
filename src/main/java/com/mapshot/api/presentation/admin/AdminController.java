@@ -78,7 +78,7 @@ public class AdminController {
 
 
     @PreAuth(Accessible.ADMIN)
-    @PostMapping("/post/delete/{postId}")
+    @GetMapping("/post/delete/{postId}")
     public ResponseEntity<Void> deletePost(@PositiveOrZero @PathVariable(value = "postId") long postId) {
         adminUseCase.deletePost(postId);
 
