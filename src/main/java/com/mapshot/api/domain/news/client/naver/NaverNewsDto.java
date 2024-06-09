@@ -19,7 +19,7 @@ public class NaverNewsDto {
     private String description;
     private String pubDate;
 
-    public LocalDateTime getPubDateTime() {
+    public LocalDateTime getPubDate() {
         return LocalDateTime.parse(pubDate, DateTimeFormatter.RFC_1123_DATE_TIME);
     }
 }
