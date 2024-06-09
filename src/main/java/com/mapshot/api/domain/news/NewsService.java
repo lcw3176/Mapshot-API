@@ -42,13 +42,13 @@ public class NewsService {
         StringBuilder contents = new StringBuilder();
 
         for (NaverNewsResponse i : newsResponses) {
-            if (i.getItems().isEmpty()) {
+            if (i.getItems().isEmpty() || i.getTotal() == 0) {
                 continue;
             }
 
             NaverNewsDto detailNews = i.getItems().get(0);
 
-            if(detailNews.getPubDate().isBefore(LocalDateTime.now().minusDays(1))){
+            if (detailNews.getPubDate().isBefore(LocalDateTime.now().minusDays(1))) {
                 continue;
             }
 
