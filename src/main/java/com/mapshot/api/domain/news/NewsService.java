@@ -9,6 +9,7 @@ import com.mapshot.api.infra.util.HtmlTagUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +47,11 @@ public class NewsService {
             }
 
             NaverNewsDto detailNews = i.getItems().get(0);
+
+            if(detailNews.getPubDate().isBefore(LocalDateTime.now().minusDays(1))){
+                continue;
+            }
+
             contents.append(makeNewsContentForm(index++, detailNews));
         }
 

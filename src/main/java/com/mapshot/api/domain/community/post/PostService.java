@@ -105,7 +105,11 @@ public class PostService {
 
     @Transactional
     public void deleteById(long id) {
-        postRepository.deleteById(id);
+        PostEntity post = postRepository.findById(id)
+                .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_POST));
+
+        post.softDelete();
+        postRepository.save(post);
     }
 
 

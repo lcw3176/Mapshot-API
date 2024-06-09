@@ -1,4 +1,4 @@
-package com.mapshot.api.domain.community.comment;
+package com.mapshot.api.application.community.comment;
 
 import lombok.*;
 

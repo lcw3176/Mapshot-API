@@ -1,6 +1,5 @@
 package com.mapshot.api.application.community.comment;
 
-import com.mapshot.api.domain.community.comment.CommentDto;
 import com.mapshot.api.domain.community.comment.CommentEntity;
 import com.mapshot.api.domain.community.comment.CommentService;
 import com.mapshot.api.domain.community.post.PostService;
