@@ -20,6 +20,11 @@ public class NewsUpdateScheduler {
     @Scheduled(cron = "0 0 21 * * *")
     public void update() {
         String content = newsService.getNewsContent();
+
+        if (content.isBlank()) {
+            return;
+        }
+        
         String writer = "헤드샷";
         String title = "[" + LocalDate.now() + "] 오늘의 헤드라인";
         String password = UUID.randomUUID().toString();
