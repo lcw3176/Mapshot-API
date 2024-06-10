@@ -22,6 +22,8 @@ import java.util.UUID;
 @Slf4j
 public class LoggingFilter extends OncePerRequestFilter {
 
+    private static final List<String> DO_NOT_LOG_URI = List.of("/actuator/prometheus");
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         MDC.put("traceId", UUID.randomUUID().toString());
@@ -43,7 +45,11 @@ public class LoggingFilter extends OncePerRequestFilter {
         }
     }
 
-    private static void logRequest(RequestWrapper request) throws IOException {
+    private static void logRequest(RequestWrapper request) {
+        if (DO_NOT_LOG_URI.contains(request.getRequestURI())) {
+            return;
+        }
+
         String queryString = request.getQueryString();
         log.info("Ip: {} Request : {} [{}]",
                 getClientIP(request),
