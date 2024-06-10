@@ -107,7 +107,7 @@ public class LoggingFilter extends OncePerRequestFilter {
         for (String i : content.split(",")) {
             String[] params = i.split(":");
 
-            if (DO_NOT_LOG_PARAM.contains(params[0])) {
+            if (DO_NOT_LOG_PARAM.contains(params[0].replace("\"", ""))) {
                 continue;
             }
 
