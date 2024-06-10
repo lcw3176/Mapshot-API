@@ -22,6 +22,8 @@ import java.util.UUID;
 @Slf4j
 public class LoggingFilter extends OncePerRequestFilter {
 
+    private static final List<String> DO_NOT_LOG_URI = List.of("/actuator/prometheus");
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         MDC.put("traceId", UUID.randomUUID().toString());
@@ -44,13 +46,17 @@ public class LoggingFilter extends OncePerRequestFilter {
     }
 
     private static void logRequest(RequestWrapper request) throws IOException {
+        if (DO_NOT_LOG_URI.contains(request.getRequestURI())) {
+            return;
+        }
+
         String queryString = request.getQueryString();
-        log.info("Ip: {} Request : {} [{}]",
+        log.info("Ip: {} Request: {} [{}]",
                 getClientIP(request),
                 request.getMethod(),
                 queryString == null ? request.getRequestURI() : request.getRequestURI() + queryString);
 
-//        logPayload("Request", request.getContentType(), request.getInputStream());
+        logPayload(request.getContentType(), request.getInputStream());
     }
 
     private static String getClientIP(RequestWrapper request) {
@@ -81,16 +87,16 @@ public class LoggingFilter extends OncePerRequestFilter {
         log.info("Response : {}", response.getStatus());
     }
 
-    private static void logPayload(String prefix, String contentType, InputStream inputStream) throws IOException {
+    private static void logPayload(String contentType, InputStream inputStream) throws IOException {
         boolean visible = isVisible(MediaType.valueOf(contentType == null ? "application/json" : contentType));
         if (visible) {
             byte[] content = StreamUtils.copyToByteArray(inputStream);
             if (content.length > 0) {
                 String contentString = new String(content);
-                log.info("{} Payload: {}", prefix, contentString);
+                log.info("Payload: {}", contentString);
             }
         } else {
-            log.info("{} Payload: Binary Content", prefix);
+            log.info("Payload: Binary Content");
         }
     }
 
