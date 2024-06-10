@@ -23,6 +23,7 @@ import java.util.UUID;
 public class LoggingFilter extends OncePerRequestFilter {
 
     private static final List<String> DO_NOT_LOG_URI = List.of("/actuator/prometheus");
+    private static final List<String> DO_NOT_LOG_PARAM = List.of("base64EncodedImage");
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -93,12 +94,29 @@ public class LoggingFilter extends OncePerRequestFilter {
             byte[] content = StreamUtils.copyToByteArray(inputStream);
             if (content.length > 0) {
                 String contentString = new String(content);
-                log.info("Payload: {}", contentString);
+                log.info("Payload: {}", removeUnnecessaryParams(contentString));
             }
         } else {
             log.info("Payload: Binary Content");
         }
     }
+
+    private static String removeUnnecessaryParams(String content) {
+        StringBuilder sb = new StringBuilder();
+
+        for (String i : content.split(",")) {
+            String[] params = i.split(":");
+
+            if (DO_NOT_LOG_PARAM.contains(params[0])) {
+                continue;
+            }
+
+            sb.append(i);
+        }
+
+        return sb.toString();
+    }
+
 
     private static boolean isVisible(MediaType mediaType) {
         final List<MediaType> VISIBLE_TYPES = Arrays.asList(
