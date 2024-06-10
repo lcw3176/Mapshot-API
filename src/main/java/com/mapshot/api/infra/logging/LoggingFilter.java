@@ -36,6 +36,10 @@ public class LoggingFilter extends OncePerRequestFilter {
     }
 
     protected void doFilterWrapped(RequestWrapper request, ContentCachingResponseWrapper response, FilterChain filterChain) throws ServletException, IOException {
+        if (DO_NOT_LOG_URI.contains(request.getRequestURI())) {
+            return;
+        }
+
         try {
             logRequest(request);
             filterChain.doFilter(request, response);
@@ -46,10 +50,6 @@ public class LoggingFilter extends OncePerRequestFilter {
     }
 
     private static void logRequest(RequestWrapper request) throws IOException {
-        if (DO_NOT_LOG_URI.contains(request.getRequestURI())) {
-            return;
-        }
-
         String queryString = request.getQueryString();
         log.info("Ip: {} Request: {} [{}]",
                 getClientIP(request),
