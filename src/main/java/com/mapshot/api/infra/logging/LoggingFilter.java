@@ -37,10 +37,6 @@ public class LoggingFilter extends OncePerRequestFilter {
     }
 
     protected void doFilterWrapped(RequestWrapper request, ContentCachingResponseWrapper response, FilterChain filterChain) throws ServletException, IOException {
-        if (DO_NOT_LOG_URI.contains(request.getRequestURI())) {
-            return;
-        }
-
         try {
             if (!DO_NOT_LOG_URI.contains(request.getRequestURI())) {
                 logRequest(request);
@@ -51,7 +47,7 @@ public class LoggingFilter extends OncePerRequestFilter {
             if (!DO_NOT_LOG_URI.contains(request.getRequestURI())) {
                 logResponse(response);
             }
-            
+
             response.copyBodyToResponse();
         }
     }
