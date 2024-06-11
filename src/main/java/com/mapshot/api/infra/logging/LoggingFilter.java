@@ -44,6 +44,10 @@ public class LoggingFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);
         } finally {
+            if (!DO_NOT_LOG_URI.contains(request.getRequestURI())) {
+                logResponse(response);
+            }
+            
             response.copyBodyToResponse();
         }
     }
