@@ -1,4 +1,4 @@
-name: deploy
+name: build-prod
 
 on:
   push:
@@ -7,8 +7,8 @@ on:
       - 'README.md'
 
 jobs:
-  depoly:
-    name: CI/CD release
+  build:
+    name: build-prod
     runs-on: ubuntu-latest
 
     steps:
