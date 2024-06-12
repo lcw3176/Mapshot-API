@@ -15,7 +15,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class MapStorageService {
 
-    private static final Map<String, MapImage> map = new ConcurrentHashMap<>();
+    private static final int INITIAL_CAPACITY = 36;
+    private static final Map<String, MapImage> map = new ConcurrentHashMap<>(INITIAL_CAPACITY);
 
     public void saveWhileOneMinute(String uuid, String encodedImage) {
         MapImage mapImage = MapImage.builder()
