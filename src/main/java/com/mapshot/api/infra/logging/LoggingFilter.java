@@ -47,7 +47,7 @@ public class LoggingFilter extends OncePerRequestFilter {
             if (!DO_NOT_LOG_URI.contains(request.getRequestURI())) {
                 logResponse(response);
             }
-
+            
             response.copyBodyToResponse();
         }
     }
