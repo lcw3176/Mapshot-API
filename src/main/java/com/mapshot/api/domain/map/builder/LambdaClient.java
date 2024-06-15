@@ -1,6 +1,7 @@
 package com.mapshot.api.domain.map.builder;
 
 
+import com.mapshot.api.infra.client.ApiHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
@@ -21,7 +22,7 @@ public class LambdaClient {
 
     public List<MapBuildResponse> sendRequest(MultiValueMap<String, String> queryParams) {
 
-        return lambdaRestClient.get()
+        return ApiHandler.handle(() -> lambdaRestClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .queryParams(queryParams)
                         .build())
@@ -32,6 +33,6 @@ public class LambdaClient {
                         .flatMap(errorBody -> Mono.error(new RuntimeException(errorBody))))
                 .bodyToFlux(MapBuildResponse.class)
                 .collectList()
-                .block();
+                .block());
     }
 }
