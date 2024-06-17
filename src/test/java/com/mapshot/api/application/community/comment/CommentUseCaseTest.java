@@ -77,4 +77,15 @@ class CommentUseCaseTest {
 
         assertEquals(101, commentCount);
     }
+
+    @Test
+    void 댓글을_삭제하면_댓글_카운트가_감소한다() {
+        long postId = postRepository.findFirstByOrderByIdDesc().getId();
+        long commentId = commentUseCase.save("writer", "content", postId, "password");
+
+        commentUseCase.deleteIfOwner(commentId, "password");
+        long commentCount = postRepository.findById(postId).get().getCommentCount();
+
+        assertEquals(100, commentCount);
+    }
 }
