@@ -29,7 +29,7 @@ class CommentUseCaseTest {
         int commentCount = 100;
         int postCount = 10;
 
-        for (int i = 1; i < postCount; i++) {
+        for (int i = 0; i < postCount; i++) {
 
             String value = Integer.toString(i);
 
