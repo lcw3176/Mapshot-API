@@ -72,7 +72,7 @@ class CommentUseCaseTest {
     @Test
     void 댓글을_저장하면_게시글의_댓글_카운트가_올라간다() {
         long postId = postRepository.findFirstByOrderByIdDesc().getId();
-        long commentId = commentUseCase.save("writer", "content", postId, "password");
+        commentUseCase.save("writer", "content", postId, "password");
         long commentCount = postRepository.findById(postId).get().getCommentCount();
 
         assertEquals(101, commentCount);
