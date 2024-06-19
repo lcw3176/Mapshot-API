@@ -118,14 +118,12 @@ class AdminUseCaseTest {
 
     @Test
     void 관리자_공지사항_수정() {
-
-
         NoticeEntity notice = noticeRepository.save(NoticeEntity.builder()
                 .title("title")
                 .noticeType(NoticeType.RESERVED_CHECK)
                 .content("content")
                 .build());
-        
+
         adminUseCase.modifyNotice(notice.getId(), NoticeType.FIX, "fixed_title", "fixed_content");
 
         notice = noticeRepository.findFirstByOrderByIdDesc();
@@ -138,7 +136,6 @@ class AdminUseCaseTest {
 
     @Test
     void 관리자_공지사항_삭제() {
-
         long noticeId = noticeRepository.save(NoticeEntity.builder()
                 .title("title")
                 .noticeType(NoticeType.RESERVED_CHECK)
