@@ -62,4 +62,12 @@ class NoticeUseCaseTest {
         assertEquals(response.getTotalPage(), testDataSize / pageSize);
         assertEquals(response.getNotices().size(), pageSize);
     }
+
+    @Test
+    void _0이하의_페이지_조회시_첫번째_페이지_목록_반환() {
+        NoticeListResponse response = noticeUseCase.getNoticeList(-1);
+
+        assertEquals(response.getTotalPage(), testDataSize / pageSize);
+        assertEquals(response.getNotices().size(), pageSize);
+    }
 }
