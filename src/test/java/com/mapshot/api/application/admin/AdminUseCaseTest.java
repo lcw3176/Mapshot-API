@@ -148,4 +148,15 @@ class AdminUseCaseTest {
                 .isInstanceOf(ApiException.class)
                 .hasMessage(ErrorCode.NO_SUCH_NOTICE.getMessage());
     }
+
+    @Test
+    void 관리자_게시글_삭제() {
+        long postId = postRepository.findFirstByOrderByIdDesc().getId();
+
+        adminUseCase.deletePost(postId);
+
+        assertThatThrownBy(() -> postService.getPostById(postId))
+                .isInstanceOf(ApiException.class)
+                .hasMessage(ErrorCode.NO_SUCH_POST.getMessage());
+    }
 }
