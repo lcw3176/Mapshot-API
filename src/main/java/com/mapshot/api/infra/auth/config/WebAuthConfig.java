@@ -35,9 +35,12 @@ public class WebAuthConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/admin/**")
-                .exposedHeaders(ADMIN_HEADER_NAME)
-                .allowCredentials(true);
+                .exposedHeaders(ADMIN_HEADER_NAME);
 
+        registry.addMapping("/**")
+                .allowedOrigins("https://www.kmapshot.com", "https://kmapshot.com")
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedHeaders("*");
     }
 
 }
