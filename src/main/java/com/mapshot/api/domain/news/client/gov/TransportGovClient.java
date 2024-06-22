@@ -28,7 +28,12 @@ public class TransportGovClient {
             Document doc = null;
 
             try {
-                doc = Jsoup.connect(path).get();
+                doc = Jsoup.connect(path)
+                        .timeout(0)
+                        .ignoreContentType(true)
+                        .userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
+                        .followRedirects(true)
+                        .get();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

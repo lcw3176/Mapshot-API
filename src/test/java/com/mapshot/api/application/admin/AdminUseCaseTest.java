@@ -7,6 +7,10 @@ import com.mapshot.api.domain.community.comment.CommentRepository;
 import com.mapshot.api.domain.community.comment.CommentService;
 import com.mapshot.api.domain.community.post.PostRepository;
 import com.mapshot.api.domain.community.post.PostService;
+import com.mapshot.api.domain.notice.NoticeEntity;
+import com.mapshot.api.domain.notice.NoticeRepository;
+import com.mapshot.api.domain.notice.NoticeService;
+import com.mapshot.api.domain.notice.NoticeType;
 import com.mapshot.api.infra.encrypt.EncryptUtil;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
@@ -34,6 +38,10 @@ class AdminUseCaseTest {
     private CommentService commentService;
 
     @Autowired
+    private NoticeService noticeService;
+
+
+    @Autowired
     private AdminUserRepository adminUserRepository;
 
     @Autowired
@@ -41,6 +49,10 @@ class AdminUseCaseTest {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private NoticeRepository noticeRepository;
+
 
     @BeforeEach
     void init() {
@@ -67,6 +79,7 @@ class AdminUseCaseTest {
         adminUserRepository.deleteAll();
         postRepository.deleteAll();
         commentRepository.deleteAll();
+        noticeRepository.deleteAll();
     }
 
 
@@ -90,5 +103,60 @@ class AdminUseCaseTest {
     void 관리자_로그인() {
         assertThatNoException()
                 .isThrownBy(() -> adminUseCase.login("hello", "1234"));
+    }
+
+    @Test
+    void 관리자_공지사항_등록() {
+        adminUseCase.saveNotice(NoticeType.UPDATE, "new_title", "new_content");
+
+        NoticeEntity notice = noticeRepository.findFirstByOrderByIdDesc();
+
+        assertEquals(notice.getNoticeType(), NoticeType.UPDATE);
+        assertEquals(notice.getTitle(), "new_title");
+        assertEquals(notice.getContent(), "new_content");
+    }
+
+    @Test
+    void 관리자_공지사항_수정() {
+        NoticeEntity notice = noticeRepository.save(NoticeEntity.builder()
+                .title("title")
+                .noticeType(NoticeType.RESERVED_CHECK)
+                .content("content")
+                .build());
+
+        adminUseCase.modifyNotice(notice.getId(), NoticeType.FIX, "fixed_title", "fixed_content");
+
+        notice = noticeRepository.findFirstByOrderByIdDesc();
+
+
+        assertEquals(notice.getNoticeType(), NoticeType.FIX);
+        assertEquals(notice.getTitle(), "fixed_title");
+        assertEquals(notice.getContent(), "fixed_content");
+    }
+
+    @Test
+    void 관리자_공지사항_삭제() {
+        long noticeId = noticeRepository.save(NoticeEntity.builder()
+                .title("title")
+                .noticeType(NoticeType.RESERVED_CHECK)
+                .content("content")
+                .build()).getId();
+
+        adminUseCase.deleteNotice(noticeId);
+
+        assertThatThrownBy(() -> noticeService.findById(noticeId))
+                .isInstanceOf(ApiException.class)
+                .hasMessage(ErrorCode.NO_SUCH_NOTICE.getMessage());
+    }
+
+    @Test
+    void 관리자_게시글_삭제() {
+        long postId = postRepository.findFirstByOrderByIdDesc().getId();
+
+        adminUseCase.deletePost(postId);
+
+        assertThatThrownBy(() -> postService.getPostById(postId))
+                .isInstanceOf(ApiException.class)
+                .hasMessage(ErrorCode.NO_SUCH_POST.getMessage());
     }
 }
