@@ -1,6 +1,7 @@
 package com.mapshot.api.infra.auth.config;
 
 import com.mapshot.api.infra.auth.interceptor.AuthInterceptor;
+import io.netty.handler.codec.http.HttpMethod;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -38,8 +39,8 @@ public class WebAuthConfig implements WebMvcConfigurer {
                 .exposedHeaders(ADMIN_HEADER_NAME);
 
         registry.addMapping("/**")
-                .allowedOrigins("https://www.kmapshot.com", "https://kmapshot.com")
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedOrigins("https://www.kmapshot.com", "https://kmapshot.com", "https://dev.kmapshot.com")
+                .allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.OPTIONS.name())
                 .allowedHeaders("*");
     }
 
