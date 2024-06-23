@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/image/storage")
-@CrossOrigin(originPatterns = {"https://*.kmapshot.com", "https://kmapshot.com"})
 public class ImageProviderController {
 
     private final MapProviderUseCase mapProviderUseCase;

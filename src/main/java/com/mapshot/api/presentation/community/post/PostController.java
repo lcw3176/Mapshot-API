@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/post")
-@CrossOrigin(originPatterns = {"https://*.kmapshot.com", "https://kmapshot.com"})
 @Validated
 public class PostController {
 
