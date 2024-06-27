@@ -292,7 +292,7 @@ class AdminControllerTest extends SlackMockExtension {
     @Test
     void 토큰_없이_관리자_로그인_연장_요청시_예외() throws Exception {
         mockMvc.perform(
-                        post(BASE_URL + "/auth/refresh")
+                        post(BASE_URL + "/user/auth/refresh")
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError());
     }
