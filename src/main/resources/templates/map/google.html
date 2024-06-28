@@ -32,7 +32,7 @@
         var goalWidth;
         var zoomLevel;
         var maptype;
-        var defaultWidth = 1000;
+        var defaultWidth = 500;
         var dynamicWidth = defaultWidth;
 
         // var width;
@@ -86,11 +86,16 @@
         var intervalCount = 0;
         var finalLoading = false;
         var endLoading = false;
+        var googleTileLoading = false;
+
+        map.addListener('tilesloaded', function () {
+            googleTileLoading = true;
+        })
 
         var timerId = setInterval(function () {
 
             intervalCount++;
-
+            googleTileLoading = false;
             map.setCenter(new google.maps.LatLng(lat, lng));
 
             if (dynamicWidth <= goalWidth && !finalLoading) {
@@ -102,7 +107,7 @@
 
             } else if (finalLoading && !endLoading) {
                 endLoading = true;
-            } else if (endLoading) {
+            } else if (endLoading && googleTileLoading) {
                 document.getElementById("checker").setAttribute("id", "checker_true");
                 clearInterval(timerId);
             }
@@ -110,7 +115,8 @@
             container.style.height = dynamicWidth + "px";
             container.style.width = dynamicWidth + "px";
 
-            if (intervalCount >= 30) {
+            if (intervalCount >= 20) {
+                document.getElementById("checker").setAttribute("id", "checker_true");
                 clearInterval(timerId);
             }
 
