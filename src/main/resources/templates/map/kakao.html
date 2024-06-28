@@ -29,7 +29,7 @@
     var goalWidth;
     var zoomLevel;
     var maptype;
-    var defaultWidth = 1000;
+    var defaultWidth = 500;
     var dynamicWidth = defaultWidth;
 
     if (type === "basic") {
@@ -82,15 +82,21 @@
     // 나중에 축소시켜서 지도 타일 로딩이 안되는 현상을
     // 최대한 방지한다
 
+
     // goalWidth += defaultWidth;
     var intervalCount = 0;
     var finalLoading = false;
     var endLoading = false;
+    var kakaoTileLoading = false;
+
+    kakao.maps.event.addListener(map, 'tilesloaded', function () {
+        kakaoTileLoading = true;
+    });
 
     var timerId = setInterval(function () {
 
         intervalCount++;
-
+        kakaoTileLoading = false;
         map.setCenter(new kakao.maps.LatLng(lat, lng));
         map.relayout();
 
@@ -103,7 +109,7 @@
 
         } else if (finalLoading && !endLoading) {
             endLoading = true;
-        } else if (endLoading) {
+        } else if (endLoading && kakaoTileLoading) {
             document.getElementById("checker").setAttribute("id", "checker_true");
             clearInterval(timerId);
         }
@@ -111,11 +117,12 @@
         container.style.height = dynamicWidth + "px";
         container.style.width = dynamicWidth + "px";
 
-        if (intervalCount >= 30) {
+        if (intervalCount >= 20) {
+            document.getElementById("checker").setAttribute("id", "checker_true");
             clearInterval(timerId);
         }
 
-    }, 1000);
+    }, 500);
 
 </script>
 </body>
