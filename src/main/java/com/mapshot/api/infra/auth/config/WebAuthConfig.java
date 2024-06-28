@@ -39,7 +39,7 @@ public class WebAuthConfig implements WebMvcConfigurer {
                 .exposedHeaders(ADMIN_HEADER_NAME);
 
         registry.addMapping("/**")
-                .allowedOrigins("https://www.kmapshot.com", "https://kmapshot.com", "https://dev.kmapshot.com")
+                .allowedOrigins("https://www.kmapshot.com", "https://kmapshot.com", "https://dev.kmapshot.com", "https://admin.kmapshot.com")
                 .allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.OPTIONS.name())
                 .allowedHeaders("*");
     }

@@ -26,18 +26,34 @@
         var lat = parseFloat([[${mapRequest.lat}]]);
         var lng = parseFloat([[${mapRequest.lng}]]);
         var type = ([[${mapRequest.type}]]);
+        var noLabel = Boolean([[${mapRequest.noLabel}]]);
 
         /*]]>*/
 
         var goalWidth;
         var zoomLevel;
         var maptype;
-        var defaultWidth = 1000;
+        var defaultWidth = 500;
         var dynamicWidth = defaultWidth;
 
-        // var width;
-        // var zoomLevel;
-        // var maptype;
+        var noLabelStyle = [
+            {
+                "elementType": "labels",
+                "stylers": [
+                    {
+                        "visibility": "off"
+                    }
+                ]
+            },
+            {
+                "featureType": "administrative.neighborhood",
+                "stylers": [
+                    {
+                        "visibility": "off"
+                    }
+                ]
+            }
+        ];
 
         if (type === "basic") {
             maptype = google.maps.MapTypeId.ROADMAP;
@@ -82,15 +98,23 @@
 
         var map = new google.maps.Map(container, options);
 
-        // goalWidth += defaultWidth;
+        if (noLabel) {
+            map.set('styles', noLabelStyle);
+        }
+        
         var intervalCount = 0;
         var finalLoading = false;
         var endLoading = false;
+        var googleTileLoading = false;
+
+        map.addListener('tilesloaded', function () {
+            googleTileLoading = true;
+        })
 
         var timerId = setInterval(function () {
 
             intervalCount++;
-
+            googleTileLoading = false;
             map.setCenter(new google.maps.LatLng(lat, lng));
 
             if (dynamicWidth <= goalWidth && !finalLoading) {
@@ -102,7 +126,7 @@
 
             } else if (finalLoading && !endLoading) {
                 endLoading = true;
-            } else if (endLoading) {
+            } else if (endLoading && googleTileLoading) {
                 document.getElementById("checker").setAttribute("id", "checker_true");
                 clearInterval(timerId);
             }
@@ -110,11 +134,12 @@
             container.style.height = dynamicWidth + "px";
             container.style.width = dynamicWidth + "px";
 
-            if (intervalCount >= 30) {
+            if (intervalCount >= 20) {
+                document.getElementById("checker").setAttribute("id", "checker_true");
                 clearInterval(timerId);
             }
 
-        }, 1000);
+        }, 500);
 
     }
 
