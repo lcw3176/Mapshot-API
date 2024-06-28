@@ -1,4 +1,4 @@
-package com.mapshot.api.presentation.map.builder;
+package com.mapshot.api.presentation.map;
 
 
 import lombok.*;
@@ -31,6 +31,9 @@ public class MapBuildRequest {
 
     // 지도 생성 회사
     private String companyType;
+
+    // 일반지도 지형지물 표시 여부
+    private boolean noLabel;
 
     public MultiValueMap<String, String> toQueryParams() {
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();

@@ -26,6 +26,7 @@
         var lat = parseFloat([[${mapRequest.lat}]]);
         var lng = parseFloat([[${mapRequest.lng}]]);
         var type = ([[${mapRequest.type}]]);
+        var noLabel = Boolean([[${mapRequest.noLabel}]]);
 
         /*]]>*/
 
@@ -35,9 +36,24 @@
         var defaultWidth = 500;
         var dynamicWidth = defaultWidth;
 
-        // var width;
-        // var zoomLevel;
-        // var maptype;
+        var noLabelStyle = [
+            {
+                "elementType": "labels",
+                "stylers": [
+                    {
+                        "visibility": "off"
+                    }
+                ]
+            },
+            {
+                "featureType": "administrative.neighborhood",
+                "stylers": [
+                    {
+                        "visibility": "off"
+                    }
+                ]
+            }
+        ];
 
         if (type === "basic") {
             maptype = google.maps.MapTypeId.ROADMAP;
@@ -82,7 +98,10 @@
 
         var map = new google.maps.Map(container, options);
 
-        // goalWidth += defaultWidth;
+        if (noLabel) {
+            map.set('styles', noLabelStyle);
+        }
+        
         var intervalCount = 0;
         var finalLoading = false;
         var endLoading = false;
