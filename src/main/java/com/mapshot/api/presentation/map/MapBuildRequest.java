@@ -43,6 +43,7 @@ public class MapBuildRequest {
         queryParams.add("lng", Double.toString(this.getLng()));
         queryParams.add("level", Integer.toString(this.getLevel()));
         queryParams.add("layerMode", Boolean.toString(this.isLayerMode()));
+        queryParams.add("noLabel", Boolean.toString(this.isNoLabel()));
 
         return queryParams;
     }
