@@ -1,6 +1,5 @@
 package com.mapshot.api.presentation.map;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -19,9 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
 class ImageBuildRequestControllerTest {
-
-    @Autowired
-    ObjectMapper mapper;
+    
 
     @Autowired
     MockMvc mockMvc;
