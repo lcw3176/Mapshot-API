@@ -20,6 +20,15 @@ public class SlackClient {
 
     private final WebClient slackRestClient;
 
+    public void sendMessage(String title, String message) {
+        SlackMessage slackMessage = SlackMessage.builder()
+                .title(title)
+                .message(makeTransmissible(message))
+                .build();
+
+        sendSlackMessage(slackMessage);
+    }
+
     public void sendMessage(ApiException e) {
         SlackMessage slackMessage = SlackMessage.builder()
                 .title(e.getCode().getMessage())
@@ -40,6 +49,11 @@ public class SlackClient {
 
     private String makeTransmissible(Throwable e) {
         String stackTrace = Arrays.toString(e.getStackTrace());
+        
+        return makeTransmissible(stackTrace);
+    }
+
+    private String makeTransmissible(String stackTrace) {
         int len = Math.min(stackTrace.length(), 1700);
 
         return stackTrace.substring(0, len);
