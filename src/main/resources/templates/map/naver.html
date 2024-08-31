@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="margin: 0px">
+<div id="checker">
+</div>
+<div id="map">
+
+</div>
+
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=46d97694c5e976ec8af172aebc94c130"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    var level = parseInt([[${mapRequest.level}]]);
+    var lat = parseFloat([[${mapRequest.lat}]]);
+    var lng = parseFloat([[${mapRequest.lng}]]);
+    var type = ([[${mapRequest.type}]]);
+    var layerMode = Boolean([[${mapRequest.layerMode}]]);
+
+    /*]]>*/
+
+    var goalWidth;
+    var zoomLevel;
+    var maptype;
+    var defaultWidth = 500;
+    var dynamicWidth = defaultWidth;
+
+    if (type === "basic") {
+        maptype = kakao.maps.MapTypeId.ROADMAP;
+    } else if (type === "satellite_base") {
+        maptype = kakao.maps.MapTypeId.SKYVIEW;
+    } else if (type === "satellite") {
+        maptype = kakao.maps.MapTypeId.HYBRID;
+    }
+
+    switch (level) {
+        case 1:
+            zoomLevel = 2;
+            goalWidth = 5000;
+            break;
+        case 2:
+            zoomLevel = 3;
+            goalWidth = 4000;
+            break;
+        case 5:
+            zoomLevel = 4;
+            goalWidth = 5000;
+            break;
+        case 10:
+            zoomLevel = 5;
+            goalWidth = 5000;
+            break;
+        default:
+            break;
+    }
+    var container = document.getElementById('map');
+    var options = {
+        center: new kakao.maps.LatLng(lat, lng),
+        level: zoomLevel,
+        draggable: false,
+        zoomable: false,
+    };
+
+    container.style.height = dynamicWidth + "px";
+    container.style.width = dynamicWidth + "px";
+
+    var map = new kakao.maps.Map(container, options);
+    map.setMapTypeId(maptype);
+
+    if (layerMode === true) {
+        map.addOverlayMapTypeId(kakao.maps.MapTypeId.USE_DISTRICT);
+    }
+
+    // 지도를 일부러 더 크게 만든 후
+    // 나중에 축소시켜서 지도 타일 로딩이 안되는 현상을
+    // 최대한 방지한다
+
+
+    // goalWidth += defaultWidth;
+    var intervalCount = 0;
+    var finalLoading = false;
+    var endLoading = false;
+    var kakaoTileLoading = false;
+
+    kakao.maps.event.addListener(map, 'tilesloaded', function () {
+        kakaoTileLoading = true;
+    });
+
+    var timerId = setInterval(function () {
+
+        intervalCount++;
+        kakaoTileLoading = false;
+        map.setCenter(new kakao.maps.LatLng(lat, lng));
+        map.relayout();
+
+        if (dynamicWidth <= goalWidth && !finalLoading) {
+            dynamicWidth += defaultWidth;
+
+        } else if (dynamicWidth > goalWidth && !finalLoading) {
+            finalLoading = true;
+            dynamicWidth = goalWidth;
+
+        } else if (finalLoading && !endLoading) {
+            endLoading = true;
+        } else if (endLoading && kakaoTileLoading) {
+            document.getElementById("checker").setAttribute("id", "checker_true");
+            clearInterval(timerId);
+        }
+
+        container.style.height = dynamicWidth + "px";
+        container.style.width = dynamicWidth + "px";
+
+        if (intervalCount >= 20) {
+            document.getElementById("checker").setAttribute("id", "checker_true");
+            clearInterval(timerId);
+        }
+
+    }, 500);
+
+</script>
+</body>
+</html>
