@@ -47,7 +47,7 @@ public class LoggingFilter extends OncePerRequestFilter {
             if (!DO_NOT_LOG_URI.contains(request.getRequestURI())) {
                 logResponse(response);
             }
-            
+
             response.copyBodyToResponse();
         }
     }
@@ -57,7 +57,7 @@ public class LoggingFilter extends OncePerRequestFilter {
         log.info("Ip: {} Request: {} [{}]",
                 getClientIP(request),
                 request.getMethod(),
-                queryString == null ? request.getRequestURI() : request.getRequestURI() + queryString);
+                queryString == null ? request.getRequestURI() : request.getRequestURI() + "?" + queryString);
 
         logPayload(request.getContentType(), request.getInputStream());
     }

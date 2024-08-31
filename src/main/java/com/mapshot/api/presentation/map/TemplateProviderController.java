@@ -12,17 +12,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/image/template")
 public class TemplateProviderController {
 
-    @PreAuth(Accessible.FRIENDLY_SERVER)
+    @PreAuth(Accessible.EVERYONE)
+    @GetMapping("/naver")
+    public String getNaverMap(@ModelAttribute NaverMapRequest mapRequest, Model model) {
+        model.addAttribute("mapRequest", mapRequest);
+
+        return "map/naver";
+    }
+
+    @PreAuth(Accessible.EVERYONE)
     @GetMapping("/kakao")
-    public String getKakaoMap(@ModelAttribute MapBuildRequest mapRequest, Model model) {
+    public String getKakaoMap(@ModelAttribute KakaoMapRequest mapRequest, Model model) {
         model.addAttribute("mapRequest", mapRequest);
 
         return "map/kakao";
     }
 
-    @PreAuth(Accessible.FRIENDLY_SERVER)
+    @PreAuth(Accessible.EVERYONE)
     @GetMapping("/google")
-    public String getGoogleMap(@ModelAttribute MapBuildRequest mapRequest, Model model) {
+    public String getGoogleMap(@ModelAttribute GoogleMapRequest mapRequest, Model model) {
         model.addAttribute("mapRequest", mapRequest);
 
         return "map/google";
