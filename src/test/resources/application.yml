@@ -14,10 +14,6 @@ spring:
     suffix: .html
 
 client:
-  lambda:
-    url: https://hello.com
-    timeout: 10000
-
   slack:
     url: https://hello.com
 
@@ -34,11 +30,6 @@ jwt:
     secret: hello
     header: ADMIN_AUTH_TOKEN
     second: 3600
-
-  image:
-    secret: hello
-    header: AUTH_TOKEN
-    second: 60
 
 community:
   post:
