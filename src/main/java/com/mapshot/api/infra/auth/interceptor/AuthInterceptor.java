@@ -37,6 +37,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             throw new ApiException(ErrorCode.HANDLER_NOT_FOUND);
         }
 
+        // fixme 얘좀 날리자
         PreAuth preAuth = method.getMethodAnnotation(PreAuth.class);
 
         if (preAuth == null) {
