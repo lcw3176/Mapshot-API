@@ -1,7 +1,6 @@
 package com.mapshot.api.presentation.externalLog;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mapshot.api.infra.auth.ServerValidation;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -29,9 +28,6 @@ class ExternalLogCollectorControllerTest {
     @Autowired
     private ObjectMapper mapper;
 
-    @Autowired
-    private ServerValidation validation;
-
     @Test
     void 로그_수집_요청() throws Exception {
 
@@ -42,7 +38,6 @@ class ExternalLogCollectorControllerTest {
 
 
         mockMvc.perform(post("/log")
-                        .headers(validation.makeHeader())
                         .content(mapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

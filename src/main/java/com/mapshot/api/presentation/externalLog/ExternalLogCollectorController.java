@@ -16,7 +16,8 @@ public class ExternalLogCollectorController {
 
     private final LogUseCase logUseCase;
 
-    @PreAuth(Accessible.FRIENDLY_SERVER)
+    // fixme 임시로 변경
+    @PreAuth(Accessible.EVERYONE)
     @PostMapping
     public void collectExternalLog(@RequestBody LogRequest request) {
         logUseCase.collectLog(request.getRoll(), request.getStackTrace());

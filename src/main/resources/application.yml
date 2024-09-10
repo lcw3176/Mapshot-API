@@ -26,10 +26,6 @@ server:
       enabled: false
 
 client:
-  lambda:
-    url: ${lambdaUrl}
-    timeout: ${lambdaTimeout}
-
   slack:
     url: ${slackUrl}
 
@@ -47,11 +43,7 @@ jwt:
     header: ADMIN_AUTH_TOKEN
     second: 3600
 
-  image:
-    secret: ${jwtImageSecret}
-    header: AUTH_TOKEN
-    second: 60
-
+    
 community:
   post:
     page_size: 10
