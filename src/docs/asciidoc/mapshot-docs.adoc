@@ -5,21 +5,6 @@
 :toc: left
 :toclevels: 3
 
-== 지도
-
-=== 생성
-
-위성 이미지를 생성합니다.
-동적으로 지도를 생성하는 별도의 서버로 리다이렉트된 후 이미지를 전달받습니다.
-
-request
-
-include::{snippets}/image/generate/query-parameters.adoc[]
-include::{snippets}/image/generate/http-request.adoc[]
-
-response
-
-include::{snippets}/image/generate/http-response.adoc[]
 
 == 공지사항
 
