@@ -1,0 +1,43 @@
+#name: deploy-prod
+#
+#on:
+#  workflow_dispatch:
+#
+#jobs:
+#  depoly:
+#    name: deploy-prod
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#
+#      - name: Get Github action IP
+#        id: ip
+#        uses: haythem/public-ip@v1.3
+#
+#      - name: Configure AWS Credentials
+#        uses: aws-actions/configure-aws-credentials@v1
+#        with:
+#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          aws-secret-access-key: ${{ secrets.AWS_ACCESS_SECRET_KEY }}
+#          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+#
+#      - name: Add Github Actions IP to Security group
+#        run: |
+#          aws ec2 authorize-security-group-ingress --group-name ${{ secrets.AWS_SECURITY_GROUP_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+#
+#      - name: Deploy
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.AWS_SSH_HOST }}
+#          username: ${{ secrets.AWS_SSH_USERNAME }}
+#          key: ${{ secrets.AWS_SSH_KEY }}
+#          script: |
+#            cd /home/${{ secrets.AWS_SSH_USERNAME }}/
+#            docker-compose down --rmi all
+#            docker-compose up -d
+#
+#      - name: Remove Github Actions IP From Security Group
+#        run: |
+#          aws ec2 revoke-security-group-ingress --group-name ${{ secrets.AWS_SECURITY_GROUP_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
