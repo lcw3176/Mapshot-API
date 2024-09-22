@@ -1,0 +1,56 @@
+#name: deploy-dev
+#
+#on:
+#  push:
+#    branches:
+#      - dev
+#    paths-ignore:
+#      - 'README.md'
+#
+#jobs:
+#  depoly:
+#    name: deploy-develop
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#
+#      - name: Set up JDK
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: '17'
+#          distribution: 'temurin'
+#
+#      - name: Grant execute permission for gradlew
+#        run: chmod +x gradlew
+#
+#      - name: Build Native Image
+#        run: ./gradlew bootBuildImage
+#
+#      - name: Login to Docker Hub
+#        uses: docker/login-action@v1
+#        with:
+#          username: ${{ secrets.DOCKERHUB_USERNAME }}
+#          password: ${{ secrets.DOCKERHUB_TOKEN }}
+#
+#      - name: Change Tag Name And Push
+#        env:
+#          REPO_PATH: ${{ secrets.MAPSHOT_DOCKERHUB_REPO_PATH }}
+#        run: |
+#          IMAGE_ID=$(sudo docker images --filter=reference=mapshot-native --format "{{.ID}}")
+#          docker tag $IMAGE_ID $REPO_PATH:mapshot-dev
+#          docker push $REPO_PATH:mapshot-dev
+#
+#
+#      - name: Deploy
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.OCI_SSH_HOST }}
+#          username: ${{ secrets.OCI_SSH_USERNAME }}
+#          key: ${{ secrets.OCI_SSH_KEY }}
+#          passphrase: ${{ secrets.OCI_SSH_PASSPHRASE }}
+#          script: |
+#            cd /home/${{ secrets.OCI_SSH_USERNAME }}/
+#            docker-compose down --rmi all
+#            docker-compose up -d
