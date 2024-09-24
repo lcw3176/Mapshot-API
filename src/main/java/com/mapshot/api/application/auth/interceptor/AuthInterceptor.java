@@ -1,8 +1,8 @@
-package com.mapshot.api.infra.auth.interceptor;
+package com.mapshot.api.application.auth.interceptor;
 
-import com.mapshot.api.infra.auth.Validation;
-import com.mapshot.api.infra.auth.annotation.PreAuth;
-import com.mapshot.api.infra.auth.enums.Accessible;
+import com.mapshot.api.application.auth.Validation;
+import com.mapshot.api.application.auth.annotation.PreAuth;
+import com.mapshot.api.application.auth.enums.Accessible;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
 import jakarta.servlet.http.HttpServletRequest;

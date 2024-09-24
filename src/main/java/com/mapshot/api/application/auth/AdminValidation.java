@@ -1,6 +1,6 @@
-package com.mapshot.api.infra.auth;
+package com.mapshot.api.application.auth;
 
-import com.mapshot.api.infra.auth.token.TokenProcessor;
+import com.mapshot.api.application.auth.token.TokenProcessor;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,5 +1,6 @@
 package com.mapshot.api.infra.auth.token;
 
+import com.mapshot.api.application.auth.token.TokenProcessor;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
 import org.junit.jupiter.api.Test;
