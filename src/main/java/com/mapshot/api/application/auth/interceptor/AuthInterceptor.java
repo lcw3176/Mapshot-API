@@ -41,7 +41,8 @@ public class AuthInterceptor implements HandlerInterceptor {
         PreAuth preAuth = method.getMethodAnnotation(PreAuth.class);
 
         if (preAuth == null) {
-            throw new ApiException(ErrorCode.NO_PRE_AUTH);
+            return true;
+//            throw new ApiException(ErrorCode.NO_PRE_AUTH);
         }
 
         Accessible[] accessible = preAuth.value();
