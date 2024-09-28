@@ -1,8 +1,8 @@
-package com.mapshot.api.infra.auth.interceptor;
+package com.mapshot.api.application.auth.interceptor;
 
-import com.mapshot.api.infra.auth.Validation;
-import com.mapshot.api.infra.auth.annotation.PreAuth;
-import com.mapshot.api.infra.auth.enums.Accessible;
+import com.mapshot.api.application.auth.Validation;
+import com.mapshot.api.application.auth.annotation.PreAuth;
+import com.mapshot.api.application.auth.enums.Accessible;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,21 +37,15 @@ public class AuthInterceptor implements HandlerInterceptor {
             throw new ApiException(ErrorCode.HANDLER_NOT_FOUND);
         }
 
-        // fixme 얘좀 날리자
         PreAuth preAuth = method.getMethodAnnotation(PreAuth.class);
 
         if (preAuth == null) {
-            throw new ApiException(ErrorCode.NO_PRE_AUTH);
+            return true;
         }
 
         Accessible[] accessible = preAuth.value();
 
         for (Accessible type : accessible) {
-
-            if (type == Accessible.EVERYONE) {
-                continue;
-            }
-
             Validation validation = applicationContext.getBean(type.getValidationClass());
             validation.checkValidation(request);
         }

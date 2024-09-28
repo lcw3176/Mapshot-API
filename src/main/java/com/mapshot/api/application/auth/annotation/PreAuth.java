@@ -1,6 +1,6 @@
-package com.mapshot.api.infra.auth.annotation;
+package com.mapshot.api.application.auth.annotation;
 
-import com.mapshot.api.infra.auth.enums.Accessible;
+import com.mapshot.api.application.auth.enums.Accessible;
 
 import java.lang.annotation.*;
 

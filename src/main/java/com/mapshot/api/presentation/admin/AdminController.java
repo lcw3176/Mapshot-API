@@ -2,8 +2,8 @@ package com.mapshot.api.presentation.admin;
 
 import com.mapshot.api.application.admin.AdminUseCase;
 import com.mapshot.api.domain.notice.NoticeType;
-import com.mapshot.api.infra.auth.annotation.PreAuth;
-import com.mapshot.api.infra.auth.enums.Accessible;
+import com.mapshot.api.application.auth.annotation.PreAuth;
+import com.mapshot.api.application.auth.enums.Accessible;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -19,7 +19,6 @@ public class AdminController {
 
     private final AdminUseCase adminUseCase;
 
-    @PreAuth(Accessible.EVERYONE)
     @PostMapping("/user/login")
     public ResponseEntity<Void> login(@RequestBody AdminUserRequest request) {
         HttpHeaders authHeader = adminUseCase.login(request.getNickname(), request.getPassword());

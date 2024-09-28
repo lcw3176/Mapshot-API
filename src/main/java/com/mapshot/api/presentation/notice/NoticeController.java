@@ -4,8 +4,8 @@ package com.mapshot.api.presentation.notice;
 import com.mapshot.api.application.notice.NoticeDetailResponse;
 import com.mapshot.api.application.notice.NoticeListResponse;
 import com.mapshot.api.application.notice.NoticeUseCase;
-import com.mapshot.api.infra.auth.annotation.PreAuth;
-import com.mapshot.api.infra.auth.enums.Accessible;
+import com.mapshot.api.application.auth.annotation.PreAuth;
+import com.mapshot.api.application.auth.enums.Accessible;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,6 @@ public class NoticeController {
 
     private final NoticeUseCase noticeUseCase;
 
-    @PreAuth(Accessible.EVERYONE)
     @GetMapping
     public ResponseEntity<NoticeListResponse> showNoticeList(
             @PositiveOrZero @RequestParam(value = "page", defaultValue = "0", required = false) int page) {
@@ -31,7 +30,6 @@ public class NoticeController {
         return ResponseEntity.ok(noticeListResponses);
     }
 
-    @PreAuth(Accessible.EVERYONE)
     @GetMapping("/{postNumber}")
     public ResponseEntity<NoticeDetailResponse> showNotice(
             @Positive @PathVariable(value = "postNumber") long postNumber) {

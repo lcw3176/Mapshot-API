@@ -1,7 +1,7 @@
-package com.mapshot.api.infra.auth.enums;
+package com.mapshot.api.application.auth.enums;
 
-import com.mapshot.api.infra.auth.AdminValidation;
-import com.mapshot.api.infra.auth.Validation;
+import com.mapshot.api.application.auth.AdminValidation;
+import com.mapshot.api.application.auth.Validation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,7 +10,7 @@ import lombok.Getter;
 public enum Accessible {
 
     ADMIN(AdminValidation.class),
-    EVERYONE(null),
+//    EVERYONE(null),
     ;
 
 

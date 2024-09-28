@@ -1,4 +1,4 @@
-package com.mapshot.api.infra.auth.token;
+package com.mapshot.api.application.auth.token;
 
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;

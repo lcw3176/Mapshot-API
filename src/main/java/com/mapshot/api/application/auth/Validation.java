@@ -1,4 +1,4 @@
-package com.mapshot.api.infra.auth;
+package com.mapshot.api.application.auth;
 
 
 import jakarta.servlet.http.HttpServletRequest;
