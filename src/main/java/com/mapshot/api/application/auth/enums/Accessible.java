@@ -10,7 +10,7 @@ import lombok.Getter;
 public enum Accessible {
 
     ADMIN(AdminValidation.class),
-    EVERYONE(null),
+//    EVERYONE(null),
     ;
 
 

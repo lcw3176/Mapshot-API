@@ -37,22 +37,15 @@ public class AuthInterceptor implements HandlerInterceptor {
             throw new ApiException(ErrorCode.HANDLER_NOT_FOUND);
         }
 
-        // fixme 얘좀 날리자
         PreAuth preAuth = method.getMethodAnnotation(PreAuth.class);
 
         if (preAuth == null) {
             return true;
-//            throw new ApiException(ErrorCode.NO_PRE_AUTH);
         }
 
         Accessible[] accessible = preAuth.value();
 
         for (Accessible type : accessible) {
-
-            if (type == Accessible.EVERYONE) {
-                continue;
-            }
-
             Validation validation = applicationContext.getBean(type.getValidationClass());
             validation.checkValidation(request);
         }
