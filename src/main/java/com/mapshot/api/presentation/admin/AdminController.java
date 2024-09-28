@@ -19,7 +19,6 @@ public class AdminController {
 
     private final AdminUseCase adminUseCase;
 
-    @PreAuth(Accessible.EVERYONE)
     @PostMapping("/user/login")
     public ResponseEntity<Void> login(@RequestBody AdminUserRequest request) {
         HttpHeaders authHeader = adminUseCase.login(request.getNickname(), request.getPassword());

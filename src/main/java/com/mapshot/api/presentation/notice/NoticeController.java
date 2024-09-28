@@ -21,7 +21,6 @@ public class NoticeController {
 
     private final NoticeUseCase noticeUseCase;
 
-    @PreAuth(Accessible.EVERYONE)
     @GetMapping
     public ResponseEntity<NoticeListResponse> showNoticeList(
             @PositiveOrZero @RequestParam(value = "page", defaultValue = "0", required = false) int page) {
@@ -31,7 +30,6 @@ public class NoticeController {
         return ResponseEntity.ok(noticeListResponses);
     }
 
-    @PreAuth(Accessible.EVERYONE)
     @GetMapping("/{postNumber}")
     public ResponseEntity<NoticeDetailResponse> showNotice(
             @Positive @PathVariable(value = "postNumber") long postNumber) {

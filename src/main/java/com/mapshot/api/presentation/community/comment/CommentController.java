@@ -20,7 +20,6 @@ public class CommentController {
 
     private final CommentUseCase commentUseCase;
 
-    @PreAuth(Accessible.EVERYONE)
     @GetMapping
     public ResponseEntity<CommentResponse> getPosts(@PositiveOrZero @RequestParam(value = "page", defaultValue = "0", required = false) int page,
                                                     @PositiveOrZero @RequestParam(value = "postId") long postId) {
@@ -31,7 +30,6 @@ public class CommentController {
     }
 
 
-    @PreAuth(Accessible.EVERYONE)
     @PostMapping("/register")
     public ResponseEntity<Void> registerPost(@Valid @RequestBody CommentRegisterRequest request) {
         commentUseCase.save(request.getWriter(), request.getContent(), request.getPostId(), request.getPassword());
@@ -39,7 +37,6 @@ public class CommentController {
         return ResponseEntity.ok().build();
     }
 
-    @PreAuth(Accessible.EVERYONE)
     @GetMapping("/delete/{commentId}")
     public ResponseEntity<Void> deletePost(@Positive @PathVariable(value = "commentId") long commentId,
                                            @RequestParam("password") String password) {

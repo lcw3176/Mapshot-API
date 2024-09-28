@@ -21,7 +21,7 @@ public class PostController {
 
     private final PostUseCase postUseCase;
 
-    @PreAuth(Accessible.EVERYONE)
+
     @GetMapping
     public ResponseEntity<PostListResponse> getPosts(@PositiveOrZero @RequestParam(value = "page", defaultValue = "0", required = false) int page) {
         PostListResponse responses = postUseCase.getPostList(page);
@@ -30,7 +30,6 @@ public class PostController {
     }
 
 
-    @PreAuth(Accessible.EVERYONE)
     @GetMapping("/{id}")
     public ResponseEntity<PostDetailResponse> getSinglePost(@Positive @PathVariable(value = "id") long id) {
         PostDetailResponse response = postUseCase.getPost(id);
@@ -39,7 +38,6 @@ public class PostController {
     }
 
 
-    @PreAuth(Accessible.EVERYONE)
     @PostMapping("/register")
     public ResponseEntity<Void> registerPost(@Valid @RequestBody PostRegisterRequest request) {
         postUseCase.save(request.getWriter(), request.getContent(), request.getTitle(), request.getPassword());
@@ -47,7 +45,6 @@ public class PostController {
         return ResponseEntity.ok().build();
     }
 
-    @PreAuth(Accessible.EVERYONE)
     @GetMapping("/delete/{postNumber}")
     public ResponseEntity<Void> deletePost(@Positive @PathVariable(value = "postNumber") long postNumber,
                                            @RequestParam("password") String password) {
