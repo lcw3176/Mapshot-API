@@ -1,6 +1,9 @@
 package com.mapshot.api.application.auth;
 
 import com.mapshot.api.application.auth.token.TokenProcessor;
+import com.mapshot.api.infra.exception.ApiException;
+import com.mapshot.api.infra.exception.status.ErrorCode;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,6 +11,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+
+import java.util.Arrays;
 
 
 @Component
@@ -29,7 +34,18 @@ public class AdminValidation implements Validation {
 
     @Override
     public void checkValidation(HttpServletRequest request) {
-        String token = request.getHeader(ADMIN_HEADER_NAME);
+
+        if (request.getCookies() == null) {
+            throw new ApiException(ErrorCode.NO_AUTH_TOKEN);
+        }
+
+        Cookie cookie = Arrays.stream(request.getCookies())
+                .filter(i -> i.getName().equals(ADMIN_HEADER_NAME))
+                .findAny()
+                .orElseThrow(() -> new ApiException(ErrorCode.NO_AUTH_TOKEN));
+
+        String token = cookie.getValue();
+
         tokenProcessor.isValid(JWT_SECRET, token);
     }
 
@@ -46,5 +62,14 @@ public class AdminValidation implements Validation {
         map.add(ADMIN_HEADER_NAME, token);
 
         return HttpHeaders.readOnlyHttpHeaders(map);
+    }
+
+    @Override
+    public Cookie makeCookie() {
+        Cookie cookie = new Cookie(ADMIN_HEADER_NAME, tokenProcessor.makeToken(DEFAULT_SECONDS, JWT_SECRET));
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(60 * 60);
+
+        return cookie;
     }
 }

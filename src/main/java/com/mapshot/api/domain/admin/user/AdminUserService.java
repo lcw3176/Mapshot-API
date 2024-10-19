@@ -1,11 +1,9 @@
 package com.mapshot.api.domain.admin.user;
 
-import com.mapshot.api.application.auth.Validation;
 import com.mapshot.api.infra.encrypt.EncryptUtil;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdminUserService {
 
     private final AdminUserRepository adminUserRepository;
-    private final Validation adminValidation;
 
     @Transactional(readOnly = true)
     public void validationCheck(String nickname, String password) {
@@ -23,11 +20,5 @@ public class AdminUserService {
         adminUserRepository.findByNicknameAndPassword(nickname, password)
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_USER));
     }
-
-
-    public HttpHeaders getAuthHeader() {
-        return adminValidation.makeHeader();
-    }
-
 
 }
