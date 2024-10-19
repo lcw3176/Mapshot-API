@@ -34,13 +34,18 @@ public class AdminValidation implements Validation {
 
     @Override
     public void checkValidation(HttpServletRequest request) {
+
+        if (request.getCookies() == null) {
+            throw new ApiException(ErrorCode.NO_AUTH_TOKEN);
+        }
+
         Cookie cookie = Arrays.stream(request.getCookies())
                 .filter(i -> i.getName().equals(ADMIN_HEADER_NAME))
                 .findAny()
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_AUTH_TOKEN));
 
-        String token = cookie.getAttribute(ADMIN_HEADER_NAME);
-        
+        String token = cookie.getValue();
+
         tokenProcessor.isValid(JWT_SECRET, token);
     }
 
