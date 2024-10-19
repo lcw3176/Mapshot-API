@@ -2,6 +2,7 @@ package com.mapshot.api.presentation.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapshot.api.SlackMockExtension;
+import com.mapshot.api.application.auth.Validation;
 import com.mapshot.api.domain.admin.user.AdminUserEntity;
 import com.mapshot.api.domain.admin.user.AdminUserRepository;
 import com.mapshot.api.domain.community.post.PostEntity;
@@ -9,7 +10,6 @@ import com.mapshot.api.domain.community.post.PostRepository;
 import com.mapshot.api.domain.notice.NoticeEntity;
 import com.mapshot.api.domain.notice.NoticeRepository;
 import com.mapshot.api.domain.notice.NoticeType;
-import com.mapshot.api.application.auth.Validation;
 import com.mapshot.api.infra.encrypt.EncryptUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,28 +42,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class AdminControllerTest extends SlackMockExtension {
 
 
+    private static final String BASE_URL = "/admin";
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private Validation adminValidation;
-
     @Autowired
     private AdminUserRepository adminUserRepository;
-
     @Autowired
     private PostRepository postRepository;
-
     @Autowired
     private NoticeRepository noticeRepository;
-
     @Autowired
     private ObjectMapper mapper;
-
     @Value("${jwt.admin.header}")
     private String ADMIN_HEADER_NAME;
-
-    private static final String BASE_URL = "/admin";
 
     @BeforeEach
     void init() {
@@ -109,7 +102,9 @@ class AdminControllerTest extends SlackMockExtension {
         mockMvc.perform(
                         RestDocumentationRequestBuilders.get(BASE_URL + "/post/delete/{postNumber}", id)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader())))
+                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader()))
+                                .cookie(adminValidation.makeCookie())
+                )
                 .andExpect(status().isOk())
                 .andDo(document("post/delete",
                         preprocessRequest(prettyPrint()),
@@ -145,7 +140,9 @@ class AdminControllerTest extends SlackMockExtension {
                         RestDocumentationRequestBuilders.post(BASE_URL + "/notice/register")
                                 .content(mapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader())))
+                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader()))
+                                .cookie(adminValidation.makeCookie())
+                )
                 .andExpect(status().isOk())
                 .andDo(document("notice/register",
                         preprocessRequest(prettyPrint()),
@@ -183,7 +180,9 @@ class AdminControllerTest extends SlackMockExtension {
         mockMvc.perform(
                         RestDocumentationRequestBuilders.get(BASE_URL + "/notice/delete/{noticeNumber}", id)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader())))
+                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader()))
+                                .cookie(adminValidation.makeCookie())
+                )
                 .andExpect(status().isOk())
                 .andDo(document("notice/delete",
                         preprocessRequest(prettyPrint()),
@@ -219,7 +218,9 @@ class AdminControllerTest extends SlackMockExtension {
                         RestDocumentationRequestBuilders.post(BASE_URL + "/notice/modify/{noticeNumber}", id)
                                 .content(mapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader())))
+                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader()))
+                                .cookie(adminValidation.makeCookie())
+                )
                 .andExpect(status().isOk())
                 .andDo(document("notice/modify",
                         preprocessRequest(prettyPrint()),
@@ -279,7 +280,9 @@ class AdminControllerTest extends SlackMockExtension {
         mockMvc.perform(
                         RestDocumentationRequestBuilders.post(BASE_URL + "/user/auth/refresh")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader())))
+                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader()))
+                                .cookie(adminValidation.makeCookie())
+                )
                 .andExpect(status().isOk())
                 .andDo(document("admin/auth/refresh",
                         preprocessRequest(prettyPrint()),
