@@ -1,6 +1,8 @@
 package com.mapshot.api.application.auth;
 
 import com.mapshot.api.application.auth.token.TokenProcessor;
+import com.mapshot.api.infra.exception.ApiException;
+import com.mapshot.api.infra.exception.status.ErrorCode;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+
+import java.util.Arrays;
 
 
 @Component
@@ -30,7 +34,13 @@ public class AdminValidation implements Validation {
 
     @Override
     public void checkValidation(HttpServletRequest request) {
-        String token = request.getHeader(ADMIN_HEADER_NAME);
+        Cookie cookie = Arrays.stream(request.getCookies())
+                .filter(i -> i.getName().equals(ADMIN_HEADER_NAME))
+                .findAny()
+                .orElseThrow(() -> new ApiException(ErrorCode.NO_AUTH_TOKEN));
+
+        String token = cookie.getAttribute(ADMIN_HEADER_NAME);
+        
         tokenProcessor.isValid(JWT_SECRET, token);
     }
 
