@@ -1,9 +1,12 @@
 package com.mapshot.api.presentation.admin;
 
 import com.mapshot.api.application.admin.AdminUseCase;
-import com.mapshot.api.domain.notice.NoticeType;
+import com.mapshot.api.application.auth.Validation;
 import com.mapshot.api.application.auth.annotation.PreAuth;
 import com.mapshot.api.application.auth.enums.Accessible;
+import com.mapshot.api.domain.notice.NoticeType;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -18,10 +21,19 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     private final AdminUseCase adminUseCase;
+    private final Validation adminValidation;
+
 
     @PostMapping("/user/login")
-    public ResponseEntity<Void> login(@RequestBody AdminUserRequest request) {
-        HttpHeaders authHeader = adminUseCase.login(request.getNickname(), request.getPassword());
+    public ResponseEntity<Void> login(@RequestBody AdminUserRequest request, HttpServletResponse response) {
+        adminUseCase.login(request.getNickname(), request.getPassword());
+
+        // fixme
+        // 호환성 때문에 일단 놔둠
+        HttpHeaders authHeader = adminValidation.makeHeader();
+
+        Cookie cookie = adminValidation.makeCookie();
+        response.addCookie(cookie);
 
         return ResponseEntity.ok()
                 .headers(authHeader)
@@ -30,8 +42,11 @@ public class AdminController {
 
     @PreAuth(Accessible.ADMIN)
     @PostMapping("/user/auth/refresh")
-    public ResponseEntity<Void> refreshAuth() {
-        HttpHeaders authHeader = adminUseCase.getAuth();
+    public ResponseEntity<Void> refreshAuth(HttpServletResponse response) {
+        HttpHeaders authHeader = adminValidation.makeHeader();
+
+        Cookie cookie = adminValidation.makeCookie();
+        response.addCookie(cookie);
 
         return ResponseEntity.ok()
                 .headers(authHeader)

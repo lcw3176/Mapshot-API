@@ -7,7 +7,6 @@ import com.mapshot.api.domain.news.NewsService;
 import com.mapshot.api.domain.notice.NoticeService;
 import com.mapshot.api.domain.notice.NoticeType;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -24,13 +23,10 @@ public class AdminUseCase {
     private final NewsService newsService;
 
 
-    public HttpHeaders login(String nickname, String password) {
+    public Boolean login(String nickname, String password) {
         adminUserService.validationCheck(nickname, password);
-        return adminUserService.getAuthHeader();
-    }
 
-    public HttpHeaders getAuth() {
-        return adminUserService.getAuthHeader();
+        return true;
     }
 
     public void saveNotice(NoticeType type, String title, String content) {

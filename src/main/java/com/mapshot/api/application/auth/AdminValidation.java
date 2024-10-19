@@ -1,6 +1,7 @@
 package com.mapshot.api.application.auth;
 
 import com.mapshot.api.application.auth.token.TokenProcessor;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,5 +47,14 @@ public class AdminValidation implements Validation {
         map.add(ADMIN_HEADER_NAME, token);
 
         return HttpHeaders.readOnlyHttpHeaders(map);
+    }
+
+    @Override
+    public Cookie makeCookie() {
+        Cookie cookie = new Cookie(ADMIN_HEADER_NAME, tokenProcessor.makeToken(DEFAULT_SECONDS, JWT_SECRET));
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(60 * 60);
+
+        return cookie;
     }
 }
