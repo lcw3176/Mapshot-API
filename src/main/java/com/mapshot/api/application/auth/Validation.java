@@ -15,4 +15,6 @@ public interface Validation {
     HttpHeaders makeHeader();
 
     Cookie makeCookie();
+
+    boolean isAuthUser(HttpServletRequest request);
 }

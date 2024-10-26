@@ -30,4 +30,13 @@ public class TokenProcessor {
         }
     }
 
+    public boolean isStillValid(String secretKey, String token) {
+        try {
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }
