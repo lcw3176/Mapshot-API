@@ -71,6 +71,7 @@ public class AdminValidation implements Validation {
         cookie.setMaxAge(60 * 60);
         cookie.setSecure(true);
         cookie.setDomain("kmapshot.com");
+        cookie.setPath("/");
 
         return cookie;
     }
