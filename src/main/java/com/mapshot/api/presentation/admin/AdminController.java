@@ -28,6 +28,8 @@ public class AdminController {
     @PostMapping("/user/login")
     public ResponseEntity<Void> login(@RequestBody AdminUserRequest request, HttpServletRequest httpRequest, HttpServletResponse response) {
         if (adminValidation.isAuthUser(httpRequest)) {
+            // 헤더쪽 내일 걷어내자
+            // fixme
             return ResponseEntity.ok().build();
         }
 
