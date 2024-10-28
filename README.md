@@ -19,6 +19,12 @@
 직접 한 구역씩 캡쳐해서 포토샵으로 합치는 프로세스를 자동화해서,
 기존 작업 대비 효율적인 업무가 가능합니다. (약 1시간 -> 10초)
 
+### 작업 목록
+
+- [todo](https://github.com/users/lcw3176/projects/1/views/3?sliceBy%5Bvalue%5D=Todo)
+- [in-progress](https://github.com/users/lcw3176/projects/1/views/3?sliceBy%5Bvalue%5D=In+progress)
+
+
 ## 작동 방식
 
 ![화면 캡처 2023-07-02 211656](https://github.com/lcw3176/mapshot-admin/assets/59993347/54d34f27-bfe8-4bc3-91a4-c051c2128c7d)
