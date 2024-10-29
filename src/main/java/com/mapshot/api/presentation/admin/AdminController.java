@@ -26,7 +26,7 @@ public class AdminController {
 
 
     @PostMapping("/user/login")
-    public ResponseEntity<Void> login(@RequestBody AdminUserRequest request, HttpServletRequest httpRequest, HttpServletResponse response) {
+    public ResponseEntity<Void> login(@RequestBody AdminUserRequest request, HttpServletRequest httpRequest, HttpServletResponse response) throws IOException {
         if (adminValidation.isAuthUser(httpRequest)) {
             response.sendRedirect("https://admin.kmapshot.com/home");
             return ResponseEntity.ok().build();
