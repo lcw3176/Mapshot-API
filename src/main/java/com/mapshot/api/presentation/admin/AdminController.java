@@ -6,7 +6,6 @@ import com.mapshot.api.application.auth.annotation.PreAuth;
 import com.mapshot.api.application.auth.enums.Accessible;
 import com.mapshot.api.domain.notice.NoticeType;
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,12 +25,7 @@ public class AdminController {
 
 
     @PostMapping("/user/login")
-    public ResponseEntity<Void> login(@RequestBody AdminUserRequest request, HttpServletRequest httpRequest, HttpServletResponse response) throws IOException {
-        if (adminValidation.isAuthUser(httpRequest)) {
-            response.sendRedirect("https://admin.kmapshot.com/home");
-            return ResponseEntity.ok().build();
-        }
-
+    public ResponseEntity<Void> login(@RequestBody AdminUserRequest request, HttpServletResponse response) {
         adminUseCase.login(request.getNickname(), request.getPassword());
 
         // fixme
@@ -47,7 +39,7 @@ public class AdminController {
                 .headers(authHeader)
                 .build();
     }
-
+    
     @PreAuth(Accessible.ADMIN)
     @PostMapping("/user/auth/refresh")
     public ResponseEntity<Void> refreshAuth(HttpServletResponse response) {
