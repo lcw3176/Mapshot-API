@@ -8,7 +8,7 @@ import org.springframework.http.HttpHeaders;
 // fixme 얘좀 없애자
 public interface Validation {
 
-    void checkValidation(HttpServletRequest request);
+    boolean checkValidation(HttpServletRequest request);
 
     String makeToken();
 

@@ -34,7 +34,7 @@ public class AdminValidation implements Validation {
 
 
     @Override
-    public void checkValidation(HttpServletRequest request) {
+    public boolean checkValidation(HttpServletRequest request) {
 
         if (request.getCookies() == null) {
             throw new ApiException(ErrorCode.NO_AUTH_TOKEN);
@@ -46,8 +46,9 @@ public class AdminValidation implements Validation {
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_AUTH_TOKEN));
 
         String token = cookie.getValue();
-
-        tokenProcessor.isValid(JWT_SECRET, token);
+        // fixme
+        // 나중에 통합하자
+        return tokenProcessor.isStillValid(JWT_SECRET, token);
     }
 
     @Override
