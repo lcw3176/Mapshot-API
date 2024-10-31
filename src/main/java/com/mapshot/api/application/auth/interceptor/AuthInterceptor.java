@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import java.io.IOException;
 import java.util.Objects;
 
 @Component
@@ -23,7 +24,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     private final ApplicationContext applicationContext;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
 
         if (isPreflightRequest(request)) {
             return true;
@@ -47,7 +48,12 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         for (Accessible type : accessible) {
             Validation validation = applicationContext.getBean(type.getValidationClass());
-            validation.checkValidation(request);
+
+            // fixme
+            // 여기도 나중에 좀 어떻게
+            if (!validation.checkValidation(request)) {
+                response.sendRedirect("https://admin.kmapshot.com/login");
+            }
         }
 
         return true;
