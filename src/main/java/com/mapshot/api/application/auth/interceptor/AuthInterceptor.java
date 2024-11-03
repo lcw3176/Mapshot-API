@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -52,7 +53,8 @@ public class AuthInterceptor implements HandlerInterceptor {
             // fixme
             // 여기도 나중에 좀 어떻게
             if (!validation.checkValidation(request)) {
-                response.sendRedirect("https://admin.kmapshot.com/login");
+                response.setStatus(HttpStatus.FOUND.value());
+                return false;
             }
         }
 
