@@ -39,7 +39,10 @@ public class AdminController {
                 .headers(authHeader)
                 .build();
     }
-    
+
+    // 유효성 검사 용도 하나 있어야 할 듯
+    // 이게 어드민 기능 작동시에만 검사하니까 좀 애매한 부분들이 있음
+
     @PreAuth(Accessible.ADMIN)
     @PostMapping("/user/auth/refresh")
     public ResponseEntity<Void> refreshAuth(HttpServletResponse response) {
