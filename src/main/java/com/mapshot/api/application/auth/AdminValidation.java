@@ -69,7 +69,6 @@ public class AdminValidation implements Validation {
     @Override
     public Cookie makeCookie() {
         Cookie cookie = new Cookie(ADMIN_HEADER_NAME, tokenProcessor.makeToken(DEFAULT_SECONDS, JWT_SECRET));
-        cookie.setHttpOnly(true);
         cookie.setMaxAge(60 * 60);
         cookie.setSecure(true);
         cookie.setDomain("kmapshot.com");
