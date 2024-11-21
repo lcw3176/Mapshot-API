@@ -7,10 +7,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -56,15 +53,6 @@ public class AdminValidation implements Validation {
         return tokenProcessor.makeToken(DEFAULT_SECONDS, JWT_SECRET);
     }
 
-    @Override
-    public HttpHeaders makeHeader() {
-        String token = tokenProcessor.makeToken(DEFAULT_SECONDS, JWT_SECRET);
-
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add(ADMIN_HEADER_NAME, token);
-
-        return HttpHeaders.readOnlyHttpHeaders(map);
-    }
 
     @Override
     public Cookie makeCookie() {
