@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
@@ -102,7 +101,6 @@ class AdminControllerTest extends SlackMockExtension {
         mockMvc.perform(
                         RestDocumentationRequestBuilders.get(BASE_URL + "/post/delete/{postNumber}", id)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader()))
                                 .cookie(adminValidation.makeCookie())
                 )
                 .andExpect(status().isOk())
@@ -140,7 +138,6 @@ class AdminControllerTest extends SlackMockExtension {
                         RestDocumentationRequestBuilders.post(BASE_URL + "/notice/register")
                                 .content(mapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader()))
                                 .cookie(adminValidation.makeCookie())
                 )
                 .andExpect(status().isOk())
@@ -180,7 +177,6 @@ class AdminControllerTest extends SlackMockExtension {
         mockMvc.perform(
                         RestDocumentationRequestBuilders.get(BASE_URL + "/notice/delete/{noticeNumber}", id)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader()))
                                 .cookie(adminValidation.makeCookie())
                 )
                 .andExpect(status().isOk())
@@ -218,7 +214,6 @@ class AdminControllerTest extends SlackMockExtension {
                         RestDocumentationRequestBuilders.post(BASE_URL + "/notice/modify/{noticeNumber}", id)
                                 .content(mapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader()))
                                 .cookie(adminValidation.makeCookie())
                 )
                 .andExpect(status().isOk())
@@ -280,7 +275,6 @@ class AdminControllerTest extends SlackMockExtension {
         mockMvc.perform(
                         RestDocumentationRequestBuilders.post(BASE_URL + "/user/auth/refresh")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .headers(HttpHeaders.readOnlyHttpHeaders(adminValidation.makeHeader()))
                                 .cookie(adminValidation.makeCookie())
                 )
                 .andExpect(status().isOk())
