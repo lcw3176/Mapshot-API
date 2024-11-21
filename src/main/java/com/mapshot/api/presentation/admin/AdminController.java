@@ -9,7 +9,6 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,28 +27,21 @@ public class AdminController {
     public ResponseEntity<Void> login(@RequestBody AdminUserRequest request, HttpServletResponse response) {
         adminUseCase.login(request.getNickname(), request.getPassword());
 
-        // fixme
-        // 호환성 때문에 일단 놔둠
-        HttpHeaders authHeader = adminValidation.makeHeader();
-
         Cookie cookie = adminValidation.makeCookie();
         response.addCookie(cookie);
 
         return ResponseEntity.ok()
-                .headers(authHeader)
                 .build();
     }
 
     @PreAuth(Accessible.ADMIN)
     @PostMapping("/user/auth/refresh")
     public ResponseEntity<Void> refreshAuth(HttpServletResponse response) {
-        HttpHeaders authHeader = adminValidation.makeHeader();
 
         Cookie cookie = adminValidation.makeCookie();
         response.addCookie(cookie);
 
         return ResponseEntity.ok()
-                .headers(authHeader)
                 .build();
     }
 
