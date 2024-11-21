@@ -24,8 +24,6 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
-import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -107,9 +105,6 @@ class AdminControllerTest extends SlackMockExtension {
                 .andDo(document("post/delete",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestHeaders(
-                                headerWithName(ADMIN_HEADER_NAME).description("관리자 인증 토큰")
-                        ),
                         pathParameters(
                                 parameterWithName("postNumber").description("게시글 번호")
                         )));
@@ -144,9 +139,6 @@ class AdminControllerTest extends SlackMockExtension {
                 .andDo(document("notice/register",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestHeaders(
-                                headerWithName(ADMIN_HEADER_NAME).description("관리자 인증 토큰")
-                        ),
                         requestFields(
                                 fieldWithPath("title").description("공지사항 제목"),
                                 fieldWithPath("content").description("공지사항 내용"),
@@ -183,9 +175,6 @@ class AdminControllerTest extends SlackMockExtension {
                 .andDo(document("notice/delete",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestHeaders(
-                                headerWithName(ADMIN_HEADER_NAME).description("관리자 인증 토큰")
-                        ),
                         pathParameters(
                                 parameterWithName("noticeNumber").description("게시글 번호")
                         )));
@@ -220,9 +209,6 @@ class AdminControllerTest extends SlackMockExtension {
                 .andDo(document("notice/modify",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestHeaders(
-                                headerWithName(ADMIN_HEADER_NAME).description("관리자 인증 토큰")
-                        ),
                         requestFields(
                                 fieldWithPath("title").description("수정할 공지사항 제목"),
                                 fieldWithPath("content").description("수정할 공지사항 내용"),
@@ -270,21 +256,6 @@ class AdminControllerTest extends SlackMockExtension {
                         )));
     }
 
-    @Test
-    void 관리자_로그인_연장_테스트() throws Exception {
-        mockMvc.perform(
-                        RestDocumentationRequestBuilders.post(BASE_URL + "/user/auth/refresh")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .cookie(adminValidation.makeCookie())
-                )
-                .andExpect(status().isOk())
-                .andDo(document("admin/auth/refresh",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        requestHeaders(
-                                headerWithName(ADMIN_HEADER_NAME).description("관리자 인증 토큰")
-                        )));
-    }
 
     @Test
     void 토큰_없이_관리자_로그인_연장_요청시_예외() throws Exception {
