@@ -195,7 +195,7 @@ include::{snippets}/comment/delete/http-response.adoc[]
 === 로그인
 
 관리자 권한을 요청합니다.
-알맞은 아이디와 비밀번호 입력 시 관리자 전용 토큰이 헤더값으로 주어집니다.
+알맞은 아이디와 비밀번호 입력 시 관리자 전용 토큰이 쿠키값으로 주어집니다.
 
 request
 
@@ -210,10 +210,6 @@ include::{snippets}/admin/login/http-response.adoc[]
 
 관리자 계정의 로그인 상태를 연장합니다.
 인증시간이 갱신된 새로운 토큰이 발급됩니다.
-
-header
-
-include::{snippets}/admin/auth/refresh/request-headers.adoc[]
 
 request
 
