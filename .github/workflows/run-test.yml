@@ -1,14 +1,7 @@
-name: CI
+name: run-test
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
-      - dev
-      - feature/*
+  workflow_call: 
 
 jobs:
   test:
