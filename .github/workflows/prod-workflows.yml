@@ -1,0 +1,19 @@
+name: main-workflow
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+      - feature/*
+
+jobs:
+  call-test:
+    name: run test
+    uses: ./.github/workflows/run-test.yml
+
+  call-build:
+    name: run build
+    needs: call-test  
+    if: success()  
+    uses: ./.github/workflows/build-prod.yml  
