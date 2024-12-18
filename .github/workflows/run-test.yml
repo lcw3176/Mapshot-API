@@ -1,8 +1,14 @@
 name: run-test
 
 on:
-  workflow_call: 
-
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+      - dev
+      - feature/*
 jobs:
   test:
     runs-on: ubuntu-latest

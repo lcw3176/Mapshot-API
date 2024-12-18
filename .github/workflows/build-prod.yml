@@ -1,8 +1,14 @@
 name: build-prod
 
 on:
-  workflow_call:
-
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+      - dev
+      - feature/*
 
 jobs:
   build:
