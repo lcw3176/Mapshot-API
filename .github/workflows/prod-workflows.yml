@@ -17,11 +17,3 @@ jobs:
     needs: call-test
     if: success()
     uses: ./.github/workflows/build-prod.yml
-    with:
-      username: ${{ secrets.DOCKERHUB_USERNAME }}
-      password: ${{ secrets.DOCKERHUB_TOKEN }}
-      repo_path: ${{ secrets.MAPSHOT_DOCKERHUB_REPO_PATH }}
-    secrets:
-      username: ${{ secrets.DOCKERHUB_USERNAME }}
-      password: ${{ secrets.DOCKERHUB_TOKEN }}
-      repo_path: ${{ secrets.MAPSHOT_DOCKERHUB_REPO_PATH }}
