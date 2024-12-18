@@ -9,6 +9,9 @@ on:
       password:
         required: true
         type: string
+      repo_path:
+        required: true
+        type: string
 
 jobs:
   build:
@@ -39,7 +42,7 @@ jobs:
 
       - name: Change Tag Name And Push
         env:
-          REPO_PATH: ${{ secrets.MAPSHOT_DOCKERHUB_REPO_PATH }}
+          REPO_PATH: ${{ inputs.repo_path }}
         run: |
           IMAGE_ID=$(sudo docker images --filter=reference=mapshot-native --format "{{.ID}}")
           docker tag $IMAGE_ID $REPO_PATH:mapshot-prod
