@@ -22,7 +22,7 @@ class TokenProcessorTest {
     }
 
     @Test
-    void 유효하지_않은_토큰이면_예외_발생() {
+    void 유효하지_않은_토큰이면_false_리턴() {
         String token = "hellohello";
 
         Assertions.assertFalse(tokenProcessor.isValid(key, token));
