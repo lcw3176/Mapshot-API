@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 
 @Component
@@ -63,24 +62,5 @@ public class AdminValidation implements Validation {
         cookie.setPath("/");
 
         return cookie;
-    }
-
-    @Override
-    public boolean isAuthUser(HttpServletRequest request) {
-        if (request.getCookies() == null) {
-            return false;
-        }
-
-        Optional<Cookie> cookie = Arrays.stream(request.getCookies())
-                .filter(i -> i.getName().equals(ADMIN_HEADER_NAME))
-                .findAny();
-
-        if (cookie.isEmpty()) {
-            return false;
-        }
-
-        String token = cookie.get().getValue();
-
-        return tokenProcessor.isStillValid(JWT_SECRET, token);
     }
 }
