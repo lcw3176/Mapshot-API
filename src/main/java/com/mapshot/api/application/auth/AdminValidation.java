@@ -42,9 +42,8 @@ public class AdminValidation implements Validation {
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_AUTH_TOKEN));
 
         String token = cookie.getValue();
-        // fixme
-        // 나중에 통합하자
-        return tokenProcessor.isStillValid(JWT_SECRET, token);
+
+        return tokenProcessor.isValid(JWT_SECRET, token);
     }
 
     @Override

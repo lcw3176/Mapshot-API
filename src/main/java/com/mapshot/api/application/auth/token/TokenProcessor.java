@@ -1,7 +1,5 @@
 package com.mapshot.api.application.auth.token;
 
-import com.mapshot.api.infra.exception.ApiException;
-import com.mapshot.api.infra.exception.status.ErrorCode;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Component;
@@ -21,16 +19,7 @@ public class TokenProcessor {
                 .compact();
     }
 
-    public void isValid(String secretKey, String token) {
-        try {
-            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-
-        } catch (Exception e) {
-            throw new ApiException(ErrorCode.NOT_VALID_TOKEN);
-        }
-    }
-
-    public boolean isStillValid(String secretKey, String token) {
+    public boolean isValid(String secretKey, String token) {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return true;

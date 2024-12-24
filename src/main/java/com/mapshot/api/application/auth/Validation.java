@@ -13,5 +13,4 @@ public interface Validation {
 
     Cookie makeCookie();
 
-    boolean isAuthUser(HttpServletRequest request);
 }
