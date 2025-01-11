@@ -39,6 +39,3 @@ jobs:
           REPO_PATH: ${{ secrets.MAPSHOT_DOCKERHUB_REPO_PATH }}
         run: ./gradlew jib -x test
           -Djib.to.image=$REPO_PATH
-          -Djib.to.tags=mapshot-prod
-          -Djib.container.creationTime=USE_CURRENT_TIMESTAMP
-          -Djib.container.jvmFlags=-XX:MaxRAMPercentage=30.0,-XX:MinRAMPercentage=30.0,-Duser.timezone=Asia/Seoul

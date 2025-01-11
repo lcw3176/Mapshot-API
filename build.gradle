@@ -3,7 +3,7 @@ plugins {
     id 'org.springframework.boot' version '3.0.3'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
-    id 'com.google.cloud.tools.jib' version '3.1.2'
+    id 'com.google.cloud.tools.jib' version '3.3.1'
 //    id 'org.graalvm.buildtools.native' version '0.9.17'
 }
 
@@ -96,11 +96,12 @@ jib {
     from {
         image = "eclipse-temurin:17-jre"
     }
+    
     container {
         creationTime = "USE_CURRENT_TIMESTAMP"
+        jvmFlags = ["-Xmx=400m", "-Xms=400m", "-Duser.timezone=Asia/Seoul"]
     }
 }
-
 //bootBuildImage {
 //    imageName = 'mapshot-native'
 //    environment = [
