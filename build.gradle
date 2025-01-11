@@ -96,10 +96,10 @@ jib {
     from {
         image = "eclipse-temurin:17-jre"
     }
-    
+
     container {
         creationTime = "USE_CURRENT_TIMESTAMP"
-        jvmFlags = ["-Xmx=400m", "-Xms=400m", "-Duser.timezone=Asia/Seoul"]
+        jvmFlags = ["-Xmx=300m", "-Xms=300m", "-Duser.timezone=Asia/Seoul"]
     }
 }
 //bootBuildImage {
