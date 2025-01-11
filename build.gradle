@@ -5,6 +5,7 @@ plugins {
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
     id 'com.google.cloud.tools.jib' version '3.3.1'
 //    id 'org.graalvm.buildtools.native' version '0.9.17'
+    id "io.sentry.jvm.gradle" version "4.14.1"
 }
 
 group = 'com.joebrooks'
@@ -109,7 +110,16 @@ jib {
 //    ]
 //}
 
+sentry {
+    // Generates a JVM (Java, Kotlin, etc.) source bundle and uploads your source code to Sentry.
+    // This enables source context, allowing you to see your source
+    // code as part of your stack traces in Sentry.
+    includeSourceContext = true
 
+    org = "chanwoo-lee-fv"
+    projectName = "java-spring-boot"
+    authToken = System.getenv("SENTRY_AUTH_TOKEN")
+}
 
 
 

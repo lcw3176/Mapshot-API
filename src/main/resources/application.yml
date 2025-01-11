@@ -43,7 +43,7 @@ jwt:
     header: ADMIN_AUTH_TOKEN
     second: 3600
 
-    
+
 community:
   post:
     page_size: 10
@@ -59,3 +59,9 @@ management:
     web:
       exposure:
         include: health, info, prometheus
+
+sentry:
+  dsn: https://04217465cb42cf9e796efc0b8311463b@o4505030048284672.ingest.us.sentry.io/4508625584390144
+  # Set traces-sample-rate to 1.0 to capture 100% of transactions for tracing.
+  # We recommend adjusting this value in production.
+  traces-sample-rate: 1.0

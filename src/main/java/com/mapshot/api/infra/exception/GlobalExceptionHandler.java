@@ -3,6 +3,7 @@ package com.mapshot.api.infra.exception;
 import com.mapshot.api.infra.client.slack.SlackClient;
 import com.mapshot.api.infra.exception.status.ErrorCode;
 import com.mapshot.api.infra.exception.status.StatusCode;
+import io.sentry.Sentry;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,12 +28,14 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void violationExceptionHandler(Exception e) {
         log.error(e.getMessage(), e);
+        Sentry.captureException(e);
     }
 
     @ExceptionHandler({ClassCastException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public void botExceptionHandler(ClassCastException e) {
         log.error(e.getMessage(), e);
+        Sentry.captureException(e);
     }
 
 
@@ -40,6 +43,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> notFoundExceptionHandler(NoHandlerFoundException e) {
         StatusCode code = ErrorCode.HANDLER_NOT_FOUND;
         log.error(e.getMessage(), e);
+        Sentry.captureException(e);
 
         return ResponseEntity.status(code.getHttpStatus())
                 .body(code.getMessage());
@@ -51,6 +55,7 @@ public class GlobalExceptionHandler {
         StatusCode code = e.getCode();
         log.error(code.getMessage(), e);
         slackClient.sendMessage(e);
+        Sentry.captureException(e);
 
         return ResponseEntity.status(code.getHttpStatus())
                 .body(code.getMessage());
@@ -62,5 +67,6 @@ public class GlobalExceptionHandler {
     public void exceptionHandler(Exception e) {
         log.error(e.getMessage(), e);
         slackClient.sendMessage(e);
+        Sentry.captureException(e);
     }
 }
