@@ -104,6 +104,9 @@ tasks.named('test') {
 
 bootBuildImage {
     imageName = 'mapshot-native'
+    environment = [
+            'BP_JVM_HEAP_SIZE': '400m'
+    ]
 }
 
 
