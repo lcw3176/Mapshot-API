@@ -99,7 +99,7 @@ jib {
 
     container {
         creationTime = "USE_CURRENT_TIMESTAMP"
-        jvmFlags = ["-Xmx=300m", "-Xms=300m", "-Duser.timezone=Asia/Seoul"]
+        jvmFlags = ["-Duser.timezone=Asia/Seoul"]
     }
 }
 //bootBuildImage {
