@@ -2,7 +2,6 @@ package com.mapshot.api.domain.news.client.naver;
 
 import com.mapshot.api.infra.client.ApiHandler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
@@ -24,8 +23,7 @@ public class NaverClient {
 
     @Value("${client.naver.secret}")
     private String headerSecret;
-
-    @RegisterReflectionForBinding(NaverNewsResponse.class)
+    
     public NaverNewsResponse searchNews(String query) {
 
         return ApiHandler.handle(() -> naverRestClient.get()
