@@ -2,13 +2,13 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.3'
     id 'io.spring.dependency-management' version '1.1.0'
-    id 'org.asciidoctor.jvm.convert' version '3.3.2'
+//    id 'org.asciidoctor.jvm.convert' version '3.3.2'
     id 'com.google.cloud.tools.jib' version '3.3.1'
 //    id 'org.graalvm.buildtools.native' version '0.9.17'
-    id "io.sentry.jvm.gradle" version "4.14.1"
+//    id "io.sentry.jvm.gradle" version "4.14.1"
 }
 
-group = 'com.joebrooks'
+group = 'com.mapshot'
 version = '1'
 sourceCompatibility = '17'
 
@@ -17,7 +17,7 @@ configurations {
         extendsFrom annotationProcessor
     }
 
-    asciidoctorExt
+//    asciidoctorExt
 }
 
 ext {
@@ -29,11 +29,11 @@ test {
     useJUnitPlatform()
 }
 
-asciidoctor {
-    inputs.dir snippetsDir
-    configurations 'asciidoctorExt'
-    dependsOn test
-}
+//asciidoctor {
+//    inputs.dir snippetsDir
+//    configurations 'asciidoctorExt'
+//    dependsOn test
+//}
 
 //
 //task copyDocument(type: Copy) {
@@ -74,18 +74,23 @@ dependencies {
     implementation 'javax.xml.bind:jaxb-api:2.1'
 
     // rest doc
-    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+//    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    // grafana
+    // 모니터링
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
-
+    // https://mvnrepository.com/artifact/io.opentelemetry/opentelemetry-api
+    implementation 'io.opentelemetry:opentelemetry-api:1.46.0'
+    // https://mvnrepository.com/artifact/io.opentelemetry/opentelemetry-bom
+    implementation 'io.opentelemetry:opentelemetry-context:1.46.0'
     // 국토교통부 데이터 수집
     implementation 'org.jsoup:jsoup:1.17.2'
+
+
 }
 
 tasks.named('test') {
@@ -110,16 +115,16 @@ jib {
 //    ]
 //}
 
-sentry {
-    // Generates a JVM (Java, Kotlin, etc.) source bundle and uploads your source code to Sentry.
-    // This enables source context, allowing you to see your source
-    // code as part of your stack traces in Sentry.
-    includeSourceContext = true
-
-    org = "chanwoo-lee-fv"
-    projectName = "java-spring-boot"
-    authToken = System.getenv("SENTRY_AUTH_TOKEN")
-}
+//sentry {
+//    // Generates a JVM (Java, Kotlin, etc.) source bundle and uploads your source code to Sentry.
+//    // This enables source context, allowing you to see your source
+//    // code as part of your stack traces in Sentry.
+//    includeSourceContext = true
+//
+//    org = "chanwoo-lee-fv"
+//    projectName = "java-spring-boot"
+//    authToken = System.getenv("SENTRY_AUTH_TOKEN")
+//}
 
 
 

@@ -58,10 +58,24 @@ management:
   endpoints:
     web:
       exposure:
-        include: health, info, prometheus
+        include: prometheus
+  metrics:
+    tags:
+      application: app
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: 'true'
+#logging:
+#  pattern:
+#    level: "trace_id=%mdc{trace_id} span_id=%mdc{span_id} trace_flags=%mdc{trace_flags} %p"
+#  level:
+#    com.mapshot.api: DEBUG
 
-sentry:
-  dsn: https://04217465cb42cf9e796efc0b8311463b@o4505030048284672.ingest.us.sentry.io/4508625584390144
-  # Set traces-sample-rate to 1.0 to capture 100% of transactions for tracing.
-  # We recommend adjusting this value in production.
-  traces-sample-rate: 1.0
+
+#sentry:
+#  dsn: https://04217465cb42cf9e796efc0b8311463b@o4505030048284672.ingest.us.sentry.io/4508625584390144
+#  # Set traces-sample-rate to 1.0 to capture 100% of transactions for tracing.
+#  # We recommend adjusting this value in production.
+#  traces-sample-rate: 1.0
