@@ -8,7 +8,7 @@ plugins {
     id "io.sentry.jvm.gradle" version "4.14.1"
 }
 
-group = 'com.joebrooks'
+group = 'com.mapshot'
 version = '1'
 sourceCompatibility = '17'
 
@@ -74,18 +74,23 @@ dependencies {
     implementation 'javax.xml.bind:jaxb-api:2.1'
 
     // rest doc
-    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+//    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    // grafana
+    // 모니터링
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
-
+    // https://mvnrepository.com/artifact/io.opentelemetry/opentelemetry-api
+    implementation 'io.opentelemetry:opentelemetry-api:1.46.0'
+    // https://mvnrepository.com/artifact/io.opentelemetry/opentelemetry-bom
+    implementation 'io.opentelemetry:opentelemetry-context:1.46.0'
     // 국토교통부 데이터 수집
     implementation 'org.jsoup:jsoup:1.17.2'
+
+
 }
 
 tasks.named('test') {

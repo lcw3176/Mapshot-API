@@ -3,7 +3,7 @@
 
     <!-- console -->
     <property name="console.format"
-              value="* %date [%thread] %-5level %logger : {%mdc} - %msg%n"/>
+              value="trace_id=%mdc{trace_id} span_id=%mdc{span_id} trace_flags=%mdc{trace_flags} %date [%thread] %-5level %logger : %msg%n"/>
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <charset>UTF-8</charset>
@@ -12,7 +12,8 @@
     </appender>
 
     <!-- file -->
-    <property name="file.format" value="* %date [%thread] %-5level %logger : {%mdc} - %msg%n"/>
+    <property name="file.format"
+              value="trace_id=%mdc{trace_id} span_id=%mdc{span_id} trace_flags=%mdc{trace_flags} %date [%thread] %-5level %logger : %msg%n"/>
     <appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>./mapshot-executor/app.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">

@@ -58,7 +58,15 @@ management:
   endpoints:
     web:
       exposure:
-        include: health, info, prometheus
+        include: prometheus
+  metrics:
+    tags:
+      application: app
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: 'true'
 
 sentry:
   dsn: https://04217465cb42cf9e796efc0b8311463b@o4505030048284672.ingest.us.sentry.io/4508625584390144
