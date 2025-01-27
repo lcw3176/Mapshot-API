@@ -7,7 +7,6 @@
 <img src="https://github.com/lcw3176/Mapshot-API/assets/59993347/ab56afd5-915b-4670-a86c-7b185359c941">
 </p>
 
-
 ## 소개
 
 <div style="text-align: center">
@@ -23,7 +22,6 @@
 
 - [todo](https://github.com/users/lcw3176/projects/1/views/3?sliceBy%5Bvalue%5D=Todo)
 - [in-progress](https://github.com/users/lcw3176/projects/1/views/3?sliceBy%5Bvalue%5D=In+progress)
-
 
 ## 작동 방식
 
@@ -41,17 +39,13 @@ https://docs.kmapshot.com
 
 ## 모니터링
 
-https://monitor.kmapshot.com
+- Grafana(Loki, Prometheus, Tempo), Sentry
 
-- 그라파나
+![Image](https://github.com/user-attachments/assets/86a7bfd8-d8d6-4512-8c01-221f85fc1292)
+![Image](https://github.com/user-attachments/assets/f16e8848-4c22-4fbb-b7e3-5da8c894227b)
 
-### 리눅스 (Node Exporter Full)
-
-![스크린샷 2024-03-16 003531](https://github.com/lcw3176/Mapshot-API/assets/59993347/a07c4f90-e1bd-445c-97b1-700a3fe87965)
-
-### 어플리케이션 (Spring Boot Statistics & Endpoint Metrics)
-
-![스크린샷 2024-03-16 003746](https://github.com/lcw3176/Mapshot-API/assets/59993347/a8b0ee5a-3a36-40a8-a66e-72a63225453b)
+![Image](https://github.com/user-attachments/assets/96527243-e35e-47fc-bfc7-581057a310cd)
+![Image](https://github.com/user-attachments/assets/eef77bae-244f-4262-9990-bfd9047d2ab9)
 
 ## 배포 프로세스
 
@@ -111,13 +105,13 @@ services:
 ### 패키지 구조
 
 - presentation: 사용자 노출 영역
-- application: 구현체 상호작용 영역, 도메인 패키지의 세부 구현체들을 필요에 따라 사용하며 하나의 기능으로 묶어줌. 
+- application: 구현체 상호작용 영역, 도메인 패키지의 세부 구현체들을 필요에 따라 사용하며 하나의 기능으로 묶어줌.
 - domain: 세부 구현 영역. 가장 작은 기능의 단위들로 구성됨
 - infra: 기반 클래스들. 설정 파일, 로깅 등등
 
 ### 브랜치
 
 - feat/*: 개발 기능, 티켓
-- dev: 개발 브랜치, 테스트 거친 후 자동 배포
+- ~~dev: 개발 브랜치, 테스트 거친 후 자동 배포~~
 - master: 운영 브랜치
 
