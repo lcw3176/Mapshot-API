@@ -36,9 +36,59 @@ public class MapTemplatesControllerTest extends SlackMockExtension {
                         RestDocumentationRequestBuilders.get(BASE_URL + "/google")
                 )
                 .andExpect(status().isOk())
-                .andDo(document("map/limits",
+                .andDo(document("map/google",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())
                 ));
     }
+
+    @Test
+    void 카카오_지도_요청_테스트() throws Exception {
+        mockMvc.perform(
+                        RestDocumentationRequestBuilders.get(BASE_URL + "/kakao")
+                )
+                .andExpect(status().isOk())
+                .andDo(document("map/kako",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ));
+    }
+
+    @Test
+    void 네이버_지도_요청_테스트() throws Exception {
+        mockMvc.perform(
+                        RestDocumentationRequestBuilders.get(BASE_URL + "/naver")
+                )
+                .andExpect(status().isOk())
+                .andDo(document("map/naver",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ));
+    }
+
+    @Test
+    void 레이어_지도_요청_테스트() throws Exception {
+        mockMvc.perform(
+                        RestDocumentationRequestBuilders.get(BASE_URL + "/layer")
+                )
+                .andExpect(status().isOk())
+                .andDo(document("map/layer",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ));
+    }
+
+//    fixme
+//    전략 설정 후에 테스트 다시 구상해볼것
+//    @Test
+//    void 요청_제한_테스트() throws Exception {
+//        mockMvc.perform(
+//                        RestDocumentationRequestBuilders.get(BASE_URL + "/layer")
+//                )
+//                .andExpect(status().isOk())
+//                .andDo(document("map/layer",
+//                        preprocessRequest(prettyPrint()),
+//                        preprocessResponse(prettyPrint())
+//                ));
+//    }
 }
