@@ -1,7 +1,7 @@
 package com.mapshot.api.domain.community.post;
 
 
-import com.mapshot.api.infra.encrypt.EncryptUtil;
+import com.mapshot.api.infra.util.EncryptUtil;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
 import org.junit.jupiter.api.AfterEach;

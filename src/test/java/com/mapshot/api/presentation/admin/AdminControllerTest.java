@@ -10,7 +10,7 @@ import com.mapshot.api.domain.community.post.PostRepository;
 import com.mapshot.api.domain.notice.NoticeEntity;
 import com.mapshot.api.domain.notice.NoticeRepository;
 import com.mapshot.api.domain.notice.NoticeType;
-import com.mapshot.api.infra.encrypt.EncryptUtil;
+import com.mapshot.api.infra.util.EncryptUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
