@@ -80,4 +80,4 @@ sentry:
 
 
 bucket:
-  tokenCount: 10
+  tokenCount: 60

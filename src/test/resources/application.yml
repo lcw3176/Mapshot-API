@@ -46,4 +46,4 @@ notice:
     page_size: 10
 
 bucket:
-  tokenCount: 1
+  tokenCount: 60
