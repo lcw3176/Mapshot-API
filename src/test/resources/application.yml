@@ -12,6 +12,10 @@ spring:
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
+    mode: HTML5
+    cache: false
+    encoding: UTF-8
+    check-template-location: true
 
 client:
   slack:
@@ -40,3 +44,6 @@ community:
 notice:
   post:
     page_size: 10
+
+bucket:
+  tokenCount: 1

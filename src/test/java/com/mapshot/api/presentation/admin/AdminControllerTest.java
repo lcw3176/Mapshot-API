@@ -52,8 +52,6 @@ class AdminControllerTest extends SlackMockExtension {
     private NoticeRepository noticeRepository;
     @Autowired
     private ObjectMapper mapper;
-    @Value("${jwt.admin.header}")
-    private String ADMIN_HEADER_NAME;
 
     @BeforeEach
     void init() {
