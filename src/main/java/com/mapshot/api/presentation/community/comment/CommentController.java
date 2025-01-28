@@ -2,8 +2,6 @@ package com.mapshot.api.presentation.community.comment;
 
 import com.mapshot.api.application.community.comment.CommentResponse;
 import com.mapshot.api.application.community.comment.CommentUseCase;
-import com.mapshot.api.application.auth.annotation.PreAuth;
-import com.mapshot.api.application.auth.enums.Accessible;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
