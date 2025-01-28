@@ -2,6 +2,7 @@ package com.mapshot.api.presentation.map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapshot.api.SlackMockExtension;
+import io.github.bucket4j.Bucket;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -26,6 +27,9 @@ public class MapTemplatesControllerTest extends SlackMockExtension {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private Bucket bucket;
 
     @Autowired
     private ObjectMapper mapper;
@@ -78,17 +82,20 @@ public class MapTemplatesControllerTest extends SlackMockExtension {
                 ));
     }
 
-//    fixme
-//    전략 설정 후에 테스트 다시 구상해볼것
-//    @Test
-//    void 요청_제한_테스트() throws Exception {
-//        mockMvc.perform(
-//                        RestDocumentationRequestBuilders.get(BASE_URL + "/layer")
-//                )
-//                .andExpect(status().isOk())
-//                .andDo(document("map/layer",
-//                        preprocessRequest(prettyPrint()),
-//                        preprocessResponse(prettyPrint())
-//                ));
-//    }
+    @Test
+    void 요청_제한_테스트() throws Exception {
+
+        bucket.tryConsumeAsMuchAsPossible();
+
+        mockMvc.perform(
+                        RestDocumentationRequestBuilders.get(BASE_URL + "/layer")
+                )
+                .andExpect(status().isTooManyRequests())
+                .andDo(document("map/layer",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ));
+
+        bucket.reset();
+    }
 }
