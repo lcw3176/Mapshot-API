@@ -1,6 +1,6 @@
 package com.mapshot.api.infra.auth.token;
 
-import com.mapshot.api.application.auth.token.TokenProcessor;
+import com.mapshot.api.application.auth.TokenProcessor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
