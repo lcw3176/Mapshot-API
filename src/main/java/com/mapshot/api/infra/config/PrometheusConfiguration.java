@@ -1,4 +1,4 @@
-package com.mapshot.api.infra.monitor;
+package com.mapshot.api.infra.config;
 
 import io.prometheus.client.exemplars.tracer.otel_agent.OpenTelemetryAgentSpanContextSupplier;
 import org.springframework.context.annotation.Bean;

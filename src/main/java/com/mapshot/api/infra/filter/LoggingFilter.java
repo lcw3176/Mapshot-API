@@ -1,4 +1,4 @@
-package com.mapshot.api.infra.logging;
+package com.mapshot.api.infra.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

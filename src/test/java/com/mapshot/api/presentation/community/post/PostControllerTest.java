@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mapshot.api.SlackMockExtension;
 import com.mapshot.api.domain.community.post.PostEntity;
 import com.mapshot.api.domain.community.post.PostRepository;
-import com.mapshot.api.infra.encrypt.EncryptUtil;
+import com.mapshot.api.infra.util.EncryptUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

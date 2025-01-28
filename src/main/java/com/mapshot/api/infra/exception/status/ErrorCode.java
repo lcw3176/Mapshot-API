@@ -17,6 +17,7 @@ public enum ErrorCode implements StatusCode {
     NO_SUCH_ALGORITHM(HttpStatus.NOT_FOUND, "암호화 알고리즘 탐색 불가"),
     NO_PRE_AUTH(HttpStatus.INTERNAL_SERVER_ERROR, "PreAuth 탐색 불가"),
     EXTERNAL_API_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "외부 api 호출 에러"),
+    RATE_LIMIT_ACTIVATED(HttpStatus.TOO_MANY_REQUESTS, "레이트 리미터 호출 제한"),
     ;
 
     private final HttpStatus httpStatus;

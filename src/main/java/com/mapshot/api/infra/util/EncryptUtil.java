@@ -1,4 +1,4 @@
-package com.mapshot.api.infra.encrypt;
+package com.mapshot.api.infra.util;
 
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;

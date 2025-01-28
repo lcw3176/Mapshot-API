@@ -1,4 +1,4 @@
-package com.mapshot.api.infra.scheduler;
+package com.mapshot.api.infra.config;
 
 import com.mapshot.api.infra.client.slack.SlackClient;
 import lombok.RequiredArgsConstructor;
