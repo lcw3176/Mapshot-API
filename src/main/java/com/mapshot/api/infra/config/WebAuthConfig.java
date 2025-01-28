@@ -1,6 +1,7 @@
-package com.mapshot.api.application.auth.config;
+package com.mapshot.api.infra.config;
 
-import com.mapshot.api.application.auth.interceptor.AuthInterceptor;
+import com.mapshot.api.infra.interceptor.AuthInterceptor;
+import com.mapshot.api.infra.interceptor.RateLimitInterceptor;
 import io.netty.handler.codec.http.HttpMethod;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

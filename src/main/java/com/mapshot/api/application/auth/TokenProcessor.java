@@ -1,4 +1,4 @@
-package com.mapshot.api.application.auth.token;
+package com.mapshot.api.application.auth;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

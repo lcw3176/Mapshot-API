@@ -1,7 +1,5 @@
-package com.mapshot.api.application.auth.enums;
+package com.mapshot.api.application.auth;
 
-import com.mapshot.api.application.auth.AdminValidation;
-import com.mapshot.api.application.auth.Validation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

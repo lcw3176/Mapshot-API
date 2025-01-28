@@ -2,8 +2,8 @@ package com.mapshot.api.presentation.admin;
 
 import com.mapshot.api.application.admin.AdminUseCase;
 import com.mapshot.api.application.auth.Validation;
-import com.mapshot.api.application.auth.annotation.PreAuth;
-import com.mapshot.api.application.auth.enums.Accessible;
+import com.mapshot.api.application.auth.PreAuth;
+import com.mapshot.api.application.auth.Accessible;
 import com.mapshot.api.domain.notice.NoticeType;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;

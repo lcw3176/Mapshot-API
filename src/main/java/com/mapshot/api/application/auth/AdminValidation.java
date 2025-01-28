@@ -1,6 +1,5 @@
 package com.mapshot.api.application.auth;
 
-import com.mapshot.api.application.auth.token.TokenProcessor;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
 import jakarta.servlet.http.Cookie;

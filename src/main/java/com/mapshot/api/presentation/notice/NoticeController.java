@@ -4,8 +4,6 @@ package com.mapshot.api.presentation.notice;
 import com.mapshot.api.application.notice.NoticeDetailResponse;
 import com.mapshot.api.application.notice.NoticeListResponse;
 import com.mapshot.api.application.notice.NoticeUseCase;
-import com.mapshot.api.application.auth.annotation.PreAuth;
-import com.mapshot.api.application.auth.enums.Accessible;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
