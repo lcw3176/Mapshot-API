@@ -2,6 +2,7 @@ package com.mapshot.api.presentation.map;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -11,22 +12,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MapTemplatesController {
 
     @GetMapping("/google")
-    public String googleTemplate(){
+    public String googleTemplate(Model model){
         return "google";
     }
 
     @GetMapping("/kakao")
-    public String kakaoTemplate(){
+    public String kakaoTemplate(Model model){
         return "kakao";
     }
 
     @GetMapping("/naver")
-    public String naverTemplate(){
+    public String naverTemplate(Model model){
         return "naver";
     }
 
     @GetMapping("/layer")
-    public String layerTemplate(){
+    public String layerTemplate(Model model){
         return "layer";
     }
 }
