@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -26,18 +27,29 @@
 
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=46d97694c5e976ec8af172aebc94c130"></script>
-<script type="text/javascript">
+<script th:inline="javascript">
 
 
     window.onload = function () {
-        const queryString = window.location.search
-        const urlParams = new URLSearchParams(queryString)
+        // const queryString = window.location.search
+        // const urlParams = new URLSearchParams(queryString)
 
-        const level = parseInt(urlParams.get('level'))
-        const lat = parseFloat(urlParams.get('lat'))
-        const lng = parseFloat(urlParams.get('lng'))
-        const type = urlParams.get('type')
-        const layerMode = urlParams.get('layerMode') === 'true'
+        /*<![CDATA[*/
+
+        const level = parseInt([[${map.level}]]);
+        const lat = parseFloat([[${map.lat}]]);
+        const lng = parseFloat([[${map.lng}]]);
+        const type = ([[${map.type}]]);
+        const layerMode = Boolean([[${map.layerMode}]]);
+
+        /*]]>*/
+
+
+        // const level = parseInt(urlParams.get('level'))
+        // const lat = parseFloat(urlParams.get('lat'))
+        // const lng = parseFloat(urlParams.get('lng'))
+        // const type = urlParams.get('type')
+        // const layerMode = urlParams.get('layerMode') === 'true'
 
         let goalWidth
         let zoomLevel
