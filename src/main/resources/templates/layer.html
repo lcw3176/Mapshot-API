@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -26,18 +27,20 @@
 
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=46d97694c5e976ec8af172aebc94c130"></script>
-<script type="text/javascript">
+<script th:inline="javascript">
 
 
     window.onload = function () {
-        const queryString = window.location.search
-        const urlParams = new URLSearchParams(queryString)
+        /*<![CDATA[*/
 
-        const level = parseInt(urlParams.get('level'))
-        const lat = parseFloat(urlParams.get('lat'))
-        const lng = parseFloat(urlParams.get('lng'))
-        const type = urlParams.get('type')
-        const layerMode = urlParams.get('layerMode') === 'true'
+        const level = parseInt([[${mapRequest.level}]]);
+        const lat = parseFloat([[${mapRequest.lat}]]);
+        const lng = parseFloat([[${mapRequest.lng}]]);
+        const type = ([[${mapRequest.type}]]);
+        const layerMode = Boolean([[${mapRequest.layerMode}]]);
+
+        /*]]>*/
+
 
         let goalWidth
         let zoomLevel

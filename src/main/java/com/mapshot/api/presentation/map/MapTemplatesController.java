@@ -2,6 +2,7 @@ package com.mapshot.api.presentation.map;
 
 import com.mapshot.api.presentation.map.model.GoogleMapRequest;
 import com.mapshot.api.presentation.map.model.KakaoMapRequest;
+import com.mapshot.api.presentation.map.model.LayerMapRequest;
 import com.mapshot.api.presentation.map.model.NaverMapRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -34,5 +35,12 @@ public class MapTemplatesController {
         model.addAttribute("mapRequest", mapRequest);
 
         return "naver";
+    }
+
+    @GetMapping("/layer")
+    public String layerTemplate(Model model, @ModelAttribute LayerMapRequest mapRequest) {
+        model.addAttribute("mapRequest", mapRequest);
+
+        return "layer";
     }
 }
