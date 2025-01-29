@@ -16,22 +16,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MapTemplatesController {
 
     @GetMapping("/google")
-    public String googleTemplate(Model model, @ModelAttribute GoogleMapRequest request) {
-        model.addAttribute("map", request);
+    public String googleTemplate(Model model, @ModelAttribute GoogleMapRequest mapRequest) {
+        model.addAttribute("mapRequest", mapRequest);
 
         return "google";
     }
 
     @GetMapping("/kakao")
-    public String kakaoTemplate(Model model, @ModelAttribute KakaoMapRequest request){
-        model.addAttribute("map", request);
+    public String kakaoTemplate(Model model, @ModelAttribute KakaoMapRequest mapRequest){
+        model.addAttribute("mapRequest", mapRequest);
 
         return "kakao";
     }
 
     @GetMapping("/naver")
-    public String naverTemplate(Model model, @ModelAttribute NaverMapRequest request) {
-        model.addAttribute("map", request);
+    public String naverTemplate(Model model, @ModelAttribute NaverMapRequest mapRequest) {
+        model.addAttribute("mapRequest", mapRequest);
 
         return "naver";
     }
