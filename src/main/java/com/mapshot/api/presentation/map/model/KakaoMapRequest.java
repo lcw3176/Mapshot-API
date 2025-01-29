@@ -9,7 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class KakaoMapRequest extends MapRequest {
-
+public class KakaoMapRequest {
+    private float lat;
+    private float lng;
+    private int level;
+    private String type;
     private boolean layerMode;
 }

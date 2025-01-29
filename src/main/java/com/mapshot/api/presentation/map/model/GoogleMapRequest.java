@@ -9,7 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GoogleMapRequest extends MapRequest {
-
+public class GoogleMapRequest {
+    private float lat;
+    private float lng;
+    private int level;
+    private String type;
     private boolean noLabel;
 }
