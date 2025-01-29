@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -26,17 +27,26 @@
 
 
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=ny5d4sdo0e"></script>
-<script type="text/javascript">
+<script th:inline="javascript">
 
 
     window.onload = function () {
-        const queryString = window.location.search
-        const urlParams = new URLSearchParams(queryString)
+        // const queryString = window.location.search
+        // const urlParams = new URLSearchParams(queryString)
 
-        const level = parseInt(urlParams.get('level'))
-        const lat = parseFloat(urlParams.get('lat'))
-        const lng = parseFloat(urlParams.get('lng'))
-        const type = urlParams.get('type')
+        /*<![CDATA[*/
+
+        const level = parseInt([[${map.level}]]);
+        const lat = parseFloat([[${map.lat}]]);
+        const lng = parseFloat([[${map.lng}]]);
+        const type = ([[${map.type}]]);
+
+        /*]]>*/
+
+        // const level = parseInt(urlParams.get('level'))
+        // const lat = parseFloat(urlParams.get('lat'))
+        // const lng = parseFloat(urlParams.get('lng'))
+        // const type = urlParams.get('type')
 
         let goalWidth
         let zoomLevel

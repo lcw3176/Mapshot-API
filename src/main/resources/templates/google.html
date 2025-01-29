@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -27,17 +28,28 @@
 
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8WU_Hc5l507bZVpdCKDEmZDjhjOFHXHs&callback=initMap"></script>
-<script type="text/javascript">
+<script th:inline="javascript">
+
 
     function initMap () {
-        const queryString = window.location.search
-        const urlParams = new URLSearchParams(queryString)
+        // const queryString = window.location.search
+        // const urlParams = new URLSearchParams(queryString)
 
-        const level = parseInt(urlParams.get('level'))
-        const lat = parseFloat(urlParams.get('lat'))
-        const lng = parseFloat(urlParams.get('lng'))
-        const type = urlParams.get('type')
-        const noLabel = urlParams.get('noLabel') === 'true'
+        /*<![CDATA[*/
+
+        const level = parseInt([[${map.level}]]);
+        const lat = parseFloat([[${map.lat}]]);
+        const lng = parseFloat([[${map.lng}]]);
+        const type = ([[${map.type}]]);
+        const noLabel =  Boolean([[${map.noLabel}]]);
+
+        /*]]>*/
+
+        // const level = parseInt(urlParams.get('level'))
+        // const lat = parseFloat(urlParams.get('lat'))
+        // const lng = parseFloat(urlParams.get('lng'))
+        // const type = urlParams.get('type')
+        // const noLabel = urlParams.get('noLabel') === 'true'
 
         let goalWidth
         let zoomLevel
