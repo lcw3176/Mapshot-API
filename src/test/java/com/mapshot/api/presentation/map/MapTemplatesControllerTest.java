@@ -70,17 +70,6 @@ public class MapTemplatesControllerTest extends SlackMockExtension {
                 ));
     }
 
-    @Test
-    void 레이어_지도_요청_테스트() throws Exception {
-        mockMvc.perform(
-                        RestDocumentationRequestBuilders.get(BASE_URL + "/layer")
-                )
-                .andExpect(status().isOk())
-                .andDo(document("map/layer",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())
-                ));
-    }
 
     @Test
     void 요청_제한_테스트() throws Exception {
@@ -88,7 +77,7 @@ public class MapTemplatesControllerTest extends SlackMockExtension {
         bucket.tryConsumeAsMuchAsPossible();
 
         mockMvc.perform(
-                        RestDocumentationRequestBuilders.get(BASE_URL + "/layer")
+                        RestDocumentationRequestBuilders.get(BASE_URL + "/naver")
                 )
                 .andExpect(status().isTooManyRequests())
                 .andDo(document("map/layer",
