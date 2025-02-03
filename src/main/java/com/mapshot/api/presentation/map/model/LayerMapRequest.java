@@ -13,5 +13,4 @@ public class LayerMapRequest {
     private int level;
     private String type;
     private boolean layerMode;
-    private String url;
 }

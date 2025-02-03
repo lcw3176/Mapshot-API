@@ -121,14 +121,12 @@
                 document.getElementById('layer').style.height = goalWidth + 'px'
                 document.getElementById('layer').style.width = goalWidth + 'px'
                 clearInterval(timerId)
-                window.opener.postMessage({action: 'map_ready'}, url);
             }
 
             if (intervalCount >= 30) {
                 document.getElementById('checker').setAttribute('id', 'checker_true')
 
                 clearInterval(timerId)
-                window.opener.postMessage({action: 'map_ready'}, url);
             }
 
         }, 1000)

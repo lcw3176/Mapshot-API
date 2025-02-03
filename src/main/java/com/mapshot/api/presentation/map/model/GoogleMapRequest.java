@@ -13,5 +13,4 @@ public class GoogleMapRequest {
     private int level;
     private String type;
     private boolean noLabel;
-    private String url;
 }

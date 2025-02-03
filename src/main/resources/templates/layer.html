@@ -117,14 +117,12 @@
 
                 document.getElementById('map').remove()
                 clearInterval(timerId)
-                window.opener.postMessage({action: 'map_ready'}, url);
             }
 
             if (intervalCount >= 30) {
                 document.getElementById('checker').setAttribute('id', 'checker_true')
                 document.getElementById('map').remove()
                 clearInterval(timerId)
-                window.opener.postMessage({action: 'map_ready'}, url);
             }
 
         }, 500)
