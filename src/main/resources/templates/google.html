@@ -21,8 +21,8 @@
 </image>
 
 <script
-        src="https://js.sentry-cdn.com/1c1f8712a989433cb34416dd0bfde82e.min.js"
         crossorigin="anonymous"
+        src="https://js.sentry-cdn.com/1c1f8712a989433cb34416dd0bfde82e.min.js"
 ></script>
 
 
@@ -31,7 +31,7 @@
 <script th:inline="javascript">
 
 
-    function initMap () {
+    function initMap() {
         // const queryString = window.location.search
         // const urlParams = new URLSearchParams(queryString)
 
@@ -41,7 +41,7 @@
         const lat = parseFloat([[${mapRequest.lat}]]);
         const lng = parseFloat([[${mapRequest.lng}]]);
         const type = ([[${mapRequest.type}]]);
-        const noLabel =  Boolean([[${mapRequest.noLabel}]]);
+        const noLabel = Boolean([[${mapRequest.noLabel}]]);
 
         /*]]>*/
 
@@ -150,12 +150,16 @@
                 document.getElementById('layer').style.height = goalWidth + 'px'
                 document.getElementById('layer').style.width = goalWidth + 'px'
                 clearInterval(timerId)
+                window.opener.postMessage({action: 'map_ready'}, 'https://kmapshot.com');
+                window.opener.postMessage({action: 'map_ready'}, 'https://dev.kmapshot.com');
 
             }
 
             if (intervalCount >= 30) {
                 document.getElementById('checker').setAttribute('id', 'checker_true')
                 clearInterval(timerId)
+                window.opener.postMessage({action: 'map_ready'}, 'https://kmapshot.com');
+                window.opener.postMessage({action: 'map_ready'}, 'https://dev.kmapshot.com');
             }
 
         }, 1000)

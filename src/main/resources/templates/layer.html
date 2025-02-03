@@ -21,12 +21,12 @@
 </image>
 
 <script
-        src="https://js.sentry-cdn.com/1c1f8712a989433cb34416dd0bfde82e.min.js"
         crossorigin="anonymous"
+        src="https://js.sentry-cdn.com/1c1f8712a989433cb34416dd0bfde82e.min.js"
 ></script>
 
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=46d97694c5e976ec8af172aebc94c130"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=46d97694c5e976ec8af172aebc94c130" type="text/javascript"></script>
 <script th:inline="javascript">
 
 
@@ -117,12 +117,16 @@
 
                 document.getElementById('map').remove()
                 clearInterval(timerId)
+                window.opener.postMessage({action: 'map_ready'}, 'https://kmapshot.com');
+                window.opener.postMessage({action: 'map_ready'}, 'https://dev.kmapshot.com');
             }
 
             if (intervalCount >= 30) {
                 document.getElementById('checker').setAttribute('id', 'checker_true')
                 document.getElementById('map').remove()
                 clearInterval(timerId)
+                window.opener.postMessage({action: 'map_ready'}, 'https://kmapshot.com');
+                window.opener.postMessage({action: 'map_ready'}, 'https://dev.kmapshot.com');
             }
 
         }, 500)
