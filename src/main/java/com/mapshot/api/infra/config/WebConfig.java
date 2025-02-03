@@ -12,13 +12,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @RequiredArgsConstructor
-public class WebAuthConfig implements WebMvcConfigurer {
+public class WebConfig implements WebMvcConfigurer {
 
     private final AuthInterceptor authInterceptor;
-
+    private final RateLimitInterceptor rateLimitInterceptor;
     @Value("${jwt.admin.header}")
     public String ADMIN_HEADER_NAME;
-
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -32,6 +31,9 @@ public class WebAuthConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/download/**")
                 .excludePathPatterns("/favicon.ico")
                 .addPathPatterns("/**");
+
+        registry.addInterceptor(rateLimitInterceptor)
+                .addPathPatterns("/map/**");
     }
 
     @Override
@@ -46,7 +48,8 @@ public class WebAuthConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("https://www.kmapshot.com", "https://kmapshot.com", "https://dev.kmapshot.com", "https://admin.kmapshot.com")
                 .allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.OPTIONS.name())
-                .allowedHeaders("*");
+                .allowedHeaders("*")
+                .allowCredentials(true);
     }
 
 }
