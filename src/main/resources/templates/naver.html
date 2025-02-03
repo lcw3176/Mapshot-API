@@ -40,7 +40,7 @@
         const lat = parseFloat([[${mapRequest.lat}]]);
         const lng = parseFloat([[${mapRequest.lng}]]);
         const type = ([[${mapRequest.type}]]);
-
+        const url = ([[${mapRequest.url}]]);
         /*]]>*/
 
         // const level = parseInt(urlParams.get('level'))
@@ -121,16 +121,14 @@
                 document.getElementById('layer').style.height = goalWidth + 'px'
                 document.getElementById('layer').style.width = goalWidth + 'px'
                 clearInterval(timerId)
-                window.opener.postMessage({action: 'map_ready'}, 'https://kmapshot.com');
-                window.opener.postMessage({action: 'map_ready'}, 'https://dev.kmapshot.com');
+                window.opener.postMessage({action: 'map_ready'}, url);
             }
 
             if (intervalCount >= 30) {
                 document.getElementById('checker').setAttribute('id', 'checker_true')
 
                 clearInterval(timerId)
-                window.opener.postMessage({action: 'map_ready'}, 'https://kmapshot.com');
-                window.opener.postMessage({action: 'map_ready'}, 'https://dev.kmapshot.com');
+                window.opener.postMessage({action: 'map_ready'}, url);
             }
 
         }, 1000)
