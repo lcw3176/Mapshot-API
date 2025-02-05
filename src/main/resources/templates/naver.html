@@ -8,6 +8,8 @@
 </head>
 
 <body style="margin: 0px">
+<div th:replace="fragments/scripts :: common-scripts"></div>
+
 <div id="checker">
 
 </div>
@@ -40,7 +42,7 @@
         const lat = parseFloat([[${mapRequest.lat}]]);
         const lng = parseFloat([[${mapRequest.lng}]]);
         const type = ([[${mapRequest.type}]]);
-        const url = ([[${mapRequest.url}]]);
+        const layer = ([[${mapRequest.layer}]]);
         /*]]>*/
 
         // const level = parseInt(urlParams.get('level'))
@@ -121,12 +123,14 @@
                 document.getElementById('layer').style.height = goalWidth + 'px'
                 document.getElementById('layer').style.width = goalWidth + 'px'
                 clearInterval(timerId)
+                checkIfAddLayers(layer);
             }
 
             if (intervalCount >= 30) {
                 document.getElementById('checker').setAttribute('id', 'checker_true')
 
                 clearInterval(timerId)
+                checkIfAddLayers(layer);
             }
 
         }, 1000)
