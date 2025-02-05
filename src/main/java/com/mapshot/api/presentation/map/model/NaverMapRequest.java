@@ -12,4 +12,5 @@ public class NaverMapRequest {
     private float lng;
     private int level;
     private String type;
+    private String layer;
 }

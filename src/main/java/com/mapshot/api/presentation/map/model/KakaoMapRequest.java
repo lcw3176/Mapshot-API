@@ -13,4 +13,5 @@ public class KakaoMapRequest {
     private int level;
     private String type;
     private boolean layerMode;
+    private String layer;
 }
