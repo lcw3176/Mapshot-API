@@ -66,8 +66,7 @@ dependencies {
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
     // db
-//    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
-//    implementation 'com.h2database:h2'
+    //  runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     implementation 'org.xerial:sqlite-jdbc:3.42.0.0'
     implementation 'org.hibernate.orm:hibernate-community-dialects'
 
@@ -81,6 +80,7 @@ dependencies {
 
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//    testImplementation 'com.h2database:h2'
 
     // 모니터링
     implementation 'org.springframework.boot:spring-boot-starter-actuator'

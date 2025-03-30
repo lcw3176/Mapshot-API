@@ -1,24 +1,27 @@
 package com.mapshot.api.infra.config;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
 @Configuration
-@RequiredArgsConstructor
 public class SqliteDatasourceConfig {
 
-    private final Environment env;
+    @Value("${spring.datasource.url}")
+    private String URL;
+
+    @Value("${spring.datasource.driverClassName}")
+    private String DRIVER_CLASS_NAME;
+
 
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(env.getProperty("driverClassName"));
-        dataSource.setUrl(env.getProperty("url"));
+        dataSource.setDriverClassName(DRIVER_CLASS_NAME);
+        dataSource.setUrl(URL);
 
         return dataSource;
     }

@@ -1,7 +1,8 @@
-url: jdbc:sqlite:./mapshot-executor/maindb.sqlite
-driverClassName: org.sqlite.JDBC
-
 spring:
+  datasource:
+    url: jdbc:sqlite:./mapshot-executor/maindb.sqlite
+    driverClassName: org.sqlite.JDBC
+
   jpa:
     database-platform: org.hibernate.community.dialect.SQLiteDialect
     hibernate:
