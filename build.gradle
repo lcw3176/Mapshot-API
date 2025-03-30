@@ -66,8 +66,9 @@ dependencies {
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
     // db
-//    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
-    implementation 'com.h2database:h2'
+    //  runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+    implementation 'org.xerial:sqlite-jdbc:3.42.0.0'
+    implementation 'org.hibernate.orm:hibernate-community-dialects'
 
     // jwt
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
@@ -79,6 +80,7 @@ dependencies {
 
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//    testImplementation 'com.h2database:h2'
 
     // 모니터링
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -89,11 +91,10 @@ dependencies {
     implementation 'io.opentelemetry:opentelemetry-context:1.46.0'
     // 국토교통부 데이터 수집
     implementation 'org.jsoup:jsoup:1.17.2'
-    
+
     // 레이트리미터    
     // https://mvnrepository.com/artifact/com.bucket4j/bucket4j-core
     implementation 'com.bucket4j:bucket4j-core:8.7.0'
-
 
 
 }
