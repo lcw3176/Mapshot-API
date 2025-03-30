@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:sqlite:./mapshot-executor/testdb.sqlite
+    url: jdbc:sqlite:./testdb.sqlite
     driverClassName: org.sqlite.JDBC
 
   jpa:
