@@ -73,7 +73,7 @@ management:
             requests: 'true'
 
 sentry:
-  dsn: https://04217465cb42cf9e796efc0b8311463b@o4505030048284672.ingest.us.sentry.io/4508625584390144
+  dsn: https://8882a7d805836366a38126a618defa4b@sentry.kmapshot.com/4
   # Set traces-sample-rate to 1.0 to capture 100% of transactions for tracing.
   # We recommend adjusting this value in production.
   traces-sample-rate: 1.0
