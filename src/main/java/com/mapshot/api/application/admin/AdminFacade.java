@@ -3,7 +3,7 @@ package com.mapshot.api.application.admin;
 import com.mapshot.api.domain.admin.user.AdminUserService;
 import com.mapshot.api.domain.community.comment.CommentService;
 import com.mapshot.api.domain.community.post.PostService;
-import com.mapshot.api.domain.news.NewsService;
+import com.mapshot.api.domain.news.NewsUseCase;
 import com.mapshot.api.domain.notice.NoticeService;
 import com.mapshot.api.domain.notice.NoticeType;
 import lombok.RequiredArgsConstructor;
@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class AdminUseCase {
+public class AdminFacade {
 
     private final AdminUserService adminUserService;
     private final NoticeService noticeService;
     private final CommentService commentService;
     private final PostService postService;
-    private final NewsService newsService;
+    private final NewsUseCase newsUseCase;
 
 
     public Boolean login(String nickname, String password) {
@@ -39,7 +39,7 @@ public class AdminUseCase {
     }
 
     public void forceNewsUpdate() {
-        newsService.updateNews();
+        newsUseCase.updateNews();
     }
 
     public void deletePost(long postId) {

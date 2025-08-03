@@ -11,9 +11,9 @@ import com.mapshot.api.domain.notice.NoticeEntity;
 import com.mapshot.api.domain.notice.NoticeRepository;
 import com.mapshot.api.domain.notice.NoticeService;
 import com.mapshot.api.domain.notice.NoticeType;
-import com.mapshot.api.infra.util.EncryptUtil;
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
+import com.mapshot.api.infra.util.EncryptUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,10 +26,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-class AdminUseCaseTest {
+class AdminFacadeTest {
 
     @Autowired
-    private AdminUseCase adminUseCase;
+    private AdminFacade adminFacade;
 
     @Autowired
     private PostService postService;
@@ -87,7 +87,7 @@ class AdminUseCaseTest {
     void 관리자_권한으로_게시글_삭제_테스트() {
         long postId = postService.getPostsByPageNumber(0).getContent().get(0).getId();
 
-        adminUseCase.deletePost(postId);
+        adminFacade.deletePost(postId);
 
         assertThatThrownBy(() -> postService.getPostById(postId))
                 .isInstanceOf(ApiException.class)
@@ -102,12 +102,12 @@ class AdminUseCaseTest {
     @Test
     void 관리자_로그인() {
         assertThatNoException()
-                .isThrownBy(() -> adminUseCase.login("hello", "1234"));
+                .isThrownBy(() -> adminFacade.login("hello", "1234"));
     }
 
     @Test
     void 관리자_공지사항_등록() {
-        adminUseCase.saveNotice(NoticeType.UPDATE, "new_title", "new_content");
+        adminFacade.saveNotice(NoticeType.UPDATE, "new_title", "new_content");
 
         NoticeEntity notice = noticeRepository.findFirstByOrderByIdDesc();
 
@@ -124,7 +124,7 @@ class AdminUseCaseTest {
                 .content("content")
                 .build());
 
-        adminUseCase.modifyNotice(notice.getId(), NoticeType.FIX, "fixed_title", "fixed_content");
+        adminFacade.modifyNotice(notice.getId(), NoticeType.FIX, "fixed_title", "fixed_content");
 
         notice = noticeRepository.findFirstByOrderByIdDesc();
 
@@ -142,7 +142,7 @@ class AdminUseCaseTest {
                 .content("content")
                 .build()).getId();
 
-        adminUseCase.deleteNotice(noticeId);
+        adminFacade.deleteNotice(noticeId);
 
         assertThatThrownBy(() -> noticeService.findById(noticeId))
                 .isInstanceOf(ApiException.class)
@@ -153,7 +153,7 @@ class AdminUseCaseTest {
     void 관리자_게시글_삭제() {
         long postId = postRepository.findFirstByOrderByIdDesc().getId();
 
-        adminUseCase.deletePost(postId);
+        adminFacade.deletePost(postId);
 
         assertThatThrownBy(() -> postService.getPostById(postId))
                 .isInstanceOf(ApiException.class)
