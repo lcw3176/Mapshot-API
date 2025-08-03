@@ -9,9 +9,6 @@ import com.mapshot.api.domain.notice.NoticeType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.util.UUID;
-
 @Component
 @RequiredArgsConstructor
 public class AdminUseCase {
@@ -42,17 +39,7 @@ public class AdminUseCase {
     }
 
     public void forceNewsUpdate() {
-        String content = newsService.getNewsContent();
-
-        if (content.isBlank()) {
-            return;
-        }
-
-        String writer = "헤드샷";
-        String title = "[" + LocalDate.now() + "] 오늘의 헤드라인";
-        String password = UUID.randomUUID().toString();
-
-        postService.save(writer, content, title, password);
+        newsService.updateNews();
     }
 
     public void deletePost(long postId) {
