@@ -1,5 +1,6 @@
 package com.mapshot.api.domain.news;
 
+import com.mapshot.api.domain.community.post.PostService;
 import com.mapshot.api.domain.news.client.gov.TransportGovClient;
 import com.mapshot.api.domain.news.client.gov.TransportGovResponse;
 import com.mapshot.api.domain.news.client.naver.NaverClient;
@@ -9,10 +10,12 @@ import com.mapshot.api.infra.util.HtmlTagUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +23,7 @@ public class NewsService {
 
     private final NaverClient naverClient;
     private final TransportGovClient govClient;
-
+    private final PostService postService;
 
     public String getNewsContent() {
         List<TransportGovResponse> govResponses = govClient.getKeywords();
@@ -96,6 +99,20 @@ public class NewsService {
         }
 
         return str;
+    }
+
+    public void updateNews() {
+        String content = getNewsContent();
+
+        if (content.isBlank()) {
+            return;
+        }
+
+        String writer = "헤드샷";
+        String title = "[" + LocalDate.now() + "] 오늘의 헤드라인";
+        String password = UUID.randomUUID().toString();
+
+        postService.save(writer, content, title, password);
     }
 
 

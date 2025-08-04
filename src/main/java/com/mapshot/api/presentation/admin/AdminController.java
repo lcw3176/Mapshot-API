@@ -1,9 +1,9 @@
 package com.mapshot.api.presentation.admin;
 
-import com.mapshot.api.application.admin.AdminUseCase;
-import com.mapshot.api.application.auth.Validation;
-import com.mapshot.api.application.auth.PreAuth;
+import com.mapshot.api.application.admin.AdminFacade;
 import com.mapshot.api.application.auth.Accessible;
+import com.mapshot.api.application.auth.PreAuth;
+import com.mapshot.api.application.auth.Validation;
 import com.mapshot.api.domain.notice.NoticeType;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class AdminController {
 
-    private final AdminUseCase adminUseCase;
+    private final AdminFacade adminFacade;
     private final Validation adminValidation;
 
 
     @PostMapping("/user/login")
     public ResponseEntity<Void> login(@RequestBody AdminUserRequest request, HttpServletResponse response) {
-        adminUseCase.login(request.getNickname(), request.getPassword());
+        adminFacade.login(request.getNickname(), request.getPassword());
 
         Cookie cookie = adminValidation.makeCookie();
         response.addCookie(cookie);
@@ -49,7 +49,7 @@ public class AdminController {
     @PreAuth(Accessible.ADMIN)
     @PostMapping("/notice/register")
     public ResponseEntity<Void> registerNotice(@RequestBody AdminNoticeRequest request) {
-        adminUseCase.saveNotice(NoticeType.valueOf(request.getNoticeType()), request.getTitle(), request.getContent());
+        adminFacade.saveNotice(NoticeType.valueOf(request.getNoticeType()), request.getTitle(), request.getContent());
 
         return ResponseEntity.ok().build();
     }
@@ -57,7 +57,7 @@ public class AdminController {
     @PreAuth(Accessible.ADMIN)
     @GetMapping("/notice/delete/{noticeNumber}")
     public ResponseEntity<Void> deleteNotice(@PositiveOrZero @PathVariable(value = "noticeNumber") long noticeNumber) {
-        adminUseCase.deleteNotice(noticeNumber);
+        adminFacade.deleteNotice(noticeNumber);
 
         return ResponseEntity.ok().build();
     }
@@ -67,7 +67,7 @@ public class AdminController {
     @PostMapping("/notice/modify/{noticeNumber}")
     public ResponseEntity<Void> modifyNotice(@PositiveOrZero @PathVariable(value = "noticeNumber") long noticeNumber,
                                              @RequestBody AdminNoticeRequest request) {
-        adminUseCase.modifyNotice(noticeNumber, NoticeType.valueOf(request.getNoticeType()), request.getTitle(), request.getContent());
+        adminFacade.modifyNotice(noticeNumber, NoticeType.valueOf(request.getNoticeType()), request.getTitle(), request.getContent());
 
         return ResponseEntity.ok().build();
     }
@@ -76,7 +76,7 @@ public class AdminController {
     @PreAuth(Accessible.ADMIN)
     @GetMapping("/news/update")
     public ResponseEntity<Void> updateNewsLetter() {
-        adminUseCase.forceNewsUpdate();
+        adminFacade.forceNewsUpdate();
 
         return ResponseEntity.ok().build();
     }
@@ -85,7 +85,7 @@ public class AdminController {
     @PreAuth(Accessible.ADMIN)
     @GetMapping("/post/delete/{postId}")
     public ResponseEntity<Void> deletePost(@PositiveOrZero @PathVariable(value = "postId") long postId) {
-        adminUseCase.deletePost(postId);
+        adminFacade.deletePost(postId);
 
         return ResponseEntity.ok().build();
     }
