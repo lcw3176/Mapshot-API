@@ -76,7 +76,7 @@ public class AdminController {
     @PreAuth(Accessible.ADMIN)
     @GetMapping("/news/update")
     public ResponseEntity<Void> updateNewsLetter() {
-        adminFacade.forceNewsUpdate();
+        adminFacade.updateNews();
 
         return ResponseEntity.ok().build();
     }

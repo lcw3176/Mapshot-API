@@ -20,10 +20,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SpringBootTest
-class PostUseCaseTest {
+class PostFacadeTest {
 
     @Autowired
-    private PostUseCase postUseCase;
+    private PostFacade postFacade;
 
     @Autowired
     private PostRepository postRepository;
@@ -72,7 +72,7 @@ class PostUseCaseTest {
         PostEntity post = postRepository.findFirstByOrderByIdDesc();
         List<CommentEntity> comments = commentRepository.findAllByPostIdAndDeletedFalse(post.getId());
 
-        PostDetailResponse response = postUseCase.getPost(post.getId());
+        PostDetailResponse response = postFacade.getPost(post.getId());
 
         assertEquals(post.getId(), response.getId());
         assertEquals(post.getWriter(), response.getWriter());
@@ -84,14 +84,14 @@ class PostUseCaseTest {
 
     @Test
     void 존재하지_않는_게시글을_가져오면_예와가_발생한다() {
-        assertThatThrownBy(() -> postUseCase.getPost(-1))
+        assertThatThrownBy(() -> postFacade.getPost(-1))
                 .isInstanceOf(ApiException.class)
                 .hasMessageContaining(ErrorCode.NO_SUCH_POST.getMessage());
     }
 
     @Test
     void 게시글_목록을_가져온다() {
-        PostListResponse response = postUseCase.getPostList(1);
+        PostListResponse response = postFacade.getPostList(1);
 
         assertEquals(response.getTotalPage(), 1);
         assertEquals(response.getPosts().size(), 10);
@@ -99,7 +99,7 @@ class PostUseCaseTest {
 
     @Test
     void _0이하의_페이지_조회시_첫번째_페이지를_반환한다() {
-        PostListResponse response = postUseCase.getPostList(-1);
+        PostListResponse response = postFacade.getPostList(-1);
 
         assertEquals(response.getTotalPage(), 1);
         assertEquals(response.getPosts().size(), 10);
@@ -108,7 +108,7 @@ class PostUseCaseTest {
 
     @Test
     void 게시글을_저장한다() {
-        postUseCase.save("writer", "content", "title", "password");
+        postFacade.save("writer", "content", "title", "password");
 
         PostEntity post = postRepository.findFirstByOrderByIdDesc();
 
@@ -119,7 +119,7 @@ class PostUseCaseTest {
 
     @Test
     void 비밀번호는_저장시_암호화된다() {
-        postUseCase.save("writer", "content", "title", "password");
+        postFacade.save("writer", "content", "title", "password");
 
         PostEntity post = postRepository.findFirstByOrderByIdDesc();
 
@@ -129,11 +129,11 @@ class PostUseCaseTest {
 
     @Test
     void 게시글을_삭제한다() {
-        postUseCase.save("writer", "content", "title", "password");
+        postFacade.save("writer", "content", "title", "password");
 
         PostEntity post = postRepository.findFirstByOrderByIdDesc();
 
-        assertThatNoException().isThrownBy(() -> postUseCase.deleteIfOwner(post.getId(), "password"));
+        assertThatNoException().isThrownBy(() -> postFacade.deleteIfOwner(post.getId(), "password"));
     }
 
 
@@ -141,7 +141,7 @@ class PostUseCaseTest {
     void 작성자가_아니면_게시글을_삭제할수_없다() {
         PostEntity post = postRepository.findFirstByOrderByIdDesc();
 
-        assertThatThrownBy(() -> postUseCase.deleteIfOwner(post.getId(), "wrong password"))
+        assertThatThrownBy(() -> postFacade.deleteIfOwner(post.getId(), "wrong password"))
                 .isInstanceOf(ApiException.class)
                 .hasMessageContaining(ErrorCode.NOT_VALID_PASSWORD.getMessage());
     }

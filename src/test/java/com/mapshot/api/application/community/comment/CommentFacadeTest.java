@@ -13,10 +13,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-class CommentUseCaseTest {
+class CommentFacadeTest {
 
     @Autowired
-    private CommentUseCase commentUseCase;
+    private CommentFacade commentFacade;
 
     @Autowired
     private CommentRepository commentRepository;
@@ -63,7 +63,7 @@ class CommentUseCaseTest {
     @Test
     void 댓글을_가져온다() {
         long postId = postRepository.findFirstByOrderByIdDesc().getId();
-        CommentResponse response = commentUseCase.getComments(1, postId);
+        CommentResponse response = commentFacade.getComments(1, postId);
 
         assertEquals(response.getTotalPage(), 5);
         assertEquals(response.getComments().size(), 20);
@@ -72,7 +72,7 @@ class CommentUseCaseTest {
     @Test
     void 댓글을_저장하면_게시글의_댓글_카운트가_올라간다() {
         long postId = postRepository.findFirstByOrderByIdDesc().getId();
-        commentUseCase.save("writer", "content", postId, "password");
+        commentFacade.save("writer", "content", postId, "password");
         long commentCount = postRepository.findById(postId).get().getCommentCount();
 
         assertEquals(101, commentCount);
@@ -81,9 +81,9 @@ class CommentUseCaseTest {
     @Test
     void 댓글을_삭제하면_댓글_카운트가_감소한다() {
         long postId = postRepository.findFirstByOrderByIdDesc().getId();
-        long commentId = commentUseCase.save("writer", "content", postId, "password");
+        long commentId = commentFacade.save("writer", "content", postId, "password");
 
-        commentUseCase.deleteIfOwner(commentId, "password");
+        commentFacade.deleteIfOwner(commentId, "password");
         long commentCount = postRepository.findById(postId).get().getCommentCount();
 
         assertEquals(100, commentCount);

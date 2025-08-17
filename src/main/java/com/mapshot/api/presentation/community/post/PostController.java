@@ -2,7 +2,7 @@ package com.mapshot.api.presentation.community.post;
 
 import com.mapshot.api.application.community.post.PostDetailResponse;
 import com.mapshot.api.application.community.post.PostListResponse;
-import com.mapshot.api.application.community.post.PostUseCase;
+import com.mapshot.api.application.community.post.PostFacade;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class PostController {
 
-    private final PostUseCase postUseCase;
+    private final PostFacade postFacade;
 
 
     @GetMapping
     public ResponseEntity<PostListResponse> getPosts(@PositiveOrZero @RequestParam(value = "page", defaultValue = "0", required = false) int page) {
-        PostListResponse responses = postUseCase.getPostList(page);
+        PostListResponse responses = postFacade.getPostList(page);
 
         return ResponseEntity.ok(responses);
     }
@@ -30,7 +30,7 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PostDetailResponse> getSinglePost(@Positive @PathVariable(value = "id") long id) {
-        PostDetailResponse response = postUseCase.getPost(id);
+        PostDetailResponse response = postFacade.getPost(id);
 
         return ResponseEntity.ok(response);
     }
@@ -38,7 +38,7 @@ public class PostController {
 
     @PostMapping("/register")
     public ResponseEntity<Void> registerPost(@Valid @RequestBody PostRegisterRequest request) {
-        postUseCase.save(request.getWriter(), request.getContent(), request.getTitle(), request.getPassword());
+        postFacade.save(request.getWriter(), request.getContent(), request.getTitle(), request.getPassword());
 
         return ResponseEntity.ok().build();
     }
@@ -46,7 +46,7 @@ public class PostController {
     @GetMapping("/delete/{postNumber}")
     public ResponseEntity<Void> deletePost(@Positive @PathVariable(value = "postNumber") long postNumber,
                                            @RequestParam("password") String password) {
-        postUseCase.deleteIfOwner(postNumber, password);
+        postFacade.deleteIfOwner(postNumber, password);
 
         return ResponseEntity.ok().build();
     }

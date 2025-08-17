@@ -1,7 +1,7 @@
 package com.mapshot.api.presentation.community.comment;
 
 import com.mapshot.api.application.community.comment.CommentResponse;
-import com.mapshot.api.application.community.comment.CommentUseCase;
+import com.mapshot.api.application.community.comment.CommentFacade;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class CommentController {
 
-    private final CommentUseCase commentUseCase;
+    private final CommentFacade commentFacade;
 
     @GetMapping
     public ResponseEntity<CommentResponse> getPosts(@PositiveOrZero @RequestParam(value = "page", defaultValue = "0", required = false) int page,
                                                     @PositiveOrZero @RequestParam(value = "postId") long postId) {
 
-        CommentResponse responses = commentUseCase.getComments(page, postId);
+        CommentResponse responses = commentFacade.getComments(page, postId);
 
         return ResponseEntity.ok(responses);
     }
@@ -30,7 +30,7 @@ public class CommentController {
 
     @PostMapping("/register")
     public ResponseEntity<Void> registerPost(@Valid @RequestBody CommentRegisterRequest request) {
-        commentUseCase.save(request.getWriter(), request.getContent(), request.getPostId(), request.getPassword());
+        commentFacade.save(request.getWriter(), request.getContent(), request.getPostId(), request.getPassword());
 
         return ResponseEntity.ok().build();
     }
@@ -38,7 +38,7 @@ public class CommentController {
     @GetMapping("/delete/{commentId}")
     public ResponseEntity<Void> deletePost(@Positive @PathVariable(value = "commentId") long commentId,
                                            @RequestParam("password") String password) {
-        commentUseCase.deleteIfOwner(commentId, password);
+        commentFacade.deleteIfOwner(commentId, password);
 
         return ResponseEntity.ok().build();
     }

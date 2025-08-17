@@ -11,7 +11,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class CommentUseCase {
+public class CommentFacade {
 
     private final CommentService commentService;
     private final PostService postService;
