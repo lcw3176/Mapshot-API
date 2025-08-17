@@ -1,5 +1,6 @@
 package com.mapshot.api.application.news;
 
+import com.mapshot.api.application.admin.AdminFacade;
 import com.mapshot.api.domain.community.post.PostRepository;
 import com.mapshot.api.domain.news.NewsService;
 import org.junit.jupiter.api.AfterEach;
@@ -22,7 +23,7 @@ class NewsUpdateSchedulerTest {
     private NewsService newsService;
 
     @Autowired
-    private NewsUpdateScheduler newsUpdateScheduler;
+    private AdminFacade adminFacade;
 
     @BeforeEach
     void init() {
@@ -39,7 +40,7 @@ class NewsUpdateSchedulerTest {
         when(newsService.getNewsContent()).
                 thenReturn("");
 
-        newsUpdateScheduler.update();
+        adminFacade.updateNews();
 
         assertEquals(postRepository.count(), 0);
     }
@@ -49,7 +50,7 @@ class NewsUpdateSchedulerTest {
         when(newsService.getNewsContent()).
                 thenReturn("뉴스뉴스");
 
-        newsUpdateScheduler.update();
+        adminFacade.updateNews();
 
         assertEquals(postRepository.count(), 1);
     }

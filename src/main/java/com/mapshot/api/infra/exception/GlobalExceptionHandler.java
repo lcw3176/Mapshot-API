@@ -28,14 +28,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void violationExceptionHandler(Exception e) {
         log.error(e.getMessage(), e);
-        Sentry.captureException(e);
     }
 
     @ExceptionHandler({ClassCastException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public void botExceptionHandler(ClassCastException e) {
         log.error(e.getMessage(), e);
-        Sentry.captureException(e);
     }
 
 
@@ -43,7 +41,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> notFoundExceptionHandler(NoHandlerFoundException e) {
         StatusCode code = ErrorCode.HANDLER_NOT_FOUND;
         log.error(e.getMessage(), e);
-        Sentry.captureException(e);
 
         return ResponseEntity.status(code.getHttpStatus())
                 .body(code.getMessage());
@@ -55,7 +52,6 @@ public class GlobalExceptionHandler {
         StatusCode code = e.getCode();
         log.error(code.getMessage(), e);
         slackClient.sendMessage(e);
-        Sentry.captureException(e);
 
         return ResponseEntity.status(code.getHttpStatus())
                 .body(code.getMessage());

@@ -16,10 +16,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-class NoticeUseCaseTest {
+class NoticeFacadeTest {
 
     @Autowired
-    private NoticeUseCase noticeUseCase;
+    private NoticeFacade noticeFacade;
 
     @Autowired
     private NoticeRepository noticeRepository;
@@ -50,7 +50,7 @@ class NoticeUseCaseTest {
     void 단일_공지사항_가져오기() {
         NoticeEntity notice = noticeRepository.findFirstByOrderByIdDesc();
 
-        NoticeDetailResponse response = noticeUseCase.getNotice(notice.getId());
+        NoticeDetailResponse response = noticeFacade.getNotice(notice.getId());
 
         assertEquals(response.getContent(), notice.getContent());
         assertEquals(response.getNoticeType(), notice.getNoticeType().getKorean());
@@ -60,14 +60,14 @@ class NoticeUseCaseTest {
 
     @Test
     void 없는_공지사항_가져오면_예외() {
-        assertThatThrownBy(() -> noticeUseCase.getNotice(-1))
+        assertThatThrownBy(() -> noticeFacade.getNotice(-1))
                 .isInstanceOf(ApiException.class)
                 .hasMessage(ErrorCode.NO_SUCH_NOTICE.getMessage());
     }
 
     @Test
     void 공지사항_목록_가져오기() {
-        NoticeListResponse response = noticeUseCase.getNoticeList(1);
+        NoticeListResponse response = noticeFacade.getNoticeList(1);
 
         assertEquals(response.getTotalPage(), testDataSize / pageSize);
         assertEquals(response.getNotices().size(), pageSize);
@@ -75,7 +75,7 @@ class NoticeUseCaseTest {
 
     @Test
     void _0이하의_페이지_조회시_첫번째_페이지_목록_반환() {
-        NoticeListResponse response = noticeUseCase.getNoticeList(-1);
+        NoticeListResponse response = noticeFacade.getNoticeList(-1);
 
         assertEquals(response.getTotalPage(), testDataSize / pageSize);
         assertEquals(response.getNotices().size(), pageSize);

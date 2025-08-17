@@ -10,11 +10,11 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class NoticeUseCase {
+public class NoticeFacade {
 
     private final NoticeService noticeService;
 
-    public NoticeListResponse getNoticeList(int pageNumber) {
+    public NoticeListResponse getNoticeList(int pageNumber){
         Page<NoticeEntity> pages = noticeService.findByPageNumber(pageNumber);
 
         List<NoticeDto> noticeDtos = pages.stream()
