@@ -6,6 +6,7 @@ import com.mapshot.api.domain.community.post.PostService;
 import com.mapshot.api.domain.news.NewsService;
 import com.mapshot.api.domain.notice.NoticeService;
 import com.mapshot.api.domain.notice.NoticeType;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class AdminFacade {
 
     private final AdminUserService adminUserService;
