@@ -13,7 +13,6 @@ public class AdminUserService {
 
     private final AdminUserRepository adminUserRepository;
 
-    @Transactional(readOnly = true)
     public void validationCheck(String nickname, String password) {
         password = EncryptUtil.encrypt(password);
 
