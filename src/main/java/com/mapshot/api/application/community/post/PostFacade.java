@@ -3,6 +3,7 @@ package com.mapshot.api.application.community.post;
 import com.mapshot.api.domain.community.comment.CommentService;
 import com.mapshot.api.domain.community.post.PostEntity;
 import com.mapshot.api.domain.community.post.PostService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class PostFacade {
 
     private final PostService postService;

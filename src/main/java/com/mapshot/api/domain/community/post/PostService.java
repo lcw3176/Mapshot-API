@@ -22,7 +22,6 @@ public class PostService {
     @Value("${community.post.page_size}")
     private int PAGE_SIZE;
 
-    @Transactional(readOnly = true)
     public Page<PostEntity> getPostsByPageNumber(int pageNumber) {
 
         if (pageNumber <= 0) {
@@ -34,7 +33,6 @@ public class PostService {
         return postRepository.findAllByDeletedIsFalse(pageable);
     }
 
-    @Transactional
     public void increaseCommentCount(long id) {
         PostEntity postEntity = postRepository.findById(id)
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_POST));
@@ -47,7 +45,6 @@ public class PostService {
         postRepository.save(postEntity);
     }
 
-    @Transactional
     public void decreaseCommentCount(long id) {
         PostEntity post = postRepository.findById(id)
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_POST));
@@ -61,7 +58,6 @@ public class PostService {
     }
 
 
-    @Transactional(readOnly = true)
     public PostEntity getPostById(long id) {
         PostEntity postEntity = postRepository.findById(id)
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_POST));
@@ -73,7 +69,6 @@ public class PostService {
         return postEntity;
     }
 
-    @Transactional
     public long save(String writer, String content, String title, String password) {
 
         return postRepository.save(PostEntity.builder()
@@ -88,7 +83,6 @@ public class PostService {
     }
 
 
-    @Transactional
     public void deleteIfOwner(long id, String password) {
 
         PostEntity post = postRepository.findById(id)
@@ -103,7 +97,6 @@ public class PostService {
 
     }
 
-    @Transactional
     public void deleteById(long id) {
         PostEntity post = postRepository.findById(id)
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_POST));

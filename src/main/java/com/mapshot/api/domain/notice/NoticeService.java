@@ -21,7 +21,6 @@ public class NoticeService {
     @Value("${notice.post.page_size}")
     private int PAGE_SIZE;
 
-    @Transactional(readOnly = true)
     public Page<NoticeEntity> findByPageNumber(int page) {
 
         if (page <= 0) {
@@ -32,7 +31,6 @@ public class NoticeService {
         return noticeRepository.findAll(pageable);
     }
 
-    @Transactional(readOnly = true)
     public NoticeEntity findById(long id) {
 
         return noticeRepository.findById(id)
@@ -40,7 +38,6 @@ public class NoticeService {
     }
 
 
-    @Transactional
     public long save(NoticeType type, String title, String content) {
 
         return noticeRepository.save(NoticeEntity.builder()
@@ -51,7 +48,6 @@ public class NoticeService {
                 .getId();
     }
 
-    @Transactional
     public long update(long id, NoticeType type, String title, String content) {
 
         NoticeEntity noticeEntity = noticeRepository.findById(id)
@@ -63,7 +59,6 @@ public class NoticeService {
     }
 
 
-    @Transactional
     public void delete(long id) {
         NoticeEntity noticeEntity = noticeRepository.findById(id)
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_NOTICE));

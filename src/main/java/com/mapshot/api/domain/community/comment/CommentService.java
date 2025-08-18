@@ -24,7 +24,6 @@ public class CommentService {
     @Value("${community.comment.page_size}")
     private int PAGE_SIZE;
 
-    @Transactional(readOnly = true)
     public Page<CommentEntity> findAllByPostId(int pageNumber, long postId) {
 
         if (pageNumber <= 0) {
@@ -36,14 +35,12 @@ public class CommentService {
         return commentRepository.findAllByPostIdAndDeletedFalse(pageable, postId);
     }
 
-    @Transactional
     public CommentEntity findById(long commentId) {
 
         return commentRepository.findById(commentId)
                 .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_POST));
     }
 
-    @Transactional
     public long save(String writer, String content, long postId, String password) {
 
         return commentRepository.save(CommentEntity.builder()
@@ -57,7 +54,6 @@ public class CommentService {
     }
 
 
-    @Transactional
     public void deleteIfOwner(long id, String password) {
 
         CommentEntity comment = commentRepository.findById(id)
@@ -71,7 +67,6 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
-    @Transactional
     public void deleteByPostId(long postId) {
         List<CommentEntity> comments = commentRepository.findAllByPostIdAndDeletedFalse(postId);
 
