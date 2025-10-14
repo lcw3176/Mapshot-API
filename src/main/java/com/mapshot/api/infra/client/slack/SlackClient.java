@@ -1,15 +1,16 @@
 package com.mapshot.api.infra.client.slack;
 
 
+import com.mapshot.api.infra.client.ApiHandler;
 import com.mapshot.api.infra.client.slack.model.SlackMessage;
 import com.mapshot.api.infra.client.slack.util.SlackMessageFormatter;
 import com.mapshot.api.infra.exception.ApiException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
+import org.springframework.web.client.RestClient;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -18,7 +19,10 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class SlackClient {
 
-    private final WebClient slackRestClient;
+
+    private final RestClient restClient;
+    @Value("${client.slack.url}")
+    private String slackUrl;
 
     public void sendMessage(String title, String message) {
         SlackMessage slackMessage = SlackMessage.builder()
@@ -49,7 +53,7 @@ public class SlackClient {
 
     private String makeTransmissible(Throwable e) {
         String stackTrace = Arrays.toString(e.getStackTrace());
-        
+
         return makeTransmissible(stackTrace);
     }
 
@@ -62,15 +66,17 @@ public class SlackClient {
     private void sendSlackMessage(SlackMessage exception) {
         String message = SlackMessageFormatter.makeExceptionMessage(exception);
 
-        slackRestClient.post()
+        ApiHandler.handle(() -> restClient.post()
+                .uri(slackUrl)
                 .accept(MediaType.APPLICATION_JSON)
                 .acceptCharset(StandardCharsets.UTF_8)
-                .bodyValue(message)
+                .body(message)
                 .retrieve()
-                .onStatus(HttpStatusCode::isError, response -> response.bodyToMono(String.class)
-                        .flatMap(errorBody -> Mono.error(new RuntimeException(errorBody))))
-                .bodyToMono(String.class)
-                .block();
+                .onStatus(HttpStatusCode::isError, ((request, response) -> {
+                    throw new RuntimeException("status: " + response.getStatusCode() + " body: " + response.getBody());
+                }))
+                .body(String.class)
+        );
     }
 
 
