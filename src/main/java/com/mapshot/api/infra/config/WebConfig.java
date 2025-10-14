@@ -2,10 +2,10 @@ package com.mapshot.api.infra.config;
 
 import com.mapshot.api.infra.interceptor.AuthInterceptor;
 import com.mapshot.api.infra.interceptor.RateLimitInterceptor;
-import io.netty.handler.codec.http.HttpMethod;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
