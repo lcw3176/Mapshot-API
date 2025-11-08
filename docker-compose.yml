@@ -26,7 +26,7 @@ services:
     #      - 오픈텔레메트리 매핑
     environment:
       - JVM_OPTS=-Xmx400m -Xms400m
-      - JAVA_TOOL_OPTIONS -javaagent:./otelagent/opentelemetry-javaagent.jar
+      #      - JAVA_TOOL_OPTIONS -javaagent:./otelagent/opentelemetry-javaagent.jar
       - TZ=Asia/Seoul
       #      - OTEL_EXPORTER_OTLP_ENDPOINT=모니터링 주소 # send traces to Tempo
       - OTEL_SERVICE_NAME=app-mapshot # service name for Span
