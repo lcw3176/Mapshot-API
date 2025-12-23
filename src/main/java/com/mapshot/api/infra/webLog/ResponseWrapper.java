@@ -1,4 +1,4 @@
-package com.mapshot.api.infra.filter;
+package com.mapshot.api.infra.webLog;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.util.ContentCachingResponseWrapper;

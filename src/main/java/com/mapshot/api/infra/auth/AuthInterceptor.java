@@ -1,4 +1,4 @@
-package com.mapshot.api.infra.interceptor;
+package com.mapshot.api.infra.auth;
 
 
 import com.mapshot.api.infra.exception.ApiException;
@@ -36,24 +36,19 @@ public class AuthInterceptor implements HandlerInterceptor {
             throw new ApiException(ErrorCode.HANDLER_NOT_FOUND);
         }
 
-//        PreAuth preAuth = method.getMethodAnnotation(PreAuth.class);
-//
-//        if (preAuth == null) {
-//            return true;
-//        }
-//
-//        Accessible[] accessible = preAuth.value();
-//
-//        for (Accessible type : accessible) {
-//            Validation validation = applicationContext.getBean(type.getValidationClass());
-//
-//            // fixme
-//            // 여기도 나중에 좀 어떻게
-//            if (!validation.checkValidation(request)) {
-//                response.setStatus(HttpStatus.FOUND.value());
-//                return false;
-//            }
-//        }
+        PreAuth preAuth = method.getMethodAnnotation(PreAuth.class);
+
+        if (preAuth == null) {
+            return true;
+        }
+
+        Accessible[] accessible = preAuth.value();
+
+        for (Accessible type : accessible) {
+            Validator validator = applicationContext.getBean(type.getValidationClass());
+
+            validator.isValidOrThrowException(request);
+        }
 
         return true;
     }

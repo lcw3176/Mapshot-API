@@ -15,9 +15,9 @@
     <property name="file.format"
               value="trace_id=%mdc{trace_id} span_id=%mdc{span_id} trace_flags=%mdc{trace_flags} %date [%thread] %-5level %logger : %msg%n"/>
     <appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>./mapshot-executor/app.log</file>
+        <file>./logs/app.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>./mapshot-executor/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <fileNamePattern>./logs/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
             <maxHistory>30</maxHistory>
             <maxFileSize>100MB</maxFileSize>
             <totalSizeCap>1GB</totalSizeCap>
