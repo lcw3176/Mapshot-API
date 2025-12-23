@@ -1,6 +1,5 @@
 package com.mapshot.api.infra.auth;
 
-import com.mapshot.api.infra.rateLimit.RateLimitInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

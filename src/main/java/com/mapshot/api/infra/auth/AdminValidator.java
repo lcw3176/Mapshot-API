@@ -43,7 +43,7 @@ public class AdminValidator implements Validator {
         boolean isValid = tokenProvider.isValid(JWT_SECRET, token);
 
         if(!isValid){
-            throw new ApiException(ErrorCode.NOT_VALID_TOKEN);
+            throw new ApiException(ErrorCode.NO_AUTH_TOKEN);
         }
     }
 

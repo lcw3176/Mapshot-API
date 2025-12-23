@@ -14,8 +14,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -31,8 +29,6 @@ public class MapTemplatesControllerTest extends SlackMockExtension {
     @Autowired
     private Bucket bucket;
 
-    @Autowired
-    private ObjectMapper mapper;
 
     @Test
     void 구글_지도_요청_테스트() throws Exception {

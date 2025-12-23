@@ -3,6 +3,7 @@ package com.mapshot.api.infra.exception;
 import com.mapshot.api.infra.client.slack.SlackClient;
 import com.mapshot.api.infra.exception.status.ErrorCode;
 import com.mapshot.api.infra.exception.status.StatusCode;
+import com.mapshot.api.infra.format.CommonResponse;
 import io.sentry.Sentry;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
@@ -50,12 +51,14 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(ApiException.class)
-    public ResponseEntity<String> apiExceptionHandler(ApiException e) {
+    public ResponseEntity<CommonResponse<?>> apiExceptionHandler(ApiException e) {
         StatusCode code = e.getCode();
         log.error(code.getMessage(), e);
 
-        return ResponseEntity.status(code.getHttpStatus())
-                .body(code.getMessage());
+        return ResponseEntity.status(e.getCode().getHttpStatus().value())
+                .body(CommonResponse.fail(
+                        e.getCode().getMessage()
+                ));
     }
 
 
