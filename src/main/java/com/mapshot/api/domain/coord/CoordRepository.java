@@ -1,4 +1,6 @@
 package com.mapshot.api.domain.coord;
 
-public class CoordRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CoordRepository extends JpaRepository<CoordEntity, Long> {
 }
