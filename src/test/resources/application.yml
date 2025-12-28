@@ -41,9 +41,9 @@ jwt:
 #  comment:
 #    page_size: 20
 #
-#notice:
-#  post:
-#    page_size: 10
+notice:
+  post:
+    page_size: 10
 
 bucket:
   tokenCount: 60
