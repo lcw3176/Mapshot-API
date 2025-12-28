@@ -1,4 +1,4 @@
-package com.mapshot.api.infra.config;
+package com.mapshot.api.infra.rateLimit;
 
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;

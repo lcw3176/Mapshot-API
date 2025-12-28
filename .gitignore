@@ -49,3 +49,4 @@ src/main/resources/static/docs/mapshot-docs.html
 /was-logs
 *.log
 build-script.sh
+*.db

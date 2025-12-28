@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:file:./mapshot-executor/maindb
+    url: jdbc:h2:file:./maindb
     driverClassName: org.h2.Driver
     username: ${databaseUserName}
     password: ${databasePassword}
@@ -8,7 +8,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
 
   thymeleaf:
     prefix: classpath:/templates/
@@ -32,14 +32,14 @@ server:
 client:
   slack:
     url: ${slackUrl}
-
-  naver:
-    url: ${naverUrl}
-    id: ${naverClientId}
-    secret: ${naverClientSecret}
-
-  gov:
-    url: ${govUrl}
+#
+#  naver:
+#    url: ${naverUrl}
+#    id: ${naverClientId}
+#    secret: ${naverClientSecret}
+#
+#  gov:
+#    url: ${govUrl}
 
 jwt:
   admin:
@@ -48,29 +48,29 @@ jwt:
     second: 3600
 
 
-community:
-  post:
-    page_size: 10
-  comment:
-    page_size: 20
-
-notice:
-  post:
-    page_size: 10
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: prometheus
-  metrics:
-    tags:
-      application: app
-    distribution:
-      percentiles-histogram:
-        http:
-          server:
-            requests: 'true'
+#community:
+#  post:
+#    page_size: 10
+#  comment:
+#    page_size: 20
+#
+#notice:
+#  post:
+#    page_size: 10
+#
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: prometheus
+#  metrics:
+#    tags:
+#      application: app
+#    distribution:
+#      percentiles-histogram:
+#        http:
+#          server:
+#            requests: 'true'
 
 sentry:
   dsn: https://04217465cb42cf9e796efc0b8311463b@o4505030048284672.ingest.us.sentry.io/4508625584390144

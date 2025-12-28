@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:./testdb
+    url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
     username: test
     password: test
@@ -21,13 +21,13 @@ client:
   slack:
     url: https://hello.com
 
-  naver:
-    url: https://hello.com
-    id: hello
-    secret: hello
-
-  gov:
-    url: https://www.molit.go.kr/USR/NEWS/m_71/lst.jsp
+#  naver:
+#    url: https://hello.com
+#    id: hello
+#    secret: hello
+#
+#  gov:
+#    url: https://www.molit.go.kr/USR/NEWS/m_71/lst.jsp
 
 jwt:
   admin:
@@ -35,15 +35,15 @@ jwt:
     header: ADMIN_AUTH_TOKEN
     second: 3600
 
-community:
-  post:
-    page_size: 10
-  comment:
-    page_size: 20
-
-notice:
-  post:
-    page_size: 10
+#community:
+#  post:
+#    page_size: 10
+#  comment:
+#    page_size: 20
+#
+#notice:
+#  post:
+#    page_size: 10
 
 bucket:
   tokenCount: 60

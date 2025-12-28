@@ -20,12 +20,12 @@ configurations {
 //    asciidoctorExt
 }
 
-ext {
-    snippetsDir = file('build/generated-snippets')
-}
+//ext {
+//    snippetsDir = file('build/generated-snippets')
+//}
 
 test {
-    outputs.dir snippetsDir
+//    outputs.dir snippetsDir
     useJUnitPlatform()
 }
 
@@ -67,6 +67,8 @@ dependencies {
     // db
 //    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     implementation 'com.h2database:h2'
+    implementation 'org.xerial:sqlite-jdbc:3.41.2.2' // sqlite jdbc
+    implementation 'org.hibernate.orm:hibernate-community-dialects' // diarect
 
     // jwt
     implementation 'io.jsonwebtoken:jjwt:0.9.1'

@@ -1,4 +1,4 @@
-package com.mapshot.api.infra.interceptor;
+package com.mapshot.api.infra.rateLimit;
 
 import com.mapshot.api.infra.exception.ApiException;
 import com.mapshot.api.infra.exception.status.ErrorCode;
