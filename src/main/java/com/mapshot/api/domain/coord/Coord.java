@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-public class CoordEntity {
+public class Coord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
