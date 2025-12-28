@@ -1,14 +1,14 @@
 spring:
   datasource:
-    url: jdbc:sqlite:maindb
-    driverClassName: org.sqlite.JDBC
+    url: jdbc:h2:file:./maindb
+    driverClassName: org.h2.Driver
     username: ${databaseUserName}
     password: ${databasePassword}
 
   jpa:
-    database-platform: org.hibernate.community.dialect.SQLiteDialect
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
 
   thymeleaf:
     prefix: classpath:/templates/
