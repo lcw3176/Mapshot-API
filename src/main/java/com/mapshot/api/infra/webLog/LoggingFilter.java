@@ -9,6 +9,7 @@ import org.slf4j.MDC;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
@@ -29,7 +30,14 @@ public class LoggingFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         MDC.put("traceId", UUID.randomUUID().toString());
         if (isAsyncDispatch(request)) {
-            filterChain.doFilter(request, response);
+            try {
+                filterChain.doFilter(request, response);
+            } catch (HttpRequestMethodNotSupportedException e) {
+                log.info("Unsupported method: {} {}", request.getMethod(), request.getRequestURI());
+            } catch (Exception e) {
+                throw e;
+            }
+
         } else {
             doFilterWrapped(new RequestWrapper(request), new ResponseWrapper(response), filterChain);
         }
@@ -43,6 +51,10 @@ public class LoggingFilter extends OncePerRequestFilter {
             }
 
             filterChain.doFilter(request, response);
+        } catch (HttpRequestMethodNotSupportedException e) {
+            log.info("Unsupported method: {} {}", request.getMethod(), request.getRequestURI());
+        } catch (Exception e) {
+            throw e;
         } finally {
             if (!DO_NOT_LOG_URI.contains(request.getRequestURI())) {
                 logResponse(response);
