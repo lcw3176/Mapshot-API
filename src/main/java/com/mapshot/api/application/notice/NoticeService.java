@@ -57,34 +57,4 @@ public class NoticeService {
                 .build();
     }
 
-
-
-    public long save(NoticeType type, String title, String content) {
-
-        return noticeRepository.save(Notice.builder()
-                        .noticeType(type)
-                        .title(title)
-                        .content(content)
-                        .build())
-                .getId();
-    }
-
-    public long update(long id, NoticeType type, String title, String content) {
-
-        Notice notice = noticeRepository.findById(id)
-                .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_NOTICE));
-
-        notice.update(title, type, content);
-
-        return noticeRepository.save(notice).getId();
-    }
-
-
-    public void delete(long id) {
-        Notice notice = noticeRepository.findById(id)
-                .orElseThrow(() -> new ApiException(ErrorCode.NO_SUCH_NOTICE));
-
-        noticeRepository.delete(notice);
-    }
-
 }
