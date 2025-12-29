@@ -19,7 +19,7 @@ spring:
 
 client:
   slack:
-    url: https://hello.com
+    url: https://hooks.slack.com/test
 
 #  naver:
 #    url: https://hello.com
