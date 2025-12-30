@@ -11,7 +11,7 @@ public class ApiHandler {
     public static <T> T handle(Supplier<T> supplier) {
         try {
             return supplier.get();
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             throw new ApiException(ErrorCode.EXTERNAL_API_FAILED, e);
         }
     }

@@ -14,7 +14,7 @@ public class ApiException extends RuntimeException {
     }
 
     public ApiException(StatusCode code, Throwable cause) {
-        super(cause);
+        super(code.getMessage(), cause);
         this.code = code;
     }
 }
