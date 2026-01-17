@@ -108,6 +108,7 @@
         const lng = parseFloat([[${mapRequest.lng}]]);
         const type = ([[${mapRequest.type}]]);
         const layer = ([[${mapRequest.layer}]]);
+        const topography = ([[${mapRequest.topography}]]);
         /*]]>*/
 
         // const level = parseInt(urlParams.get('level'))
@@ -127,6 +128,10 @@
             maptype = naver.maps.MapTypeId.SATELLITE
         } else if (type === 'satellite') {
             maptype = naver.maps.MapTypeId.HYBRID
+        }
+
+        if (topography){
+            maptype = naver.maps.MapTypeId.TERRAIN
         }
 
         switch (level) {
