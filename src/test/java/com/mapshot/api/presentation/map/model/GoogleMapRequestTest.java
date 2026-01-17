@@ -16,6 +16,7 @@ class GoogleMapRequestTest {
                 .type("roadmap")
                 .noLabel(false)
                 .layer("satellite")
+                .topography(false)
                 .build();
 
         // then
@@ -39,7 +40,7 @@ class GoogleMapRequestTest {
     @Test
     void GoogleMapRequest_전체_생성자_테스트() {
         // when
-        GoogleMapRequest request = new GoogleMapRequest(37.5665f, 126.9780f, 15, "roadmap", false, "satellite");
+        GoogleMapRequest request = new GoogleMapRequest(37.5665f, 126.9780f, 15, "roadmap", false, false, "satellite");
 
         // then
         assertThat(request.getLat()).isEqualTo(37.5665f);
@@ -62,6 +63,7 @@ class GoogleMapRequestTest {
         request.setType("roadmap");
         request.setNoLabel(true);
         request.setLayer("satellite");
+        request.setTopography(false);
 
         // then
         assertThat(request.getLat()).isEqualTo(37.5665f);
