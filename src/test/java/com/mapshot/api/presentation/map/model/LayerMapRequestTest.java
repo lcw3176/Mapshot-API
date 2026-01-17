@@ -16,6 +16,7 @@ class LayerMapRequestTest {
                 .type("roadmap")
                 .layerMode(false)
                 .layer("satellite")
+                .topography(false)
                 .build();
 
         // then
@@ -39,7 +40,7 @@ class LayerMapRequestTest {
     @Test
     void LayerMapRequest_전체_생성자_테스트() {
         // when
-        LayerMapRequest request = new LayerMapRequest(37.5665f, 126.9780f, 15, "roadmap", false, "satellite");
+        LayerMapRequest request = new LayerMapRequest(37.5665f, 126.9780f, 15, "roadmap", false, false, "satellite");
 
         // then
         assertThat(request.getLat()).isEqualTo(37.5665f);

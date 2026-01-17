@@ -16,6 +16,7 @@ class KakaoMapRequestTest {
                 .type("roadmap")
                 .layerMode(false)
                 .layer("satellite")
+                .topography(false)
                 .build();
 
         // then
@@ -39,7 +40,7 @@ class KakaoMapRequestTest {
     @Test
     void KakaoMapRequest_전체_생성자_테스트() {
         // when
-        KakaoMapRequest request = new KakaoMapRequest(37.5665f, 126.9780f, 15, "roadmap", false, "satellite");
+        KakaoMapRequest request = new KakaoMapRequest(37.5665f, 126.9780f, 15, "roadmap", false, false, "satellite");
 
         // then
         assertThat(request.getLat()).isEqualTo(37.5665f);

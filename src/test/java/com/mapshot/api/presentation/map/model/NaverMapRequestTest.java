@@ -15,6 +15,7 @@ class NaverMapRequestTest {
                 .level(15)
                 .type("roadmap")
                 .layer("satellite")
+                .topography(false)
                 .build();
 
         // then
@@ -37,7 +38,7 @@ class NaverMapRequestTest {
     @Test
     void NaverMapRequest_전체_생성자_테스트() {
         // when
-        NaverMapRequest request = new NaverMapRequest(37.5665f, 126.9780f, 15, "roadmap", "satellite");
+        NaverMapRequest request = new NaverMapRequest(37.5665f, 126.9780f, 15, "roadmap", false, "satellite");
 
         // then
         assertThat(request.getLat()).isEqualTo(37.5665f);

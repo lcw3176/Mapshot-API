@@ -109,6 +109,7 @@
         const type = ([[${mapRequest.type}]]);
         const layerMode = Boolean([[${mapRequest.layerMode}]]);
         const layer = ([[${mapRequest.layer}]]);
+        const topography = ([[${mapRequest.topography}]]);
 
         /*]]>*/
 
@@ -167,6 +168,10 @@
 
         if (layerMode) {
             map.addOverlayMapTypeId(kakao.maps.MapTypeId.USE_DISTRICT)
+        }
+
+        if (topography) {
+            map.addOverlayMapTypeId(kakao.maps.MapTypeId.TERRAIN)
         }
 
         let intervalCount = 0

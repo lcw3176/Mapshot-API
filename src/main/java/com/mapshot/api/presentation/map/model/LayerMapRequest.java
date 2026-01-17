@@ -13,5 +13,6 @@ public class LayerMapRequest {
     private int level;
     private String type;
     private boolean layerMode;
+    private boolean topography;
     private String layer;
 }

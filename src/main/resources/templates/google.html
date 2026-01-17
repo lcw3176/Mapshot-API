@@ -108,6 +108,7 @@
         const type = ([[${mapRequest.type}]]);
         const noLabel = Boolean([[${mapRequest.noLabel}]]);
         const layer = ([[${mapRequest.layer}]]);
+        const topography = ([[${mapRequest.topography}]]);
         /*]]>*/
 
         // const level = parseInt(urlParams.get('level'))
@@ -148,6 +149,11 @@
         } else if (type === 'satellite') {
             maptype = google.maps.MapTypeId.HYBRID
         }
+
+        if (topography){
+            maptype = google.maps.MapTypeId.TERRAIN
+        }
+
 
         switch (level) {
             case 1:
